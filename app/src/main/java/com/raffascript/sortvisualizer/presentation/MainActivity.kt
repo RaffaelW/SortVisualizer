@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
         }
     }
     /*
+     * heapsort update progress
      * To do:
      * measure time (maybe only with delay 0)
      * Typo
