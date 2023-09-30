@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Algorithms Visualizer</string>
+    <string name="settings">Einstellungen</string>
+    <string name="replay">Neustart</string>
+    <string name="pause">Pause</string>
+    <string name="play">Abspielen</string>
+    <string name="num_comparisons">Vergleiche:</string>
+    <string name="array_accesses">Array-Zugriffe:</string>
+    <string name="size_of_list">Größe der Liste (3 – 5000)</string>
+    <string name="delay">Delay</string>
+</resources>
