@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
         }
     }
     /*
+    * uploaded project on github
      * To do:
      * measure time (maybe only with delay 0)
      * count number of array accesses and comparisons
