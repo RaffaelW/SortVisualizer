@@ -17,7 +17,10 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
     private var delayMillis = delay.inWholeMilliseconds
     private var isDelayNotZero = delayMillis != 0L
 
-    private var progress = AlgorithmProgress(list, state, emptyList())
+    private var progress = AlgorithmProgress(list, state, emptyList(), 0, 0)
+
+    protected var arrayAccesses = 0L
+    protected var comparisons = 0L
 
     fun getListValue() = list.clone()
 
@@ -76,7 +79,13 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
         state: AlgorithmState = progress.state,
         highlights: List<Highlight> = progress.highlights,
     ): AlgorithmProgress {
-        progress = progress.copy(list = list, state = state, highlights = highlights)
+        progress = progress.copy(
+            list = list,
+            state = state,
+            highlights = highlights,
+            arrayAccesses = arrayAccesses,
+            comparisons = comparisons
+        )
         return progress
     }
 

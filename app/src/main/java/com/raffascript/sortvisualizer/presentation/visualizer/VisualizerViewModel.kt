@@ -67,7 +67,9 @@ class VisualizerViewModel(savedStateHandle: SavedStateHandle, algorithmRegister:
                 it.copy(
                     sortingList = progress.list,
                     algorithmState = progress.state,
-                    highlights = progress.highlights
+                    highlights = progress.highlights,
+                    arrayAccessCount = progress.arrayAccesses,
+                    comparisonCount = progress.comparisons
                 )
             }
         }

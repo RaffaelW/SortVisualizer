@@ -5,7 +5,9 @@ import com.raffascript.sortvisualizer.data.AlgorithmState
 data class AlgorithmProgress(
     val list: IntArray,
     val state: AlgorithmState,
-    val highlights: List<Highlight>
+    val highlights: List<Highlight>,
+    val arrayAccesses: Long,
+    val comparisons: Long
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
