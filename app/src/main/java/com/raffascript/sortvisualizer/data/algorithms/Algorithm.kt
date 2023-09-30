@@ -79,8 +79,9 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
         return this
     }
 
-    protected fun incComparisons() {
+    protected fun <T> T.andIncComparisons(): T {
         comparisons++
+        return this
     }
 
     private fun getUpdatedProgress(
