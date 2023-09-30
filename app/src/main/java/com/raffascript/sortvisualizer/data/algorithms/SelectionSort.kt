@@ -13,18 +13,18 @@ class SelectionSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
     override suspend fun FlowCollector<AlgorithmProgress>.sort(progressHandler: AlgorithmProgressHandler) {
         for (i in 0 until list.lastIndex) {
             var minPos = i
-            var min = list[minPos].andIncArrayAccess()
+            var min = list[minPos].alsoIncArrayAccess()
             for (j in i + 1..list.lastIndex) {
                 progressHandler.onProgressChanged(*getHighlights(j, minPos, i))
-                if (list[j] < min.andIncArrayAccess().andIncComparisons()) {
+                if (list[j] < min.alsoIncArrayAccess().alsoIncComparisons()) {
                     minPos = j
-                    min = list[minPos].andIncArrayAccess()
+                    min = list[minPos].alsoIncArrayAccess()
                 }
             }
 
             if (minPos != i) {
-                list[minPos] = list[i].andIncArrayAccess(2L)
-                list[i] = min.andIncArrayAccess()
+                list[minPos] = list[i].alsoIncArrayAccess(2L)
+                list[i] = min.alsoIncArrayAccess()
             }
             progressHandler.onProgressChanged(*getHighlights(i, null, i))
         }

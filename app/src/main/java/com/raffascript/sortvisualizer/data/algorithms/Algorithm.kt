@@ -74,12 +74,12 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
 
     protected abstract suspend fun FlowCollector<AlgorithmProgress>.sort(progressHandler: AlgorithmProgressHandler)
 
-    protected fun <T> T.andIncArrayAccess(number: Long = 1): T {
+    protected fun <T> T.alsoIncArrayAccess(number: Long = 1): T {
         arrayAccesses += number
         return this
     }
 
-    protected fun <T> T.andIncComparisons(): T {
+    protected fun <T> T.alsoIncComparisons(): T {
         comparisons++
         return this
     }

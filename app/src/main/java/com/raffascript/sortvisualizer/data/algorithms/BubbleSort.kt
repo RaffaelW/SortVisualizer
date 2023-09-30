@@ -15,11 +15,11 @@ class BubbleSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             var swapped = false
             for (i in 0 until max) {
                 progressHandler.onProgressChanged(*getHighlights(i, max))
-                val left = list[i].andIncArrayAccess()
-                val right = list[i + 1].andIncArrayAccess()
-                if (left > right.andIncComparisons()) {
-                    list[i + 1] = left.andIncArrayAccess()
-                    list[i] = right.andIncArrayAccess()
+                val left = list[i].alsoIncArrayAccess()
+                val right = list[i + 1].alsoIncArrayAccess()
+                if (left > right.alsoIncComparisons()) {
+                    list[i + 1] = left.alsoIncArrayAccess()
+                    list[i] = right.alsoIncArrayAccess()
                     swapped = true
                 }
             }

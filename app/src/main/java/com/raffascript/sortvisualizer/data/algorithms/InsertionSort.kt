@@ -12,13 +12,13 @@ class InsertionSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
 
     override suspend fun FlowCollector<AlgorithmProgress>.sort(progressHandler: AlgorithmProgressHandler) {
         for (i in 1 until list.size) {
-            val item = list[i].andIncArrayAccess()
+            val item = list[i].alsoIncArrayAccess()
             var j = i
             progressHandler.onProgressChanged(*getHighlights(j, i))
-            while (j > 0.andIncComparisons() && item < list[j - 1].andIncArrayAccess().andIncComparisons()) {
-                list[j] = list[j - 1].andIncArrayAccess(2L)
+            while (j > 0.alsoIncComparisons() && item < list[j - 1].alsoIncArrayAccess().alsoIncComparisons()) {
+                list[j] = list[j - 1].alsoIncArrayAccess(2L)
                 j--
-                list[j] = item.andIncArrayAccess()
+                list[j] = item.alsoIncArrayAccess()
                 progressHandler.onProgressChanged(*getHighlights(j, i))
             }
         }
