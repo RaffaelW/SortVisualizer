@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
     /*
      * To do:
      * measure time (maybe only with delay 0)
-     * count number of array accesses and comparisons
      * Typo
      * full screen
      * show algorithm best/worst/average time complexity, description ...
