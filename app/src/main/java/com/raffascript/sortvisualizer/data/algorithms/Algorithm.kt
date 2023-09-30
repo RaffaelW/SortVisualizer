@@ -19,8 +19,8 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
 
     private var progress = AlgorithmProgress(list, state, emptyList(), 0, 0)
 
-    protected var arrayAccesses = 0L
-    protected var comparisons = 0L
+    private var arrayAccesses = 0L
+    private var comparisons = 0L
 
     fun getListValue() = list.clone()
 
@@ -73,6 +73,15 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
     }
 
     protected abstract suspend fun FlowCollector<AlgorithmProgress>.sort(progressHandler: AlgorithmProgressHandler)
+
+    protected fun <T> T.andIncArrayAccess(): T {
+        arrayAccesses++
+        return this
+    }
+
+    protected fun incComparisons() {
+        comparisons++
+    }
 
     private fun getUpdatedProgress(
         list: IntArray = progress.list,
