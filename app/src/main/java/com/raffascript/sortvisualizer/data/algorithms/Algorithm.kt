@@ -99,6 +99,7 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
         return progress
     }
 
+    @JvmName("algorithm_wait")
     private fun wait(millis: Long) {
         val startTime = System.currentTimeMillis()
         while (System.currentTimeMillis() - startTime < millis) {
