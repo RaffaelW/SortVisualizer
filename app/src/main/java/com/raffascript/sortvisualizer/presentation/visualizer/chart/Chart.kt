@@ -10,9 +10,7 @@ fun Chart(list: IntArray, highlights: List<Highlight>, modifier: Modifier = Modi
     AndroidView(
         modifier = modifier,
         factory = {
-            ChartSurfaceView(it).apply {
-                updateData(list, highlights)
-            }
+            ChartSurfaceView(it)
         },
         update = {
             it.updateData(list, highlights)
