@@ -16,15 +16,19 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         for (swapToPos in list.lastIndex downTo 1) {
             // move root to end
             swap(0, swapToPos)
+            progressHandler.onProgressChanged(*getHighlights(swapToPos))
 
             heapify(swapToPos, 0, progressHandler)
         }
+
+        progressHandler.onFinish()
     }
 
     private suspend fun buildHeap(progressHandler: AlgorithmProgressHandler) {
         val lastParentNode = list.size / 2 - 1
         for (i in lastParentNode downTo 0) {
             heapify(list.size, i, progressHandler)
+            progressHandler.onProgressChanged(*getHighlights(i))
         }
     }
 
@@ -47,7 +51,10 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
                 largestPos = rightChildPos
             }
 
-            if (largestPos == parentPos.alsoIncComparisons()) break
+            if (largestPos == parentPos.alsoIncComparisons()) {
+                progressHandler.onProgressChanged(*getHighlights(parentPos))
+                break
+            }
 
             swap(parentPos, largestPos)
             progressHandler.onProgressChanged(*getHighlights(parentPos))
