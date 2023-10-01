@@ -55,12 +55,7 @@ class ChartSurfaceView @JvmOverloads constructor(
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        thread = Thread {
-            run()
-        }
-        threadRunning = true
-        thread!!.start()
-
+        startThread()
         chartWidth = width
         chartHeight = height
     }
@@ -71,9 +66,7 @@ class ChartSurfaceView @JvmOverloads constructor(
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        // The Thread will jump out of the while loop and complete
-        threadRunning = false
-        thread = null
+        stopThread()
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
@@ -81,13 +74,25 @@ class ChartSurfaceView @JvmOverloads constructor(
         thread ?: return
         if (visibility == VISIBLE) {
             if (thread?.isAlive != true) {
-                threadRunning = true
-                thread?.start()
+                startThread()
             }
         } else if (visibility == INVISIBLE) {
-            threadRunning = false
-            thread = null
+            stopThread()
         }
+    }
+
+    private fun startThread() {
+        thread = Thread {
+            run()
+        }
+        threadRunning = true
+        thread!!.start()
+    }
+
+    private fun stopThread() {
+        // The Thread will jump out of the while loop and complete
+        threadRunning = false
+        thread = null
     }
 
     fun updateData(sortingList: IntArray, highlights: List<Highlight>) {
