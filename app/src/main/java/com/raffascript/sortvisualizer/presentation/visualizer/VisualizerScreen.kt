@@ -148,11 +148,14 @@ fun BottomBar(
                     ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 }
             }) {
-                val drawableRes = if (MainActivity.isOrientationLandscape) R.drawable.ic_fullscreen_exit
-                else R.drawable.ic_fullscreen
+                val (drawableRes, descriptionRes) = if (MainActivity.isOrientationLandscape){
+                    Pair(R.drawable.ic_fullscreen_exit, R.string.fullscreen_exit)
+                } else {
+                    Pair(R.drawable.ic_fullscreen, R.string.fullscreen)
+                }
                 Icon(
                     painter = painterResource(id = drawableRes),
-                    contentDescription = stringResource(R.string.fullscreen)
+                    contentDescription = stringResource(descriptionRes)
                 )
             }
 
