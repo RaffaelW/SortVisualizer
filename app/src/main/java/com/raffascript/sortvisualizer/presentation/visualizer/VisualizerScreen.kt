@@ -1,5 +1,7 @@
 package com.raffascript.sortvisualizer.presentation.visualizer
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -20,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.raffascript.sortvisualizer.R
 import com.raffascript.sortvisualizer.data.AlgorithmState
+import com.raffascript.sortvisualizer.presentation.MainActivity
 import com.raffascript.sortvisualizer.presentation.theme.AlgorithmsVisualizerTheme
 import com.raffascript.sortvisualizer.presentation.visualizer.chart.Chart
 
@@ -134,6 +138,21 @@ fun BottomBar(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_replay),
                     contentDescription = stringResource(R.string.replay)
+                )
+            }
+            val activity = LocalContext.current as Activity
+            IconButton(onClick = {
+                activity.requestedOrientation = if (MainActivity.isOrientationLandscape) {
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                }
+            }) {
+                val drawableRes = if (MainActivity.isOrientationLandscape) R.drawable.ic_fullscreen_exit
+                else R.drawable.ic_fullscreen
+                Icon(
+                    painter = painterResource(id = drawableRes),
+                    contentDescription = stringResource(R.string.fullscreen)
                 )
             }
 
