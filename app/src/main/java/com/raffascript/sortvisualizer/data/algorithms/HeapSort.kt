@@ -16,7 +16,7 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         for (swapToPos in list.lastIndex downTo 1) {
             // move root to end
             swap(0, swapToPos)
-            progressHandler.onProgressChanged(*getHighlights(swapToPos))
+            progressHandler.onProgressChanged(*getHighlights(swapToPos, swapToPos))
 
             heapify(swapToPos, 0, progressHandler)
         }
@@ -57,7 +57,7 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             }
 
             swap(parentPos, largestPos)
-            progressHandler.onProgressChanged(*getHighlights(parentPos))
+            progressHandler.onProgressChanged(*getHighlights(parentPos, length))
 
             parentPos = largestPos
         }
@@ -70,8 +70,12 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         alsoIncArrayAccess(4L)
     }
 
-    private fun getHighlights(primary: Int): Array<Highlight> {
-        return arrayOf(primary highlighted HighlightOption.COLOURED_PRIMARY)
+    private fun getHighlights(primary: Int, line: Int? = null): Array<Highlight> {
+        var highlights = arrayOf(primary highlighted HighlightOption.COLOURED_PRIMARY)
+        if (line != null) {
+            highlights += line highlighted HighlightOption.LINE
+        }
+        return highlights
     }
 
 }
