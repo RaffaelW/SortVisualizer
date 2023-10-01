@@ -1,4 +1,4 @@
-package com.raffascript.sortvisualizer.presentation.visualizer
+package com.raffascript.sortvisualizer.presentation.visualizer.chart
 
 /*
 import androidx.compose.foundation.background
