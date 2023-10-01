@@ -16,7 +16,7 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         for (swapToPos in list.lastIndex downTo 1) {
             // move root to end
             swap(0, swapToPos)
-            progressHandler.onProgressChanged(*getHighlights(swapToPos, swapToPos))
+            progressHandler.onProgressChanged(*getHighlights(swapToPos, swapToPos - 1))
 
             heapify(swapToPos, 0, progressHandler)
         }
@@ -28,7 +28,7 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         val lastParentNode = list.size / 2 - 1
         for (i in lastParentNode downTo 0) {
             heapify(list.size, i, progressHandler)
-            progressHandler.onProgressChanged(*getHighlights(i))
+            progressHandler.onProgressChanged(*getHighlights(i, list.size))
         }
     }
 
@@ -52,12 +52,12 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             }
 
             if (largestPos == parentPos.alsoIncComparisons()) {
-                progressHandler.onProgressChanged(*getHighlights(parentPos))
+                progressHandler.onProgressChanged(*getHighlights(parentPos, length - 1))
                 break
             }
 
             swap(parentPos, largestPos)
-            progressHandler.onProgressChanged(*getHighlights(parentPos, length))
+            progressHandler.onProgressChanged(*getHighlights(parentPos, length - 1))
 
             parentPos = largestPos
         }
@@ -70,12 +70,11 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         alsoIncArrayAccess(4L)
     }
 
-    private fun getHighlights(primary: Int, line: Int? = null): Array<Highlight> {
-        var highlights = arrayOf(primary highlighted HighlightOption.COLOURED_PRIMARY)
-        if (line != null) {
-            highlights += line highlighted HighlightOption.LINE
-        }
-        return highlights
+    private fun getHighlights(primary: Int, line: Int): Array<Highlight> {
+        return arrayOf(
+            primary highlighted HighlightOption.COLOURED_PRIMARY,
+            line highlighted HighlightOption.LINE
+        )
     }
 
 }
