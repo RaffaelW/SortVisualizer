@@ -34,9 +34,15 @@ class MainActivity : ComponentActivity() {
                 controller.hide(WindowInsetsCompat.Type.statusBars())
                 controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
+            isOrientationLandscape = true
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             WindowCompat.setDecorFitsSystemWindows(window, true)
             WindowInsetsControllerCompat(window, window.decorView).show(WindowInsetsCompat.Type.statusBars())
+            isOrientationLandscape = false
         }
+    }
+
+    companion object {
+        var isOrientationLandscape = false
     }
 }
