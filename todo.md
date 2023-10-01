@@ -1,8 +1,6 @@
-# Todo
+# Todo List
 
-+ measure time (maybe only with delay 0)
-+ Typo
-+ full screen
+## To do
 + show algorithm best/worst/average time complexity, description ...
 + sounds
 + launcher icon
@@ -12,3 +10,8 @@
     + RadixSort
     + CountingSort
     + (TimSort)
+
+## Doing
++ full screen
+
+## Done
