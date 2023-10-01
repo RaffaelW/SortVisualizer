@@ -5,3 +5,4 @@ An Android application that visualizes sorting algorithms
 + InsertionSort
 + SelectionSort
 + BubbleSort
++ HeapSort
