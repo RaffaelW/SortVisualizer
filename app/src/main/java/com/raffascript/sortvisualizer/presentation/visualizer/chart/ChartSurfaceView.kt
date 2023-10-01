@@ -51,7 +51,7 @@ class ChartSurfaceView @JvmOverloads constructor(
 
     init {
         surfaceHolder.addCallback(this)
-        setZOrderOnTop(true)
+        setZOrderOnTop(false)
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
