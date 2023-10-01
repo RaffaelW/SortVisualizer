@@ -14,6 +14,6 @@
   + (TimSort)
 
 ## Doing
-+ full screen
 
 ## Done
++ full screen
