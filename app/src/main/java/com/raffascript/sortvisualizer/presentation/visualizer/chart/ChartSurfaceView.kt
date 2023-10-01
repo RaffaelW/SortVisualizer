@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.View
 import com.raffascript.sortvisualizer.data.viszualization.Highlight
 import com.raffascript.sortvisualizer.data.viszualization.HighlightOption
 import com.raffascript.sortvisualizer.data.viszualization.getHighlightWithHighestPriority
@@ -72,6 +73,21 @@ class ChartSurfaceView @JvmOverloads constructor(
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         // The Thread will jump out of the while loop and complete
         threadRunning = false
+        thread = null
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        thread ?: return
+        if (visibility == VISIBLE) {
+            if (thread?.isAlive != true) {
+                threadRunning = true
+                thread?.start()
+            }
+        } else if (visibility == INVISIBLE) {
+            threadRunning = false
+            thread = null
+        }
     }
 
     fun updateData(sortingList: IntArray, highlights: List<Highlight>) {
