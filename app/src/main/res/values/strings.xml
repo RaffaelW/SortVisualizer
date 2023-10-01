@@ -8,4 +8,5 @@
     <string name="array_accesses">Array-Zugriffe:</string>
     <string name="size_of_list">Größe der Liste (3 – 5000)</string>
     <string name="delay">Delay</string>
+    <string name="fullscreen">Vollbild</string>
 </resources>
