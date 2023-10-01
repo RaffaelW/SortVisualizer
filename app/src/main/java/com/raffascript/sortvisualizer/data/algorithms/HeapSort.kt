@@ -41,12 +41,12 @@ class HeapSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             // find the largest element
             var largestPos = parentPos
             if (leftChildPos < length.alsoIncComparisons()
-                && list[leftChildPos] > list[parentPos].alsoIncComparisons().alsoIncArrayAccess(2L)
+                && list[leftChildPos] > list[largestPos].alsoIncComparisons().alsoIncArrayAccess(2L)
             ) {
                 largestPos = leftChildPos
             }
             if (rightChildPos < length.alsoIncComparisons()
-                && list[rightChildPos] > list[parentPos].alsoIncComparisons().alsoIncArrayAccess(2L)
+                && list[rightChildPos] > list[largestPos].alsoIncComparisons().alsoIncArrayAccess(2L)
             ) {
                 largestPos = rightChildPos
             }
