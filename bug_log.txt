@@ -1,0 +1,24 @@
+
+start test
+
+22:26:28.506 ChartSurfaceView    D  visibility changed, isVisible: true
+22:26:28.786 SurfaceView         D  UPDATE null, mIsCastMode = false
+22:26:28.792 ChartSurfaceView    D  SurfaceView created
+22:26:28.793 ChartSurfaceView    D  SurfaceView changed
+22:26:28.850 SurfaceView         D  UPDATE Surface(name=SurfaceView) mIsProjectionMode = false
+
+exiting app
+
+22:26:42.101 ChartSurfaceView    D  SurfaceView is destroyed
+22:26:42.106 ChartSurfaceView    D  visibility changed, isVisible: false
+
+reentering app
+
+22:26:57.643 ChartSurfaceView    D  visibility changed, isVisible: true
+22:26:57.669 ChartSurfaceView    D  SurfaceView created
+22:26:57.669 ChartSurfaceView    D  SurfaceView changed
+22:26:57.672 SurfaceView         D  UPDATE Surface(name=SurfaceView)/@0x8ab1e3e, mIsProjectionMode = false
+
+ui update trigger
+
+end test
