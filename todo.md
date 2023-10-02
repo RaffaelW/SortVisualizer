@@ -3,7 +3,7 @@
 ## To do
 
 + bugs:
-  + SurfaceView is empty when activity is paused -> exit app, screen
+  + SurfaceView is empty when activity is paused &rarr; exit app, screen
     turned off, screen rotated
 + show algorithm best/worst/average time complexity, description ...
 + sounds
