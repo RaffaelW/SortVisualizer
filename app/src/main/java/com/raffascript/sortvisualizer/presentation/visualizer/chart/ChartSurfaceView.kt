@@ -44,6 +44,7 @@ class ChartSurfaceView @JvmOverloads constructor(
     private var chartHeight = 0
 
     private var sortingList = intArrayOf()
+    private var listDiffs: HashMap<Int, Int>? = null
     private var highlights = emptyList<Highlight>()
 
     private var isNewDataAvailable = true
@@ -96,6 +97,7 @@ class ChartSurfaceView @JvmOverloads constructor(
     }
 
     fun updateData(sortingList: IntArray, highlights: List<Highlight>) {
+        listDiffs = calculateChanges(this.sortingList, sortingList)
         this.sortingList = sortingList
         this.highlights = highlights
         isNewDataAvailable = true
@@ -118,24 +120,34 @@ class ChartSurfaceView @JvmOverloads constructor(
             }
             startTime = System.currentTimeMillis()
 
-            drawChart()
+            drawChart() ?: break
+
             isNewDataAvailable = false
         }
     }
 
-    private fun drawChart() {
+    private fun drawChart(): Unit? {
         val barWidth = chartWidth.toFloat() / sortingList.size
         val unitHeight = chartHeight.toFloat() / sortingList.size
 
-        canvas = surfaceHolder.lockCanvas()
-        canvas!!.drawBackground()
-        sortingList.forEachIndexed { index, value ->
-            canvas!!.drawBar(index, barWidth, unitHeight * value, highlights.getHighlightWithHighestPriority(index))
-        }
-        highlights.getHighlightsWithOption(HighlightOption.LINE).forEach {
-            canvas!!.drawHighlightLine(barWidth * (it.index + 1) - 1, Color.GREEN)
-        }
-        surfaceHolder.unlockCanvasAndPost(canvas)
+        drawWithLockedCanvasOrNull {
+            it.drawBackground()
+
+            if (listDiffs != null) {
+                listDiffs!!.forEach { (index, value) ->
+                    it.drawBar(index, barWidth, unitHeight * value, highlights.getHighlightWithHighestPriority(index))
+                }
+            } else {
+                sortingList.forEachIndexed { index, value ->
+                    it.drawBar(index, barWidth, unitHeight * value, highlights.getHighlightWithHighestPriority(index))
+                }
+            }
+            highlights.getHighlightsWithOption(HighlightOption.LINE).forEach { highlight ->
+                it.drawHighlightLine(barWidth * (highlight.index + 1) - 1, Color.GREEN)
+            }
+        } ?: return null
+
+        return Unit
     }
 
     private fun Canvas.drawBackground() {
@@ -157,5 +169,27 @@ class ChartSurfaceView @JvmOverloads constructor(
             this.color = color
         }
         this.drawLine(xOffset, 0F, xOffset, chartHeight.toFloat(), paint)
+    }
+
+    private inline fun drawWithLockedCanvasOrNull(draw: (canvas: Canvas) -> Unit): Unit? {
+        if (!threadRunning || !surfaceHolder.surface.isValid) return null
+        try {
+            canvas = surfaceHolder.lockCanvas()
+        } catch (e: IllegalStateException) {
+            return null
+        }
+
+        draw(canvas!!)
+
+        if (!threadRunning || !surfaceHolder.surface.isValid) return null
+        try {
+            surfaceHolder.unlockCanvasAndPost(canvas)
+            canvas = null
+        } catch (e: IllegalStateException) {
+            canvas = null
+            return null
+        }
+
+        return Unit
     }
 }
