@@ -2,9 +2,7 @@
 
 ## To do
 
-+ bugs:
-  + SurfaceView is empty when activity is paused &rarr; exit app, screen
-    turned off, screen rotated
++ bugs: no known bugs
 + show algorithm best/worst/average time complexity, description ...
 + sounds
 + launcher icon
@@ -17,9 +15,13 @@
 
 ## Doing
 
++ resolving bugs:
+  + SurfaceView is empty when activity is paused &rarr; exit app, screen
+    turned off, screen rotated
+
 ## Done
 
 + full screen
-+ resolved bugs
++ resolved bugs:
   + java.lang.IllegalStateException: Surface has already been released
     (ChartSurfaceView, l. 138)
