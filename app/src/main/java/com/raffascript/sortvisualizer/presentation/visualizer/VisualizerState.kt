@@ -2,6 +2,7 @@ package com.raffascript.sortvisualizer.presentation.visualizer
 
 import com.raffascript.sortvisualizer.data.AlgorithmState
 import com.raffascript.sortvisualizer.data.DelayValue
+import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataStore
 import com.raffascript.sortvisualizer.data.viszualization.Highlight
 
 data class VisualizerState(
@@ -18,7 +19,7 @@ data class VisualizerState(
     // bottom sheet
     val isBottomSheetShown: Boolean = false,
     val sliderDelay: DelayValue = DelayValue.default,
-    val inputListSize: String = VisualizerViewModel.DEFAULT_LIST_SIZE.toString(),
+    val inputListSize: String = UserPreferencesDataStore.DEFAULT_LIST_SIZE.toString(),
     val isInputListSizeValid: Boolean = true,
-    val listSize: Int = VisualizerViewModel.DEFAULT_LIST_SIZE,
+    val listSize: Int = UserPreferencesDataStore.DEFAULT_LIST_SIZE,
 )
