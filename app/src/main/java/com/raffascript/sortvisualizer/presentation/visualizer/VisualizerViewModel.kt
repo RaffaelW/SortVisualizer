@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.raffascript.sortvisualizer.data.AlgorithmRegister
 import com.raffascript.sortvisualizer.data.DelayValue
 import com.raffascript.sortvisualizer.data.algorithms.Algorithm
-import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataStore
+import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
 import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -24,7 +24,7 @@ class VisualizerViewModel(savedStateHandle: SavedStateHandle, algorithmRegister:
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
     private val algorithmData = algorithmRegister.getAlgorithmById(algorithmId)!!
 
-    private var algorithm = getAlgorithmImpl(UserPreferencesDataStore.DEFAULT_LIST_SIZE, DelayValue.default.asDuration())
+    private var algorithm = getAlgorithmImpl(UserPreferencesDataSource.DEFAULT_LIST_SIZE, DelayValue.default.asDuration())
 
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData.name, sortingList = algorithm.getListValue()))
     val uiState = _uiState.asStateFlow()

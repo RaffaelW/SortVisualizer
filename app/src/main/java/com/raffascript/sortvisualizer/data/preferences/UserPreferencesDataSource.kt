@@ -9,7 +9,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.raffascript.sortvisualizer.data.DelayValue
 import kotlinx.coroutines.flow.map
 
-class UserPreferencesDataStore(private val context: Context) {
+class UserPreferencesDataSource(private val context: Context) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("user_preferences")
 
     private val delayKey = intPreferencesKey("delay")

@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class UserPreferencesRepository(
-    private val preferencesDataSource: UserPreferencesDataStore
+    private val preferencesDataSource: UserPreferencesDataSource
 ) {
 
     fun getUserPreferencesFlow(): Flow<UserPreferences> {
