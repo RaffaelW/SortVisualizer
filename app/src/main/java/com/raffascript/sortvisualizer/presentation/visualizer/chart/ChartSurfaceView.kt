@@ -39,20 +39,14 @@ class ChartSurfaceView @JvmOverloads constructor(
     private var threadRunning = false
 
     private val surfaceHolder = this.holder
-    private var canvas: Canvas? = null
     private var chartWidth = 0
     private var chartHeight = 0
 
     private var sortingList = intArrayOf()
-    private var listDiffs: HashMap<Int, Int>? = null
     private var highlights = emptyList<Highlight>()
 
     private var isNewDataAvailable = true
-    private val minRedrawRate = 1000 / 60L
-
-    companion object {
-        private const val TAG = "ChartSurfaceView"
-    }
+    private val maxWaitingInterval = 1000 / 60L
 
     init {
         surfaceHolder.addCallback(this)
@@ -60,26 +54,22 @@ class ChartSurfaceView @JvmOverloads constructor(
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        Log.d(TAG, "SurfaceView created, list: $sortingList")
-        startThread()
         chartWidth = width
         chartHeight = height
+        startThread()
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        Log.d(TAG, "SurfaceView changed, list: $sortingList")
         chartWidth = width
         chartHeight = height
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        Log.d(TAG, "SurfaceView is destroyed, list: $sortingList")
         stopThread()
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        Log.d(TAG, "visibility changed, isVisible: ${visibility == VISIBLE}, list: $sortingList")
         thread ?: return
         if (visibility == VISIBLE) {
             if (thread?.isAlive != true) {
@@ -92,9 +82,10 @@ class ChartSurfaceView @JvmOverloads constructor(
 
     private fun startThread() {
         thread = Thread {
-            run()
+            draw()
         }
         threadRunning = true
+        isNewDataAvailable = true
         thread!!.start()
     }
 
@@ -104,33 +95,31 @@ class ChartSurfaceView @JvmOverloads constructor(
         thread = null
     }
 
-    fun updateData(sortingList: IntArray, highlights: List<Highlight>) {
-        listDiffs = calculateChanges(this.sortingList, sortingList)
-        this.sortingList = sortingList
+    fun updateData(newList: IntArray, highlights: List<Highlight>) {
+        this.sortingList = newList
         this.highlights = highlights
         isNewDataAvailable = true
     }
 
-    private fun run() {
-        var startTime = 0L
+    private fun draw() {
+        var lastRedraw = 0L
+        var deltaTime: Long
         while (threadRunning) {
-            if (!isNewDataAvailable) {
-                Thread.yield()
-                continue
-            }
-            val deltaTime = System.currentTimeMillis() - startTime
-            if (deltaTime < minRedrawRate) {
-                try {
-                    Thread.sleep(minRedrawRate - deltaTime)
-                } catch (e: InterruptedException) {
-                    Log.e("ChartSurfaceView", "Thread was interrupted while sleeping. Message: ${e.message}")
+            if (isNewDataAvailable) {
+                deltaTime = System.currentTimeMillis() - lastRedraw
+                if (deltaTime > maxWaitingInterval) {
+                    isNewDataAvailable = false
+                    lastRedraw = System.currentTimeMillis()
+
+                    drawChart() ?: break
+                } else {
+                    try {
+                        Thread.sleep(maxWaitingInterval - deltaTime)
+                    } catch (e: InterruptedException) {
+                        Log.e("ChartSurfaceView", "Thread was interrupted while sleeping. Message: ${e.message}")
+                    }
                 }
             }
-            startTime = System.currentTimeMillis()
-
-            drawChart() ?: break
-
-            isNewDataAvailable = false
         }
     }
 
@@ -141,15 +130,10 @@ class ChartSurfaceView @JvmOverloads constructor(
         drawWithLockedCanvasOrNull {
             it.drawBackground()
 
-            if (listDiffs != null) {
-                listDiffs!!.forEach { (index, value) ->
-                    it.drawBar(index, barWidth, unitHeight * value, highlights.getHighlightWithHighestPriority(index))
-                }
-            } else {
-                sortingList.forEachIndexed { index, value ->
-                    it.drawBar(index, barWidth, unitHeight * value, highlights.getHighlightWithHighestPriority(index))
-                }
+            sortingList.forEachIndexed { index, value ->
+                it.drawBar(index, barWidth, unitHeight * value, highlights.getHighlightWithHighestPriority(index))
             }
+
             highlights.getHighlightsWithOption(HighlightOption.LINE).forEach { highlight ->
                 it.drawHighlightLine(barWidth * (highlight.index + 1) - 1, Color.GREEN)
             }
@@ -159,7 +143,7 @@ class ChartSurfaceView @JvmOverloads constructor(
     }
 
     private fun Canvas.drawBackground() {
-        this.drawRect(0F, 0F, chartWidth.toFloat(), chartHeight.toFloat(), paintBackground)
+        this.drawColor(paintBackground.color)
     }
 
     private fun Canvas.drawBar(position: Int, width: Float, height: Float, highlight: HighlightOption?) {
@@ -180,6 +164,7 @@ class ChartSurfaceView @JvmOverloads constructor(
     }
 
     private inline fun drawWithLockedCanvasOrNull(draw: (canvas: Canvas) -> Unit): Unit? {
+        val canvas: Canvas
         if (!threadRunning || !surfaceHolder.surface.isValid) return null
         try {
             canvas = surfaceHolder.lockCanvas()
@@ -187,14 +172,12 @@ class ChartSurfaceView @JvmOverloads constructor(
             return null
         }
 
-        draw(canvas!!)
+        draw(canvas)
 
         if (!threadRunning || !surfaceHolder.surface.isValid) return null
         try {
             surfaceHolder.unlockCanvasAndPost(canvas)
-            canvas = null
         } catch (e: IllegalStateException) {
-            canvas = null
             return null
         }
 
