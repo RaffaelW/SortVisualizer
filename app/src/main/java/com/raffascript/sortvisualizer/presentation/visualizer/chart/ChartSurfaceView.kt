@@ -50,28 +50,36 @@ class ChartSurfaceView @JvmOverloads constructor(
     private var isNewDataAvailable = true
     private val minRedrawRate = 1000 / 60L
 
+    companion object {
+        private const val TAG = "ChartSurfaceView"
+    }
+
     init {
         surfaceHolder.addCallback(this)
         setZOrderOnTop(false)
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
+        Log.d(TAG, "SurfaceView created")
         startThread()
         chartWidth = width
         chartHeight = height
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+        Log.d(TAG, "SurfaceView changed")
         chartWidth = width
         chartHeight = height
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
+        Log.d(TAG, "SurfaceView is destroyed")
         stopThread()
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
+        Log.d(TAG, "visibility changed, isVisible: ${visibility == VISIBLE}")
         thread ?: return
         if (visibility == VISIBLE) {
             if (thread?.isAlive != true) {
