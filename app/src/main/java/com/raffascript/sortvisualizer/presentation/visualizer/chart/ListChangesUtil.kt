@@ -6,7 +6,7 @@ package com.raffascript.sortvisualizer.presentation.visualizer.chart
  * The value of the HashMap is the value from the second list.
  * @param list1 the first list that should be compared
  * @param list2 the second list that should be compared, the values from the returned HashMap are taken from this list
- * @return The differences of the lists or null if the sizes of the lists are different or the lists are identic
+ * @return The differences of the lists or null if the sizes of the lists are different
  */
 fun calculateChanges(list1: IntArray, list2: IntArray): HashMap<Int, Int>? {
     if (list1.size != list2.size) return null
@@ -18,8 +18,6 @@ fun calculateChanges(list1: IntArray, list2: IntArray): HashMap<Int, Int>? {
             diff[i] = newValue
         }
     }
-
-    if (diff.isEmpty()) return null
 
     return diff
 }
