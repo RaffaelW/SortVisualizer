@@ -39,7 +39,7 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
         }
         composable(route = Screen.Visualizer.route, arguments = Screen.Visualizer.arguments) {
             val viewModel = viewModel<VisualizerViewModel>(factory = viewModelFactory {
-                VisualizerViewModel(it, MyApp.appModule.algorithmRegister)
+                VisualizerViewModel(it, MyApp.appModule.algorithmRegister, MyApp.appModule.userPreferencesRepository)
             })
             val state by viewModel.uiState.collectAsStateWithLifecycle()
             VisualizerScreen(state = state, viewModel::onEvent)

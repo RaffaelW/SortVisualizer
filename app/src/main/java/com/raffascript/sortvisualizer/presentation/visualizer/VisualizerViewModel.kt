@@ -7,6 +7,7 @@ import com.raffascript.sortvisualizer.data.AlgorithmRegister
 import com.raffascript.sortvisualizer.data.DelayValue
 import com.raffascript.sortvisualizer.data.algorithms.Algorithm
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
+import com.raffascript.sortvisualizer.data.preferences.UserPreferencesRepository
 import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -19,7 +20,11 @@ import kotlinx.coroutines.newSingleThreadContext
 import kotlin.reflect.full.primaryConstructor
 import kotlin.time.Duration
 
-class VisualizerViewModel(savedStateHandle: SavedStateHandle, algorithmRegister: AlgorithmRegister) : ViewModel() {
+class VisualizerViewModel(
+    savedStateHandle: SavedStateHandle,
+    algorithmRegister: AlgorithmRegister,
+    userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
 
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
     private val algorithmData = algorithmRegister.getAlgorithmById(algorithmId)!!
