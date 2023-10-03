@@ -20,6 +20,9 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 class VisualizerViewModel(savedStateHandle: SavedStateHandle, algorithmRegister: AlgorithmRegister) : ViewModel() {
+    companion object {
+        const val DEFAULT_LIST_SIZE = 50
+    }
 
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
     private val algorithmData = algorithmRegister.getAlgorithmById(algorithmId)!!
