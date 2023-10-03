@@ -10,4 +10,6 @@
     <string name="delay">Delay</string>
     <string name="fullscreen">Vollbild</string>
     <string name="fullscreen_exit">Vollbild verlassen</string>
+    <string name="finish">Fertig</string>
+    <string name="reset">Zurücksetzen</string>
 </resources>
