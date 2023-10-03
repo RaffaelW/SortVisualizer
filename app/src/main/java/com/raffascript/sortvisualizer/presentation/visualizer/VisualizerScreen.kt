@@ -148,7 +148,7 @@ fun BottomBar(
                     ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 }
             }) {
-                val (drawableRes, descriptionRes) = if (MainActivity.isOrientationLandscape){
+                val (drawableRes, descriptionRes) = if (MainActivity.isOrientationLandscape) {
                     Pair(R.drawable.ic_fullscreen_exit, R.string.fullscreen_exit)
                 } else {
                     Pair(R.drawable.ic_fullscreen, R.string.fullscreen)
