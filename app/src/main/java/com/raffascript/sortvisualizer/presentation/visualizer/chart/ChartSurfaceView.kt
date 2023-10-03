@@ -60,26 +60,26 @@ class ChartSurfaceView @JvmOverloads constructor(
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        Log.d(TAG, "SurfaceView created")
+        Log.d(TAG, "SurfaceView created, list: $sortingList")
         startThread()
         chartWidth = width
         chartHeight = height
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        Log.d(TAG, "SurfaceView changed")
+        Log.d(TAG, "SurfaceView changed, list: $sortingList")
         chartWidth = width
         chartHeight = height
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        Log.d(TAG, "SurfaceView is destroyed")
+        Log.d(TAG, "SurfaceView is destroyed, list: $sortingList")
         stopThread()
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        Log.d(TAG, "visibility changed, isVisible: ${visibility == VISIBLE}")
+        Log.d(TAG, "visibility changed, isVisible: ${visibility == VISIBLE}, list: $sortingList")
         thread ?: return
         if (visibility == VISIBLE) {
             if (thread?.isAlive != true) {
