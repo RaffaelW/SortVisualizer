@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlin.reflect.full.primaryConstructor
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 
 class VisualizerViewModel(savedStateHandle: SavedStateHandle, algorithmRegister: AlgorithmRegister) : ViewModel() {
     companion object {
@@ -27,7 +26,7 @@ class VisualizerViewModel(savedStateHandle: SavedStateHandle, algorithmRegister:
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
     private val algorithmData = algorithmRegister.getAlgorithmById(algorithmId)!!
 
-    private var algorithm = getAlgorithmImpl(50, 10.milliseconds)
+    private var algorithm = getAlgorithmImpl(DEFAULT_LIST_SIZE, DelayValue.default.asDuration())
 
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData.name, sortingList = algorithm.getListValue()))
     val uiState = _uiState.asStateFlow()
