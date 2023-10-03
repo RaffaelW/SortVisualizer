@@ -3,6 +3,8 @@ package com.raffascript.sortvisualizer.presentation.visualizer
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,6 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.raffascript.sortvisualizer.R
 import com.raffascript.sortvisualizer.data.DelayValue
 
@@ -64,6 +67,27 @@ fun BottomSheet(
                 singleLine = true,
                 isError = !isListSizeInputValid
             )
+
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 24.dp)) {
+                Button(
+                    modifier = Modifier.weight(1f),
+                    onClick = { onEvent(VisualizerUiEvent.HideBottomSheet) }
+                ) {
+                    Text(
+                        text = stringResource(R.string.finish),
+                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        onEvent(VisualizerUiEvent.ChangeDelay(DelayValue.default))
+                        onEvent(VisualizerUiEvent.ChangeListSizeInput("${VisualizerViewModel.DEFAULT_LIST_SIZE}"))
+                    }
+                ) {
+                    Icon(imageVector = Icons.Rounded.Refresh, contentDescription = stringResource(R.string.reset))
+                }
+            }
 
             Spacer(modifier = Modifier.size(50.dp))
         }
