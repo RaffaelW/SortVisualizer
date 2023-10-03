@@ -3,8 +3,6 @@
 ## To do
 
 + bugs: no known bugs
-+ choose better fitting delay values
-+ button to restore default values for delay, listSize
 + save latest delay and list size value
 + show algorithm best/worst/average time complexity, description ...
 + sounds
@@ -18,9 +16,12 @@
 
 ## Doing
 
++ button to restore default values for delay, listSize
+
 ## Done
 
 + full screen
++ choose better fitting delay values
 + resolved bugs:
   + java.lang.IllegalStateException: Surface has already been released
     (ChartSurfaceView, l. 138)
