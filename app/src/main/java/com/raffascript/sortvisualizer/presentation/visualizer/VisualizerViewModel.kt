@@ -12,9 +12,7 @@ import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlin.reflect.full.primaryConstructor
@@ -31,7 +29,19 @@ class VisualizerViewModel(
 
     private var algorithm = getAlgorithmImpl(UserPreferencesDataSource.DEFAULT_LIST_SIZE, DelayValue.default.asDuration())
 
+    private val userPreferences = userPreferencesRepository.getUserPreferencesFlow()
+
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData.name, sortingList = algorithm.getListValue()))
+    /*private val _uiState: MutableStateFlow<VisualizerState> = userPreferences.map {
+        _uiState.update { state ->
+            state.copy(sliderDelay = it.delay, listSize = it.listSize)
+        }
+        _uiState
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        VisualizerState(algorithmData.name, sortingList = algorithm.getListValue())
+    )*/
     val uiState = _uiState.asStateFlow()
 
     @OptIn(DelicateCoroutinesApi::class)
