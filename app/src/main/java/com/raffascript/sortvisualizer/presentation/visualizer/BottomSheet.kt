@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.raffascript.sortvisualizer.R
 import com.raffascript.sortvisualizer.data.DelayValue
+import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataStore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,7 +83,7 @@ fun BottomSheet(
                 IconButton(
                     onClick = {
                         onEvent(VisualizerUiEvent.ChangeDelay(DelayValue.default))
-                        onEvent(VisualizerUiEvent.ChangeListSizeInput("${VisualizerViewModel.DEFAULT_LIST_SIZE}"))
+                        onEvent(VisualizerUiEvent.ChangeListSizeInput("${UserPreferencesDataStore.DEFAULT_LIST_SIZE}"))
                     }
                 ) {
                     Icon(imageVector = Icons.Rounded.Refresh, contentDescription = stringResource(R.string.reset))
