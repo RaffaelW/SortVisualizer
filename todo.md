@@ -3,7 +3,6 @@
 ## To do
 
 + bugs: no known bugs
-+ save latest delay and list size value
 + show algorithm best/worst/average time complexity, description ...
 + sounds
 + launcher icon
@@ -16,10 +15,11 @@
 
 ## Doing
 
-+ button to restore default values for delay, listSize
++ save latest delay and list size value
 
 ## Done
 
++ button to restore default values for delay, listSize
 + full screen
 + choose better fitting delay values
 + resolved bugs:
