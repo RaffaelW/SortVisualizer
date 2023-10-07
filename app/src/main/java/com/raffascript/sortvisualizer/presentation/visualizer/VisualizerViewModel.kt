@@ -58,8 +58,8 @@ class VisualizerViewModel(
 
     fun onEvent(event: VisualizerUiEvent) {
         when (event) {
-            is VisualizerUiEvent.ShowBottomSheet -> _uiState.update { it.copy(isBottomSheetShown = true) }
-            is VisualizerUiEvent.HideBottomSheet -> _uiState.update { it.copy(isBottomSheetShown = false) }
+            is VisualizerUiEvent.ShowBottomSheet -> _uiState.update { it.copy(showBottomSheet = true) }
+            is VisualizerUiEvent.HideBottomSheet -> _uiState.update { it.copy(showBottomSheet = false) }
             is VisualizerUiEvent.ChangeDelay -> changeDelay(event.delay)
             is VisualizerUiEvent.ChangeListSizeInput -> changeListSizeInput(event.input)
             is VisualizerUiEvent.Play -> algorithm.start()

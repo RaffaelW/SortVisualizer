@@ -31,7 +31,7 @@ import com.raffascript.sortvisualizer.presentation.visualizer.chart.Chart
 fun VisualizerScreen(state: VisualizerState, onEvent: (VisualizerUiEvent) -> Unit) {
     val configuration = LocalConfiguration.current
 
-    if (state.isBottomSheetShown) {
+    if (state.showBottomSheet) {
         BottomSheet(
             delay = state.sliderDelay,
             inputListSize = state.inputListSize,
