@@ -1,5 +1,6 @@
 package com.raffascript.sortvisualizer.data.preferences
 
+import com.raffascript.sortvisualizer.data.DelayValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
@@ -13,11 +14,11 @@ class UserPreferencesRepository(
         }
     }
 
-    suspend fun saveUserPreferences(userPreferences: UserPreferences) {
-        val (delay, listSize) = userPreferences
-        preferencesDataSource.apply {
-            setDelay(delay)
-            setListSize(listSize)
-        }
+    suspend fun saveDelay(delayValue: DelayValue) {
+        preferencesDataSource.setDelay(delayValue)
+    }
+
+    suspend fun saveListSize(listSize: Int) {
+        preferencesDataSource.setListSize(listSize)
     }
 }
