@@ -15,6 +15,7 @@
 
 ## Doing
 
++ place cursor at end
 + save latest delay and list size value
 
 ## Done
