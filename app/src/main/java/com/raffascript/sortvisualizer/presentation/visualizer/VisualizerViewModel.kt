@@ -21,7 +21,7 @@ import kotlin.time.Duration
 class VisualizerViewModel(
     savedStateHandle: SavedStateHandle,
     algorithmRegister: AlgorithmRegister,
-    userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
@@ -45,6 +45,17 @@ class VisualizerViewModel(
         collectAlgorithmProgressFlow()
     }
 
+    init {
+        viewModelScope.launch {
+            userPreferences.collect {
+                algorithm.setDelay(it.delay.asDuration())
+                if (algorithm.listSize != it.listSize) {
+                    restartAlgorithm()
+                }
+            }
+        }
+    }
+
     fun onEvent(event: VisualizerUiEvent) {
         when (event) {
             is VisualizerUiEvent.ShowBottomSheet -> _uiState.update { it.copy(isBottomSheetShown = true) }
@@ -60,11 +71,6 @@ class VisualizerViewModel(
                 }
             }
         }
-    }
-
-    private fun isValidListSizeInput(input: String): Boolean {
-        val number = input.toIntOrNull() ?: return false
-        return number in 3..5000
     }
 
     private fun getAlgorithmImpl(listSize: Int, delay: Duration): Algorithm {
@@ -88,35 +94,31 @@ class VisualizerViewModel(
     private suspend fun restartAlgorithm() {
         algorithmProgressJob.cancelAndJoin()
         algorithm = getAlgorithmImpl(uiState.value.listSize, uiState.value.sliderDelay.asDuration())
-        algorithm.setDelay(_uiState.value.sliderDelay.asDuration())
+        algorithm.setDelay(uiState.value.sliderDelay.asDuration())
         algorithmProgressJob = viewModelScope.launch(algorithmThread) {
             collectAlgorithmProgressFlow()
         }
     }
 
     private fun changeDelay(delay: DelayValue) {
+        viewModelScope.launch {
+            userPreferencesRepository.saveDelay(delay)
+        }
         _uiState.update {
             it.copy(sliderDelay = delay)
         }
-        algorithm.setDelay(delay.asDuration())
     }
 
     private fun changeListSizeInput(input: String) {
-        val isValidInput = isValidListSizeInput(input)
+        val isValidInput = userPreferencesRepository.isValidListSizeInput(input)
         _uiState.update {
             it.copy(inputListSize = input, isInputListSizeValid = isValidInput)
         }
         if (isValidInput) {
             viewModelScope.launch {
-                changeListSize(input.toInt())
+                userPreferencesRepository.saveListSize(input.toInt())
             }
         }
     }
 
-    private suspend fun changeListSize(listSize: Int) {
-        _uiState.update {
-            it.copy(listSize = listSize)
-        }
-        restartAlgorithm()
-    }
 }
