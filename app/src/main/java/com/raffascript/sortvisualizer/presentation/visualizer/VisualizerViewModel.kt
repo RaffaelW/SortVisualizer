@@ -32,17 +32,12 @@ class VisualizerViewModel(
     private val userPreferences = userPreferencesRepository.getUserPreferencesFlow()
 
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData.name, sortingList = algorithm.getListValue()))
-    /*private val _uiState: MutableStateFlow<VisualizerState> = userPreferences.map {
-        _uiState.update { state ->
-            state.copy(sliderDelay = it.delay, listSize = it.listSize)
-        }
-        _uiState
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000),
-        VisualizerState(algorithmData.name, sortingList = algorithm.getListValue())
-    )*/
-    val uiState = _uiState.asStateFlow()
+    val uiState = combine(_uiState, userPreferences) { state, userPreferences ->
+        state.copy(
+            sliderDelay = userPreferences.delay,
+            listSize = userPreferences.listSize
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _uiState.asStateFlow().value)
 
     @OptIn(DelicateCoroutinesApi::class)
     private val algorithmThread = newSingleThreadContext("Algorithm")
