@@ -7,6 +7,10 @@ import kotlinx.coroutines.flow.combine
 class UserPreferencesRepository(
     private val preferencesDataSource: UserPreferencesDataSource
 ) {
+    fun isValidListSizeInput(input: String): Boolean {
+        val number = input.toIntOrNull() ?: return false
+        return number in 3..5000
+    }
 
     fun getUserPreferencesFlow(): Flow<UserPreferences> {
         return combine(preferencesDataSource.delayFlow, preferencesDataSource.listSizeFlow) { delay, listSize ->
@@ -19,6 +23,8 @@ class UserPreferencesRepository(
     }
 
     suspend fun saveListSize(listSize: Int) {
-        preferencesDataSource.setListSize(listSize)
+        if (isValidListSizeInput(listSize.toString())) {
+            preferencesDataSource.setListSize(listSize)
+        }
     }
 }
