@@ -13,8 +13,12 @@ class UserPreferencesRepository(
     }
 
     fun getUserPreferencesFlow(): Flow<UserPreferences> {
-        return combine(preferencesDataSource.delayFlow, preferencesDataSource.listSizeFlow) { delay, listSize ->
-            UserPreferences(delay, listSize)
+        return combine(
+            preferencesDataSource.delayFlow,
+            preferencesDataSource.listSizeFlow,
+            preferencesDataSource.inputListSizeFlow
+        ) { delay, listSize, inputListSize ->
+            UserPreferences(delay, listSize, inputListSize)
         }
     }
 
@@ -26,5 +30,9 @@ class UserPreferencesRepository(
         if (isValidListSizeInput(listSize.toString())) {
             preferencesDataSource.setListSize(listSize)
         }
+    }
+
+    suspend fun saveInputListSize(inputListSize: String) {
+        preferencesDataSource.setInputListSize(inputListSize)
     }
 }
