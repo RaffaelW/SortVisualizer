@@ -22,6 +22,9 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
     private var arrayAccesses = 0L
     private var comparisons = 0L
 
+    val listSize: Int
+        get() = list.size
+
     fun getListValue() = list.clone()
 
     suspend fun getProgress(): Flow<AlgorithmProgress> = flow {
