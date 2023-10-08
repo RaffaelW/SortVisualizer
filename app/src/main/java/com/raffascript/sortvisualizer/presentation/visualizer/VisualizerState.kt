@@ -1,13 +1,14 @@
 package com.raffascript.sortvisualizer.presentation.visualizer
 
 import com.raffascript.sortvisualizer.data.AlgorithmState
+import com.raffascript.sortvisualizer.data.algorithm_data.AlgorithmData
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
 import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 import com.raffascript.sortvisualizer.data.viszualization.Highlight
 
 data class VisualizerState(
     // algorithmData
-    val algorithmName: String,
+    val algorithmData: AlgorithmData,
 
     // algorithm progress
     val sortingList: IntArray,
