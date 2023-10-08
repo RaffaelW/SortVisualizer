@@ -31,7 +31,7 @@ class VisualizerViewModel(
 
     private val userPreferences = userPreferencesRepository.getUserPreferencesFlow()
 
-    private val _uiState = MutableStateFlow(VisualizerState(algorithmData.name, sortingList = algorithm.getListValue()))
+    private val _uiState = MutableStateFlow(VisualizerState(algorithmData, sortingList = algorithm.getListValue()))
     val uiState = combine(_uiState, userPreferences) { state, userPreferences ->
         state.copy(
             sliderDelay = userPreferences.delay,

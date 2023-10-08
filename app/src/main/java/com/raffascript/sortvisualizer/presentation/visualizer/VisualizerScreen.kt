@@ -17,12 +17,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.raffascript.sortvisualizer.R
 import com.raffascript.sortvisualizer.data.AlgorithmState
+import com.raffascript.sortvisualizer.data.algorithm_data.AlgorithmData
+import com.raffascript.sortvisualizer.data.algorithm_data.TimeComplexity
+import com.raffascript.sortvisualizer.data.algorithms.BubbleSort
 import com.raffascript.sortvisualizer.presentation.MainActivity
 import com.raffascript.sortvisualizer.presentation.theme.AlgorithmsVisualizerTheme
 import com.raffascript.sortvisualizer.presentation.visualizer.chart.Chart
@@ -68,11 +72,11 @@ fun ColumnScope.ContentPortrait(state: VisualizerState, onEvent: (VisualizerUiEv
     Surface(modifier = Modifier.fillMaxWidth().weight(1f), color = MaterialTheme.colorScheme.surface) {
         AlgorithmDataSurface(
             modifier = Modifier.verticalScroll(rememberScrollState()),
-            algorithmName = state.algorithmName
+            algorithmData = state.algorithmData
         )
     }
 
-    BottomBar(state.algorithmName, false, state.algorithmState, onEvent = onEvent)
+    BottomBar(state.algorithmData.name, false, state.algorithmState, onEvent = onEvent)
 }
 
 @Composable
@@ -91,12 +95,12 @@ fun ColumnScope.ContentLandscape(state: VisualizerState, onEvent: (VisualizerUiE
             }
 
             Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.surface) {
-                AlgorithmDataSurface(algorithmName = state.algorithmName)
+                AlgorithmDataSurface(algorithmData = state.algorithmData)
             }
         }
     }
 
-    BottomBar(state.algorithmName, true, state.algorithmState, onEvent = onEvent)
+    BottomBar(state.algorithmData.name, true, state.algorithmState, onEvent = onEvent)
 }
 
 @Composable
@@ -111,9 +115,28 @@ fun ProgressSurface(comparisonCount: Long, arrayAccessCount: Long) {
 }
 
 @Composable
-fun AlgorithmDataSurface(modifier: Modifier = Modifier, algorithmName: String) {
+fun AlgorithmDataSurface(modifier: Modifier = Modifier, algorithmData: AlgorithmData) {
     Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
-        Text(text = algorithmName, style = MaterialTheme.typography.titleLarge)
+        Text(text = algorithmData.name, style = MaterialTheme.typography.titleLarge)
+
+        val isStableStringRes = if (algorithmData.isStable) R.string.yes else R.string.no
+        val strings = listOf(
+            R.string.worst_case_time_complexity to algorithmData.worstCaseTimeComplexity.abbreviation,
+            R.string.average_time_complexity to algorithmData.averageCaseTimeComplexity.abbreviation,
+            R.string.best_case_time_complexity to algorithmData.bestCaseTimeComplexity.abbreviation,
+            R.string.is_stable to stringResource(id = isStableStringRes)
+        )
+        strings.forEach { (titleResId, value) ->
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = stringResource(id = titleResId),
+                    modifier = Modifier.padding(end = 8.dp, bottom = 8.dp),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(text = value, style = MaterialTheme.typography.bodyLarge)
+            }
+        }
     }
 }
 
@@ -199,7 +222,15 @@ fun BottomBar(
 fun VisualizerPreview() {
     AlgorithmsVisualizerTheme(darkTheme = true) {
         val state = VisualizerState(
-            algorithmName = "BubbleSort",
+            algorithmData = AlgorithmData(
+                0,
+                "BubbleSort",
+                TimeComplexity.QUASILINEAR,
+                TimeComplexity.QUADRATIC,
+                TimeComplexity.INFINITE,
+                true,
+                BubbleSort::class
+            ),
             sortingList = (1..5).toList().shuffled().toIntArray(),
             algorithmState = AlgorithmState.FINISHED
         )
