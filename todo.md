@@ -3,7 +3,6 @@
 ## To do
 
 + bugs: no known bugs
-+ show algorithm best/worst/average time complexity, description ...
 + sounds
 + launcher icon
 + Implement Algorithms:
@@ -15,6 +14,7 @@
 
 ## Doing
 
++ show algorithm best/worst/average time complexity, description ...
 
 ## Done
 
