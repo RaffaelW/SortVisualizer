@@ -7,6 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,7 +29,7 @@ import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
 @Composable
 fun BottomSheet(
     delay: DelayValue,
-    inputListSize: String,
+    listSize: Int,
     isListSizeInputValid: Boolean,
     onEvent: (VisualizerUiEvent) -> Unit,
     onDismiss: () -> Unit
@@ -59,9 +64,18 @@ fun BottomSheet(
                 modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
                 style = MaterialTheme.typography.labelMedium
             )
+
+            var input by remember { mutableStateOf("") }
+            LaunchedEffect(key1 =  Unit) {
+                input = listSize.toString()
+                onEvent(VisualizerUiEvent.ChangeListSizeInput(input))
+            }
             TextField(
-                value = inputListSize,
-                onValueChange = { onEvent(VisualizerUiEvent.ChangeListSizeInput(it)) },
+                value = input,
+                onValueChange = {
+                    input = it
+                    onEvent(VisualizerUiEvent.ChangeListSizeInput(it))
+                },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { onEvent(VisualizerUiEvent.HideBottomSheet) }),
@@ -98,5 +112,5 @@ fun BottomSheet(
 @Preview
 @Composable
 fun BottomSheetPreview() {
-    BottomSheet(DelayValue.DELAY_100, "50", true, {}, {})
+    BottomSheet(DelayValue.DELAY_100, 50, true, {}, {})
 }

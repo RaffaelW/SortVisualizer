@@ -19,7 +19,6 @@ data class VisualizerState(
     // bottom sheet
     val showBottomSheet: Boolean = false,
     val sliderDelay: DelayValue = DelayValue.default,
-    val inputListSize: String = UserPreferencesDataSource.DEFAULT_LIST_SIZE.toString(),
     val isInputListSizeValid: Boolean = true,
     val listSize: Int = UserPreferencesDataSource.DEFAULT_LIST_SIZE,
 )

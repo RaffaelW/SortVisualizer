@@ -34,7 +34,7 @@ fun VisualizerScreen(state: VisualizerState, onEvent: (VisualizerUiEvent) -> Uni
     if (state.showBottomSheet) {
         BottomSheet(
             delay = state.sliderDelay,
-            inputListSize = state.inputListSize,
+            listSize = state.listSize,
             isListSizeInputValid = state.isInputListSizeValid,
             onEvent = onEvent,
             onDismiss = { onEvent(VisualizerUiEvent.HideBottomSheet) }

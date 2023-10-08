@@ -36,8 +36,6 @@ class VisualizerViewModel(
         state.copy(
             sliderDelay = userPreferences.delay,
             listSize = userPreferences.listSize,
-            inputListSize = userPreferences.inputListSize,
-            isInputListSizeValid = userPreferencesRepository.isValidListSizeInput(userPreferences.inputListSize)
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _uiState.asStateFlow().value)
 
@@ -114,11 +112,10 @@ class VisualizerViewModel(
     private fun changeListSizeInput(input: String) {
         val isValidInput = userPreferencesRepository.isValidListSizeInput(input)
         _uiState.update {
-            it.copy(inputListSize = input)
+            it.copy(isInputListSizeValid = isValidInput)
         }
-        viewModelScope.launch {
-            userPreferencesRepository.saveInputListSize(input)
-            if (isValidInput) {
+        if (isValidInput) {
+            viewModelScope.launch {
                 userPreferencesRepository.saveListSize(input.toInt())
             }
         }
