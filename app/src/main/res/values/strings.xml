@@ -12,4 +12,11 @@
     <string name="fullscreen_exit">Vollbild verlassen</string>
     <string name="finish">Fertig</string>
     <string name="reset">Zurücksetzen</string>
+    <string name="worst_case_time_complexity">Schlechteste Zeitkomplexität:</string>
+    <string name="average_time_complexity">Durchshnittliche Zeitkomplexität:</string>
+    <string name="best_case_time_complexity">Beste Zeitkomplexität:</string>
+    <string name="is_stable">Stabil:</string>
+
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
 </resources>
