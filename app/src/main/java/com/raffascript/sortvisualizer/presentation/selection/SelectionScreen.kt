@@ -13,7 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.raffascript.sortvisualizer.data.AlgorithmData
+import com.raffascript.sortvisualizer.data.algorithm_data.AlgorithmData
+import com.raffascript.sortvisualizer.data.algorithm_data.TimeComplexity
 import com.raffascript.sortvisualizer.data.algorithms.InsertionSort
 import com.raffascript.sortvisualizer.presentation.theme.AlgorithmsVisualizerTheme
 
@@ -47,10 +48,15 @@ fun SelectionScreenPreview() {
     AlgorithmsVisualizerTheme(darkTheme = false) {
         val state = SelectionState(
             listOf(
-                AlgorithmData(1, "InsertionSort", InsertionSort::class),
-                AlgorithmData(2, "BubbleSort", InsertionSort::class),
-                AlgorithmData(3, "QuickSort", InsertionSort::class),
-                AlgorithmData(4, "RadixSort", InsertionSort::class),
+                AlgorithmData(
+                    0,
+                    "InsertionSort",
+                    TimeComplexity.QUADRATIC,
+                    TimeComplexity.QUADRATIC,
+                    TimeComplexity.LINEAR,
+                    true,
+                    InsertionSort::class
+                )
             )
         )
         SelectionScreen(state = state, navigateToVisualizer = {})

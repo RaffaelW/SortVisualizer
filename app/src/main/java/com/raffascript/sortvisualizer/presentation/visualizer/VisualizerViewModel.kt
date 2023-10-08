@@ -3,11 +3,11 @@ package com.raffascript.sortvisualizer.presentation.visualizer
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.raffascript.sortvisualizer.data.AlgorithmRegister
-import com.raffascript.sortvisualizer.data.DelayValue
+import com.raffascript.sortvisualizer.data.algorithm_data.AlgorithmRegister
 import com.raffascript.sortvisualizer.data.algorithms.Algorithm
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesRepository
+import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
 import kotlinx.coroutines.DelicateCoroutinesApi

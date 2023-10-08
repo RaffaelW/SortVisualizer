@@ -1,6 +1,6 @@
 package com.raffascript.sortvisualizer.presentation.visualizer
 
-import com.raffascript.sortvisualizer.data.DelayValue
+import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 
 sealed interface VisualizerUiEvent {
     // algorithm control

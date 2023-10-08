@@ -1,6 +1,6 @@
 package com.raffascript.sortvisualizer.data.preferences
 
-import com.raffascript.sortvisualizer.data.DelayValue
+import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 
 data class UserPreferences(
     val delay: DelayValue,

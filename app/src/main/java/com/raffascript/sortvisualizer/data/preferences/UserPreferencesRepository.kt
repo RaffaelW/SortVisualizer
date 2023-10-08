@@ -1,6 +1,6 @@
 package com.raffascript.sortvisualizer.data.preferences
 
-import com.raffascript.sortvisualizer.data.DelayValue
+import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 

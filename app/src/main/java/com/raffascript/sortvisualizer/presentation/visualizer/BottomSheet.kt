@@ -22,8 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.raffascript.sortvisualizer.R
-import com.raffascript.sortvisualizer.data.DelayValue
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
+import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

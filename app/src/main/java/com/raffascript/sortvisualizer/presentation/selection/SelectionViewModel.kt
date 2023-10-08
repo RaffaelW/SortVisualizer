@@ -1,7 +1,7 @@
 package com.raffascript.sortvisualizer.presentation.selection
 
 import androidx.lifecycle.ViewModel
-import com.raffascript.sortvisualizer.data.AlgorithmRegister
+import com.raffascript.sortvisualizer.data.algorithm_data.AlgorithmRegister
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
