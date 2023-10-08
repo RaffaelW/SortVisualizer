@@ -3,6 +3,7 @@
 ## To do
 
 + bugs: no known bugs
++ (show description of algorithm)
 + sounds
 + launcher icon
 + Implement Algorithms:
@@ -14,10 +15,10 @@
 
 ## Doing
 
-+ show algorithm best/worst/average time complexity, description ...
 
 ## Done
 
++ show algorithm best/worst/average time complexity, ...
 + save latest delay and list size value
 + button to restore default values for delay, listSize
 + full screen
