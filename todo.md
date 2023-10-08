@@ -15,11 +15,10 @@
 
 ## Doing
 
-+ place cursor at end
-+ save latest delay and list size value
 
 ## Done
 
++ save latest delay and list size value
 + button to restore default values for delay, listSize
 + full screen
 + choose better fitting delay values
