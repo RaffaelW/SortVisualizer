@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        // Checks the orientation of the screen
+        // hide/show window insets based on screen orientation
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             WindowInsetsControllerCompat(window, window.decorView).let { controller ->
