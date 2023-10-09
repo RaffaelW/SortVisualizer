@@ -6,17 +6,28 @@
 + (show description of algorithm)
 + sounds
 + Implement Algorithms:
-  + MergeSort
-  + QuickSort
-  + RadixSort
-  + CountingSort
-  + (TimSort)
+  + Merge Sort
+  + Quick Sort
+  + Radix Sort
+  + Counting Sort
+  + (Tim Sort)
+  + Bogo Sort
+  + Shaker Sort
+  + Shell Sort
+  + Comb Sort
+  + Tree Sort
+  + Strand Sort
+  + Cycle Sort
+  + Pigeonhole Sort
+  + Bucket Sort
 
 ## Doing
 
 
 ## Done
 
++ change orientation to portrait when leaving the visualizer screen in
+  portrait mode
 + change color theming
 + launcher icon
 + show algorithm best/worst/average time complexity, ...
