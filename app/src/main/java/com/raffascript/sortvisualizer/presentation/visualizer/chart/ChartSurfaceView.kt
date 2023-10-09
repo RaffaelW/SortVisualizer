@@ -62,6 +62,7 @@ class ChartSurfaceView @JvmOverloads constructor(
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         chartWidth = width
         chartHeight = height
+        isNewDataAvailable = true
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
@@ -72,7 +73,8 @@ class ChartSurfaceView @JvmOverloads constructor(
         super.onVisibilityChanged(changedView, visibility)
         thread ?: return
         if (visibility == VISIBLE) {
-            if (thread?.isAlive != true) {
+            isNewDataAvailable = true
+            if (thread?.isAlive == false) {
                 startThread()
             }
         } else if (visibility == INVISIBLE) {
