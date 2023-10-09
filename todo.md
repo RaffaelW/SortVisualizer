@@ -3,6 +3,8 @@
 ## To do
 
 + bugs: no known bugs
++ optimize SurfaceView for multiple CPUs
+  (Runtime.getRuntime().availableProcessors())
 + (show description of algorithm)
 + sounds
 + Implement Algorithms:
