@@ -3,9 +3,9 @@
 ## To do
 
 + bugs: no known bugs
++ change primary color
 + (show description of algorithm)
 + sounds
-+ launcher icon
 + Implement Algorithms:
   + MergeSort
   + QuickSort
@@ -18,6 +18,7 @@
 
 ## Done
 
++ launcher icon
 + show algorithm best/worst/average time complexity, ...
 + save latest delay and list size value
 + button to restore default values for delay, listSize
