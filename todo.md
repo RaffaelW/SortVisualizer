@@ -3,7 +3,6 @@
 ## To do
 
 + bugs: no known bugs
-+ change primary color
 + (show description of algorithm)
 + sounds
 + Implement Algorithms:
@@ -18,6 +17,7 @@
 
 ## Done
 
++ change color theming
 + launcher icon
 + show algorithm best/worst/average time complexity, ...
 + save latest delay and list size value
