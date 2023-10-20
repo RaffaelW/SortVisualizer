@@ -3,7 +3,6 @@
 ## To do
 
 + bugs: no known bugs
-+ (show description of algorithm)
 + sounds
 + Implement Algorithms:
   + Merge Sort
@@ -20,9 +19,11 @@
   + Cycle Sort
   + Pigeonhole Sort
   + Bucket Sort
++ create nice README.md file
 
 ## Doing
 
++ show description of algorithm
 + optimize SurfaceView for multiple CPUs (already wasted 4 hours here)
 
 ## Done
