@@ -3,9 +3,9 @@
 ## To do
 
 + bugs: no known bugs
++ (show description of algorithm)
 + sounds
 + Implement Algorithms:
-  + Merge Sort
   + Quick Sort
   + Radix Sort
   + Counting Sort
@@ -23,8 +23,8 @@
 
 ## Doing
 
-+ show description of algorithm
 + optimize SurfaceView for multiple CPUs (already wasted 4 hours here)
++ implement Merge Sort
 
 ## Done
 
