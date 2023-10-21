@@ -3,6 +3,7 @@ package com.raffascript.sortvisualizer.data.algorithm_data
 import com.raffascript.sortvisualizer.data.algorithms.BubbleSort
 import com.raffascript.sortvisualizer.data.algorithms.HeapSort
 import com.raffascript.sortvisualizer.data.algorithms.InsertionSort
+import com.raffascript.sortvisualizer.data.algorithms.MergeSort
 import com.raffascript.sortvisualizer.data.algorithms.SelectionSort
 
 class AlgorithmRegister {
@@ -43,6 +44,15 @@ class AlgorithmRegister {
             TimeComplexity.QUASILINEAR,
             false,
             HeapSort::class
+        ),
+        AlgorithmData(
+            4,
+            "MergeSort",
+            TimeComplexity.QUASILINEAR,
+            TimeComplexity.QUASILINEAR,
+            TimeComplexity.QUASILINEAR,
+            true,
+            MergeSort::class
         )
     )
 
