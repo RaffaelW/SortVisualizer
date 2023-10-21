@@ -16,10 +16,7 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
     }
 
     private suspend fun mergeSort(
-        array: IntArray,
-        left: Int,
-        right: Int,
-        progressHandler: AlgorithmProgressHandler
+        array: IntArray, left: Int, right: Int, progressHandler: AlgorithmProgressHandler
     ): IntArray {
         if (left == right) return intArrayOf(array[left])
 
@@ -39,10 +36,25 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         val leftSize = leftArray.size
         val rightSize = rightArray.size
 
-        val target = IntArray(leftSize + rightSize)
+        val target = IntArray(leftSize + rightSize) { -1 }
         var targetPos = 0
         var leftPos = 0
         var rightPos = 0
+
+        // wrapper method to avoid that the algorithm gets unclear and the same code is repeated multiple times
+        suspend fun callUpdateProgress(secondaryIndex: Int) {
+            val replacingArray = leftArray + rightArray
+            val array = target.mapIndexed { index, value ->
+                if (value == -1) replacingArray[index] else value
+            }.toIntArray()
+            updateProgress(
+                array,
+                position,
+                position + targetPos,
+                secondaryIndex,
+                progressHandler
+            )
+        }
 
         // While both arrays contain elements
         while (leftPos < leftSize && rightPos < rightSize) {
@@ -50,12 +62,12 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             val rightValue = rightArray[rightPos]
             if (leftValue <= rightValue) {
                 target[targetPos] = leftValue
-                updateProgress(leftArray + rightArray, position, targetPos, leftPos, progressHandler)
+                callUpdateProgress(position + leftPos)
                 targetPos++
                 leftPos++
             } else {
                 target[targetPos] = rightValue
-                updateProgress(leftArray + rightArray, position, targetPos, rightPos, progressHandler)
+                callUpdateProgress(position + rightPos)
                 targetPos++
                 rightPos++
             }
@@ -64,17 +76,18 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         // copy the rest of the left array
         while (leftPos < leftSize) {
             target[targetPos] = leftArray[leftPos]
-            updateProgress(leftArray + rightArray, position, targetPos, leftPos, progressHandler)
+            callUpdateProgress(position + leftPos)
             targetPos++
             leftPos++
         }
         // copy the rest of the right array
         while (rightPos < rightSize) {
             target[targetPos] = rightArray[rightPos]
-            updateProgress(leftArray + rightArray, position, targetPos, rightPos, progressHandler)
+            callUpdateProgress(position + rightPos)
             targetPos++
             rightPos++
         }
+        updateProgress(target, position, position + targetPos, position + rightPos, progressHandler)
         return target
     }
 
@@ -82,14 +95,17 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         listPart: IntArray,
         partStart: Int,
         currentIndex: Int,
-        secondaryIndex: Int,
+        secondaryIndex: Int? = null,
         progressHandler: AlgorithmProgressHandler
     ) {
         System.arraycopy(listPart, 0, list, partStart, listPart.size)
-        progressHandler.onProgressChanged(
+        var highlights = arrayOf(
             currentIndex highlighted HighlightOption.COLOURED_PRIMARY,
-            secondaryIndex highlighted HighlightOption.COLOURED_SECONDARY
         )
+        if (secondaryIndex != null) {
+            highlights += secondaryIndex highlighted HighlightOption.COLOURED_SECONDARY
+        }
+        progressHandler.onProgressChanged(*highlights)
     }
 
     private suspend fun finish(finalList: IntArray, progressHandler: AlgorithmProgressHandler) {
