@@ -5,6 +5,7 @@ import com.raffascript.sortvisualizer.data.algorithms.HeapSort
 import com.raffascript.sortvisualizer.data.algorithms.InsertionSort
 import com.raffascript.sortvisualizer.data.algorithms.MergeSort
 import com.raffascript.sortvisualizer.data.algorithms.SelectionSort
+import com.raffascript.sortvisualizer.data.algorithms.ShakerSort
 
 class AlgorithmRegister {
 
@@ -53,6 +54,15 @@ class AlgorithmRegister {
             TimeComplexity.QUASILINEAR,
             true,
             MergeSort::class
+        ),
+        AlgorithmData(
+            5,
+            "ShakerSort",
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.LINEAR,
+            true,
+            ShakerSort::class
         )
     )
 
