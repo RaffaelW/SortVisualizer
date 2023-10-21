@@ -78,7 +78,7 @@ class VisualizerViewModel(
     }
 
     private suspend fun collectAlgorithmProgressFlow() {
-        algorithm.getProgress().collect { progress ->
+        algorithm.getProgressFlow().collect { progress ->
             _uiState.update {
                 it.copy(
                     sortingList = progress.list,
