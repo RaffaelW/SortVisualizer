@@ -24,7 +24,6 @@
 ## Doing
 
 + optimize SurfaceView for multiple CPUs (already wasted 4h here...)
-+ Shaker Sort
 
 ## Done
 
@@ -43,6 +42,7 @@
   + BubbleSort
   + HeapSort
   + MergeSort
+  + ShakerSort
 + resolved bugs:
   + java.lang.IllegalStateException: Surface has already been released
     (ChartSurfaceView, l. 138)
