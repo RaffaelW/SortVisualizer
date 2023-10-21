@@ -25,7 +25,6 @@
 ## Doing
 
 + optimize SurfaceView for multiple CPUs (already wasted 4h here...)
-+ bug: MergeSort gets not updated
 + count comparisons and array accesses in MergeSort
 
 ## Done
