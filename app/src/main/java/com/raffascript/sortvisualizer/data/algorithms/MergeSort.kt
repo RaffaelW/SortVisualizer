@@ -18,7 +18,7 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
     private suspend fun mergeSort(
         array: IntArray, left: Int, right: Int, progressHandler: AlgorithmProgressHandler
     ): IntArray {
-        if (left == right) return intArrayOf(array[left])
+        if (left == right.alsoIncComparisons()) return intArrayOf(array[left].alsoIncArrayAccess())
 
         val middle = left + (right - left) / 2
         val leftArray = mergeSort(array, left, middle, progressHandler)
@@ -45,7 +45,9 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         suspend fun callUpdateProgress(secondaryIndex: Int) {
             val replacingArray = leftArray + rightArray
             val array = target.mapIndexed { index, value ->
-                if (value == -1) replacingArray[index] else value
+                // don't count array access here because this is only for updating the ui and not for sorting
+                if (value == -1) replacingArray[index]
+                else value
             }.toIntArray()
             updateProgress(
                 array,
@@ -57,16 +59,16 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         }
 
         // While both arrays contain elements
-        while (leftPos < leftSize && rightPos < rightSize) {
-            val leftValue = leftArray[leftPos]
-            val rightValue = rightArray[rightPos]
-            if (leftValue <= rightValue) {
-                target[targetPos] = leftValue
+        while (leftPos < leftSize && rightPos < rightSize.alsoIncComparisons(2L)) {
+            val leftValue = leftArray[leftPos].alsoIncArrayAccess()
+            val rightValue = rightArray[rightPos].alsoIncArrayAccess()
+            if (leftValue <= rightValue.alsoIncComparisons()) {
+                target[targetPos] = leftValue.alsoIncArrayAccess()
                 callUpdateProgress(position + leftPos)
                 targetPos++
                 leftPos++
             } else {
-                target[targetPos] = rightValue
+                target[targetPos] = rightValue.alsoIncArrayAccess()
                 callUpdateProgress(position + rightPos)
                 targetPos++
                 rightPos++
@@ -74,15 +76,15 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         }
 
         // copy the rest of the left array
-        while (leftPos < leftSize) {
-            target[targetPos] = leftArray[leftPos]
+        while (leftPos < leftSize.alsoIncComparisons()) {
+            target[targetPos] = leftArray[leftPos].alsoIncArrayAccess(2L)
             callUpdateProgress(position + leftPos)
             targetPos++
             leftPos++
         }
         // copy the rest of the right array
-        while (rightPos < rightSize) {
-            target[targetPos] = rightArray[rightPos]
+        while (rightPos < rightSize.alsoIncComparisons()) {
+            target[targetPos] = rightArray[rightPos].alsoIncArrayAccess(2L)
             callUpdateProgress(position + rightPos)
             targetPos++
             rightPos++
