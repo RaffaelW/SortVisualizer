@@ -35,6 +35,4 @@ class BubbleSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             line highlighted HighlightOption.LINE
         )
     }
-
-
 }
