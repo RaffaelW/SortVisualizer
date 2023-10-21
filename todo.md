@@ -9,7 +9,6 @@
   + Quick Sort
   + Radix Sort
   + Counting Sort
-  + Natural MergeSort
   + Tim Sort
   + Bogo Sort
   + Shaker Sort
@@ -25,7 +24,6 @@
 ## Doing
 
 + optimize SurfaceView for multiple CPUs (already wasted 4h here...)
-+ count comparisons and array accesses in MergeSort
 
 ## Done
 
@@ -38,6 +36,12 @@
 + button to restore default values for delay, listSize
 + full screen
 + choose better fitting delay values
++ Implemented Algorithms:
+  + InsertionSort
+  + SelectionSort
+  + BubbleSort
+  + HeapSort
+  + MergeSort
 + resolved bugs:
   + java.lang.IllegalStateException: Surface has already been released
     (ChartSurfaceView, l. 138)
