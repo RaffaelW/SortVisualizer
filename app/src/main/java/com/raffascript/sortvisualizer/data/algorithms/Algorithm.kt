@@ -97,8 +97,8 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
         return this
     }
 
-    protected fun <T> T.alsoIncComparisons(): T {
-        comparisons++
+    protected fun <T> T.alsoIncComparisons(number: Long = 1): T {
+        comparisons += number
         return this
     }
 
