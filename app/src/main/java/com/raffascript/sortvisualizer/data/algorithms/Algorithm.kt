@@ -17,8 +17,6 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
     private var delayMillis = delay.inWholeMilliseconds
     private var isDelayNotZero = delayMillis != 0L
 
-    private var progress = AlgorithmProgress(list, state, emptyList(), 0, 0)
-
     private var arrayAccesses = 0L
     private var comparisons = 0L
 
@@ -27,7 +25,24 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
 
     fun getListValue() = list.clone()
 
-    suspend fun getProgress(): Flow<AlgorithmProgress> = flow {
+    suspend fun getProgressFlow(): Flow<AlgorithmProgress> = flow {
+        var progress = AlgorithmProgress(list, state, emptyList(), 0, 0)
+
+        fun getUpdatedProgress(
+            list: IntArray = progress.list,
+            state: AlgorithmState = progress.state,
+            highlights: List<Highlight> = progress.highlights,
+        ): AlgorithmProgress {
+            progress = progress.copy(
+                list = list,
+                state = state,
+                highlights = highlights,
+                arrayAccesses = arrayAccesses,
+                comparisons = comparisons
+            )
+            return progress
+        }
+
         state = AlgorithmState.READY
         emit(getUpdatedProgress(list, state, emptyList()))
 
@@ -85,21 +100,6 @@ abstract class Algorithm(protected var list: IntArray, delay: Duration) {
     protected fun <T> T.alsoIncComparisons(): T {
         comparisons++
         return this
-    }
-
-    private fun getUpdatedProgress(
-        list: IntArray = progress.list,
-        state: AlgorithmState = progress.state,
-        highlights: List<Highlight> = progress.highlights,
-    ): AlgorithmProgress {
-        progress = progress.copy(
-            list = list,
-            state = state,
-            highlights = highlights,
-            arrayAccesses = arrayAccesses,
-            comparisons = comparisons
-        )
-        return progress
     }
 
     @JvmName("algorithm_wait")
