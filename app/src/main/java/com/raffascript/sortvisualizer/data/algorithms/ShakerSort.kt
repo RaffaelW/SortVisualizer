@@ -9,14 +9,14 @@ class ShakerSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
 
     override suspend fun FlowCollector<AlgorithmProgress>.sort(progressHandler: AlgorithmProgressHandler) {
         var swapped = true
-        var startIndex = 1
+        var startIndex = 0
         var endIndex = list.size - 1
 
         while (swapped) {
             swapped = false
 
             // loop from left to right
-            for (i in startIndex..endIndex) {
+            for (i in startIndex until endIndex) {
                 val left = list[i]
                 val right = list[i + 1]
                 if (left > right) {
