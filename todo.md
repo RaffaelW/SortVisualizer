@@ -9,7 +9,8 @@
   + Quick Sort
   + Radix Sort
   + Counting Sort
-  + (Tim Sort)
+  + Natural MergeSort
+  + Tim Sort
   + Bogo Sort
   + Shaker Sort
   + Shell Sort
@@ -23,8 +24,8 @@
 
 ## Doing
 
-+ optimize SurfaceView for multiple CPUs (already wasted 4 hours here)
-+ implement Merge Sort
++ optimize SurfaceView for multiple CPUs (already wasted 4h here...)
++ add ProgressHandler to Merge Sort
 
 ## Done
 
