@@ -12,42 +12,37 @@ class ShakerSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         var startIndex = 0
         var endIndex = list.size - 1
 
+        fun swapIfUnordered(index: Int) {
+            val left = list[index]
+            val right = list[index + 1]
+            if (left > right) {
+                list[index + 1] = left
+                list[index] = right
+                swapped = true
+            }
+        }
+
         while (swapped) {
             swapped = false
 
             // loop from left to right
             for (i in startIndex until endIndex) {
-                val left = list[i]
-                val right = list[i + 1]
-                if (left > right) {
-                    list[i + 1] = left
-                    list[i] = right
-                    swapped = true
-                }
+                swapIfUnordered(i)
             }
 
             if (!swapped) {
                 progressHandler.onFinish()
                 break
             }
-            swapped = false
 
-            // last element is sorted
-            endIndex--
+            swapped = false
+            endIndex-- // last element is sorted
 
             // loop from right to left
             for (i in (endIndex - 1) downTo startIndex) {
-                val left = list[i]
-                val right = list[i + 1]
-                if (left > right) {
-                    list[i + 1] = left
-                    list[i] = right
-                    swapped = true
-                }
+                swapIfUnordered(i)
             }
-
-            // first element sorted
-            startIndex++
+            startIndex++ // first element is sorted
         }
 
     }
