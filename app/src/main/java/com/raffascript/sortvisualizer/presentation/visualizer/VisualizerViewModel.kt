@@ -8,6 +8,9 @@ import com.raffascript.sortvisualizer.data.algorithms.Algorithm
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesRepository
 import com.raffascript.sortvisualizer.data.viszualization.DelayValue
+import com.raffascript.sortvisualizer.data.viszualization.HighlightOption
+import com.raffascript.sortvisualizer.device.ServiceProvider
+import com.raffascript.sortvisualizer.device.SoundPlayer
 import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -33,11 +36,19 @@ class VisualizerViewModel(
 
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData, sortingList = algorithm.getListValue()))
     val uiState = combine(_uiState, userPreferences) { state, userPreferences ->
-        state.copy(
+        if (_uiState.value.sliderDelay != state.sliderDelay) {
+            soundPlayer = ServiceProvider.getSoundPlayer(state.sliderDelay.asDuration())
+            soundPlayer.start()
+        }
+        return@combine state.copy(
             sliderDelay = userPreferences.delay,
             listSize = userPreferences.listSize,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _uiState.asStateFlow().value)
+
+    private var soundPlayer: SoundPlayer = ServiceProvider.getSoundPlayer(uiState.value.sliderDelay.asDuration()).also {
+        it.start()
+    }
 
     @OptIn(DelicateCoroutinesApi::class)
     private val algorithmThread = newSingleThreadContext("Algorithm")
@@ -88,6 +99,12 @@ class VisualizerViewModel(
                     comparisonCount = progress.comparisons
                 )
             }
+
+            val frequency =
+                progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index?.times(
+                    1000
+                )?: 1000
+            soundPlayer.play(frequency.toFloat())
         }
     }
 
