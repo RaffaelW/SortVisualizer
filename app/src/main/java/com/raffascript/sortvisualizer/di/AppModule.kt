@@ -4,8 +4,10 @@ import android.content.Context
 import com.raffascript.sortvisualizer.core.data.AlgorithmRegister
 import com.raffascript.sortvisualizer.visualization.data.preferences.UserPreferencesDataSource
 import com.raffascript.sortvisualizer.visualization.data.preferences.UserPreferencesRepository
+import com.raffascript.sortvisualizer.visualization.domain.ChangeDelayUseCase
 import com.raffascript.sortvisualizer.visualization.domain.ChangeListSizeUseCase
 import com.raffascript.sortvisualizer.visualization.domain.FormatListSizeInputUseCase
+import com.raffascript.sortvisualizer.visualization.domain.LoadUserPreferencesUseCase
 import com.raffascript.sortvisualizer.visualization.domain.ValidateListSizeUseCase
 
 interface AppModule {
@@ -15,6 +17,8 @@ interface AppModule {
     val changeListSizeUseCase: ChangeListSizeUseCase
     val formatListSizeInputUseCase: FormatListSizeInputUseCase
     val validateListSizeUseCase: ValidateListSizeUseCase
+    val changeDelayUseCase: ChangeDelayUseCase
+    val loadUserPreferencesUseCase: LoadUserPreferencesUseCase
 }
 
 class AppModuleImpl(private val context: Context) : AppModule {
@@ -35,5 +39,11 @@ class AppModuleImpl(private val context: Context) : AppModule {
     }
     override val validateListSizeUseCase: ValidateListSizeUseCase by lazy {
         ValidateListSizeUseCase()
+    }
+    override val changeDelayUseCase: ChangeDelayUseCase by lazy {
+        ChangeDelayUseCase(userPreferencesRepository)
+    }
+    override val loadUserPreferencesUseCase: LoadUserPreferencesUseCase by lazy {
+        LoadUserPreferencesUseCase(userPreferencesRepository)
     }
 }

@@ -14,8 +14,9 @@ import com.raffascript.sortvisualizer.shuffledListOfSize
 import com.raffascript.sortvisualizer.visualization.data.DelayValue
 import com.raffascript.sortvisualizer.visualization.data.HighlightOption
 import com.raffascript.sortvisualizer.visualization.data.preferences.UserPreferencesDataSource
-import com.raffascript.sortvisualizer.visualization.data.preferences.UserPreferencesRepository
+import com.raffascript.sortvisualizer.visualization.domain.ChangeDelayUseCase
 import com.raffascript.sortvisualizer.visualization.domain.ChangeListSizeUseCase
+import com.raffascript.sortvisualizer.visualization.domain.LoadUserPreferencesUseCase
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.*
@@ -27,8 +28,9 @@ import kotlin.time.Duration
 class VisualizerViewModel(
     savedStateHandle: SavedStateHandle,
     algorithmRegister: AlgorithmRegister,
-    private val userPreferencesRepository: UserPreferencesRepository,
-    private val changeListSizeUseCase: ChangeListSizeUseCase
+    loadUserPreferencesUseCase: LoadUserPreferencesUseCase,
+    private val changeListSizeUseCase: ChangeListSizeUseCase,
+    private val changeDelayUseCase: ChangeDelayUseCase
 ) : ViewModel() {
 
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
@@ -36,7 +38,7 @@ class VisualizerViewModel(
 
     private var algorithm = getAlgorithmImpl(UserPreferencesDataSource.DEFAULT_LIST_SIZE, DelayValue.default.asDuration())
 
-    private val userPreferences = userPreferencesRepository.getUserPreferencesFlow()
+    private val userPreferences = loadUserPreferencesUseCase()
 
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData, sortingList = algorithm.getListValue()))
     val uiState = combine(_uiState, userPreferences) { state, userPreferences ->
@@ -127,7 +129,7 @@ class VisualizerViewModel(
             it.copy(sliderDelay = delay)
         }
         viewModelScope.launch {
-            userPreferencesRepository.saveDelay(delay)
+            changeDelayUseCase(delay)
         }
     }
 

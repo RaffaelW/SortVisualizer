@@ -42,8 +42,9 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
                 VisualizerViewModel(
                     it,
                     MyApp.appModule.algorithmRegister,
-                    MyApp.appModule.userPreferencesRepository,
-                    MyApp.appModule.changeListSizeUseCase
+                    MyApp.appModule.loadUserPreferencesUseCase,
+                    MyApp.appModule.changeListSizeUseCase,
+                    MyApp.appModule.changeDelayUseCase,
                 )
             })
             val state by viewModel.uiState.collectAsStateWithLifecycle()
