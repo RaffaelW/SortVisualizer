@@ -12,6 +12,7 @@ import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 import com.raffascript.sortvisualizer.data.viszualization.HighlightOption
 import com.raffascript.sortvisualizer.device.ServiceProvider
 import com.raffascript.sortvisualizer.device.SoundPlayer
+import com.raffascript.sortvisualizer.domain.CheckListSizeInputUseCase
 import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -25,6 +26,7 @@ import kotlin.time.Duration
 class VisualizerViewModel(
     savedStateHandle: SavedStateHandle,
     algorithmRegister: AlgorithmRegister,
+    private val checkListSizeInputUseCase: CheckListSizeInputUseCase,
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
@@ -129,7 +131,7 @@ class VisualizerViewModel(
     }
 
     private fun changeListSizeInput(input: String) {
-        val isValidInput = userPreferencesRepository.isValidListSizeInput(input)
+        val isValidInput = checkListSizeInputUseCase(input)
         _uiState.update {
             it.copy(isInputListSizeValid = isValidInput)
         }
