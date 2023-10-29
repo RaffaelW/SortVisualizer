@@ -8,9 +8,11 @@ import android.util.Log
 import kotlin.math.sin
 import kotlin.time.Duration
 
-class SoundGenerator(val soundDuration: Duration) : SoundPlayer {
+class SoundGenerator(toneDuration: Duration) : SoundPlayer {
 
-    private val duration = soundDuration.inWholeMilliseconds
+    override val soundDuration: Duration  = toneDuration
+
+    private val duration = toneDuration.inWholeMilliseconds
     private val sampleRate = 8000
     private val numSamples = ((duration / 1000.0) * sampleRate).toInt()
 

@@ -11,7 +11,6 @@ import com.raffascript.sortvisualizer.data.preferences.UserPreferencesRepository
 import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 import com.raffascript.sortvisualizer.data.viszualization.HighlightOption
 import com.raffascript.sortvisualizer.device.ServiceProvider
-import com.raffascript.sortvisualizer.device.SoundGenerator
 import com.raffascript.sortvisualizer.device.SoundPlayer
 import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
@@ -38,7 +37,7 @@ class VisualizerViewModel(
 
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData, sortingList = algorithm.getListValue()))
     val uiState = combine(_uiState, userPreferences) { state, userPreferences ->
-        if ((soundPlayer as SoundGenerator).soundDuration != userPreferences.delay.asDuration()) {
+        if (soundPlayer.soundDuration != userPreferences.delay.asDuration()) {
             soundPlayer = ServiceProvider.getSoundPlayer(userPreferences.delay.asDuration())
             soundPlayer.start()
         }
