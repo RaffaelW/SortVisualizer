@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raffascript.sortvisualizer.convert
+import com.raffascript.sortvisualizer.core.util.Resource
 import com.raffascript.sortvisualizer.data.algorithm_data.AlgorithmRegister
 import com.raffascript.sortvisualizer.data.algorithms.Algorithm
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
@@ -12,7 +13,7 @@ import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 import com.raffascript.sortvisualizer.data.viszualization.HighlightOption
 import com.raffascript.sortvisualizer.device.ServiceProvider
 import com.raffascript.sortvisualizer.device.SoundPlayer
-import com.raffascript.sortvisualizer.domain.CheckListSizeInputUseCase
+import com.raffascript.sortvisualizer.domain.ChangeListSizeUseCase
 import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -26,8 +27,8 @@ import kotlin.time.Duration
 class VisualizerViewModel(
     savedStateHandle: SavedStateHandle,
     algorithmRegister: AlgorithmRegister,
-    private val checkListSizeInputUseCase: CheckListSizeInputUseCase,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
+    private val changeListSizeUseCase: ChangeListSizeUseCase
 ) : ViewModel() {
 
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
@@ -131,13 +132,11 @@ class VisualizerViewModel(
     }
 
     private fun changeListSizeInput(input: String) {
-        val isValidInput = checkListSizeInputUseCase(input)
-        _uiState.update {
-            it.copy(isInputListSizeValid = isValidInput)
-        }
-        if (isValidInput) {
-            viewModelScope.launch {
-                userPreferencesRepository.saveListSize(input.toInt())
+        viewModelScope.launch {
+            val result = changeListSizeUseCase(input)
+            val isSuccess = result is Resource.Success
+            _uiState.update {
+                it.copy(isInputListSizeValid = isSuccess)
             }
         }
     }
