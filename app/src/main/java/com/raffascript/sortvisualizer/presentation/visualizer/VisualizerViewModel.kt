@@ -3,6 +3,7 @@ package com.raffascript.sortvisualizer.presentation.visualizer
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.raffascript.sortvisualizer.convert
 import com.raffascript.sortvisualizer.data.algorithm_data.AlgorithmRegister
 import com.raffascript.sortvisualizer.data.algorithms.Algorithm
 import com.raffascript.sortvisualizer.data.preferences.UserPreferencesDataSource
@@ -10,6 +11,7 @@ import com.raffascript.sortvisualizer.data.preferences.UserPreferencesRepository
 import com.raffascript.sortvisualizer.data.viszualization.DelayValue
 import com.raffascript.sortvisualizer.data.viszualization.HighlightOption
 import com.raffascript.sortvisualizer.device.ServiceProvider
+import com.raffascript.sortvisualizer.device.SoundGenerator
 import com.raffascript.sortvisualizer.device.SoundPlayer
 import com.raffascript.sortvisualizer.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.shuffledListOfSize
@@ -36,8 +38,8 @@ class VisualizerViewModel(
 
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData, sortingList = algorithm.getListValue()))
     val uiState = combine(_uiState, userPreferences) { state, userPreferences ->
-        if (_uiState.value.sliderDelay != state.sliderDelay) {
-            soundPlayer = ServiceProvider.getSoundPlayer(state.sliderDelay.asDuration())
+        if ((soundPlayer as SoundGenerator).soundDuration != userPreferences.delay.asDuration()) {
+            soundPlayer = ServiceProvider.getSoundPlayer(userPreferences.delay.asDuration())
             soundPlayer.start()
         }
         return@combine state.copy(
@@ -100,11 +102,12 @@ class VisualizerViewModel(
                 )
             }
 
-            val frequency =
-                progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index?.times(
-                    1000
-                )?: 1000
-            soundPlayer.play(frequency.toFloat())
+            var index = progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index
+            if (index != null) {
+                index = if (index > progress.list.lastIndex) progress.list.lastIndex else if (index < 0) 0 else index
+                val frequency = progress.list.indices.convert(progress.list[index], 200..10000)
+                soundPlayer.play(frequency)
+            }
         }
     }
 

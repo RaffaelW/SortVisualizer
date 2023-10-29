@@ -8,7 +8,7 @@ import android.util.Log
 import kotlin.math.sin
 import kotlin.time.Duration
 
-class SoundGenerator(soundDuration: Duration) : SoundPlayer {
+class SoundGenerator(val soundDuration: Duration) : SoundPlayer {
 
     private val duration = soundDuration.inWholeMilliseconds
     private val sampleRate = 8000
@@ -17,19 +17,19 @@ class SoundGenerator(soundDuration: Duration) : SoundPlayer {
     private val sample = DoubleArray(numSamples)
     private val generatedSound = ByteArray(2 * numSamples)
 
-    private val frequencies = mutableListOf<Float>()
+    private var frequency: Float? = null
     private val audioTrack = buildAudioTrack()
 
     private var isRunning = false
     private val generator = Thread {
 //        Thread.currentThread().priority = Thread.MIN_PRIORITY
-        Log.d("SoundGenerator", "SoundGenerator thread started")
+        Log.d("SoundGenerator", "SoundGenerator thread started, duration: $duration ms")
         audioTrack.play()
         while (isRunning) {
-            if (frequencies.isNotEmpty()) {
-                generateTone(frequencies[0])
-                Log.d("SoundGenerator", "Playing tone, frequency: ${frequencies[0]}")
-                frequencies.removeAt(0)
+            frequency?.let { freq ->
+                this.frequency = null
+                generateTone(freq)
+                Log.d("SoundGenerator", "Playing tone, frequency: $freq")
                 audioTrack.write(generatedSound, 0, generatedSound.size)
             }
         }
@@ -43,10 +43,13 @@ class SoundGenerator(soundDuration: Duration) : SoundPlayer {
 
     override fun stop() {
         isRunning = false
+        audioTrack.stop()
+        audioTrack.release()
     }
 
     override fun play(frequency: Float) {
-        frequencies.add(frequency)
+        audioTrack.flush()
+        this.frequency = frequency
         Log.d("SoundGenerator", "Adding tone")
     }
 
