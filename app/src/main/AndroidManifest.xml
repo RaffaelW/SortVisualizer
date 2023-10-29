@@ -14,7 +14,7 @@
             android:theme="@style/Theme.SortingAlgorithmsVisualizer"
             tools:targetApi="31">
         <activity
-                android:name=".presentation.MainActivity"
+                android:name=".core.presentation.MainActivity"
                 android:exported="true"
                 android:configChanges="orientation"
                 android:theme="@style/Theme.SortingAlgorithmsVisualizer">
