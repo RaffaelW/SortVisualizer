@@ -4,7 +4,6 @@
 
 + bugs: no known bugs
 + (show description of algorithm)
-+ sounds
 + button in bottom bar to disable the sound
 + Implement Algorithms:
   + Quick Sort
@@ -24,6 +23,8 @@
 ## Doing
 
 + optimize SurfaceView for multiple CPUs (already wasted 4h here...)
++ sounds
++ Improve code structure and implement use cases
 
 ## Done
 
