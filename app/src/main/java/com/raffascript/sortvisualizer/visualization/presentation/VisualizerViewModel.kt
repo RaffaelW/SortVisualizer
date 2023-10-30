@@ -75,7 +75,7 @@ class VisualizerViewModel(
             is VisualizerUiEvent.ChangeDelay -> changeDelay(event.delay)
             is VisualizerUiEvent.ChangeListSizeInput -> changeListSizeInput(event.input)
             is VisualizerUiEvent.Play -> startAlgorithmUseCase()
-            is VisualizerUiEvent.Pause -> pauseAlgorithmUseCase
+            is VisualizerUiEvent.Pause -> pauseAlgorithmUseCase()
             is VisualizerUiEvent.Resume -> resumeAlgorithmUseCase()
             is VisualizerUiEvent.Restart -> restartAlgorithmUseCase()
         }
