@@ -1,16 +1,12 @@
 package com.raffascript.sortvisualizer.core.data.algorithms
 
-import com.raffascript.sortvisualizer.visualization.data.AlgorithmProgress
-import com.raffascript.sortvisualizer.visualization.data.AlgorithmProgressHandler
 import com.raffascript.sortvisualizer.visualization.data.Highlight
 import com.raffascript.sortvisualizer.visualization.data.HighlightOption
 import com.raffascript.sortvisualizer.visualization.data.highlighted
-import kotlinx.coroutines.flow.FlowCollector
-import kotlin.time.Duration
 
-class ShakerSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
+class ShakerSort(list: IntArray) : Algorithm(list) {
 
-    override suspend fun FlowCollector<AlgorithmProgress>.sort(progressHandler: AlgorithmProgressHandler) {
+    override suspend fun sort(defineStep: StepCallback, defineEnd: suspend () -> Unit) {
         var swapped = true
         var startIndex = 0
         var endIndex = list.size - 1
@@ -23,7 +19,7 @@ class ShakerSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
                 list[index] = right.alsoIncArrayAccess()
                 swapped = true
             }
-            progressHandler.onStep(*getHighlights(highlightedIndex, startIndex - 1, endIndex))
+            defineStep(getHighlights(highlightedIndex, startIndex - 1, endIndex))
         }
 
         while (swapped) {
@@ -35,7 +31,7 @@ class ShakerSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             }
 
             if (!swapped) {
-                progressHandler.onFinish()
+                defineEnd()
                 break
             }
 
@@ -48,11 +44,11 @@ class ShakerSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             }
             startIndex++ // first element is sorted
         }
-        progressHandler.onFinish()
+        defineEnd()
     }
 
-    private fun getHighlights(primary: Int, leftLine: Int, rightLine: Int): Array<Highlight> {
-        return arrayOf(
+    private fun getHighlights(primary: Int, leftLine: Int, rightLine: Int): List<Highlight> {
+        return listOf(
             primary highlighted HighlightOption.COLOURED_PRIMARY,
             leftLine highlighted HighlightOption.LINE,
             rightLine highlighted HighlightOption.LINE

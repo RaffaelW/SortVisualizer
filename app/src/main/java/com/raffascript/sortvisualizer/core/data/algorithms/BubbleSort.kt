@@ -6,7 +6,7 @@ import com.raffascript.sortvisualizer.visualization.data.highlighted
 
 class BubbleSort(list: IntArray) : Algorithm(list) {
 
-    override suspend fun sort(defineStep: suspend (List<Highlight>) -> Unit, defineEnd: suspend () -> Unit) {
+    override suspend fun sort(defineStep: StepCallback, defineEnd: suspend () -> Unit) {
         for (max in list.lastIndex downTo 0) {
             var swapped = false
             for (i in 0 until max) {

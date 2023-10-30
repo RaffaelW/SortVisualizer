@@ -1,37 +1,33 @@
 package com.raffascript.sortvisualizer.core.data.algorithms
 
-import com.raffascript.sortvisualizer.visualization.data.AlgorithmProgress
-import com.raffascript.sortvisualizer.visualization.data.AlgorithmProgressHandler
 import com.raffascript.sortvisualizer.visualization.data.HighlightOption
 import com.raffascript.sortvisualizer.visualization.data.highlighted
-import kotlinx.coroutines.flow.FlowCollector
-import kotlin.time.Duration
 
-class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
+class MergeSort(list: IntArray) : Algorithm(list) {
 
-    override suspend fun FlowCollector<AlgorithmProgress>.sort(progressHandler: AlgorithmProgressHandler) {
+    override suspend fun sort(defineStep: StepCallback, defineEnd: suspend () -> Unit) {
         val size = list.size
-        val sortedList = mergeSort(list, 0, size - 1, progressHandler)
-        finish(sortedList, progressHandler)
+        val sortedList = mergeSort(list, 0, size - 1, defineStep)
+
+        System.arraycopy(sortedList, 0, list, 0, size)
+        defineEnd()
     }
 
-    private suspend fun mergeSort(
-        array: IntArray, left: Int, right: Int, progressHandler: AlgorithmProgressHandler
-    ): IntArray {
+    private suspend fun mergeSort(array: IntArray, left: Int, right: Int, defineStep: StepCallback): IntArray {
         if (left == right.alsoIncComparisons()) return intArrayOf(array[left].alsoIncArrayAccess())
 
         val middle = left + (right - left) / 2
-        val leftArray = mergeSort(array, left, middle, progressHandler)
-        val rightArray = mergeSort(array, middle + 1, right, progressHandler)
-        updateProgress(array, 0, left, right, progressHandler)
-        return merge(leftArray, rightArray, left, progressHandler)
+        val leftArray = mergeSort(array, left, middle, defineStep)
+        val rightArray = mergeSort(array, middle + 1, right, defineStep)
+        updateListAndDefineStep(array, 0, left, right, defineStep)
+        return merge(leftArray, rightArray, left, defineStep)
     }
 
     private suspend fun merge(
         leftArray: IntArray,
         rightArray: IntArray,
         position: Int, // only to know how to combine the start array with the right and left array to update the ui
-        progressHandler: AlgorithmProgressHandler
+        defineStep: StepCallback
     ): IntArray {
         val leftSize = leftArray.size
         val rightSize = rightArray.size
@@ -49,12 +45,8 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
                 if (value == -1) replacingArray[index]
                 else value
             }.toIntArray()
-            updateProgress(
-                array,
-                position,
-                position + targetPos,
-                secondaryIndex,
-                progressHandler
+            updateListAndDefineStep(
+                array, position, position + targetPos, secondaryIndex, defineStep
             )
         }
 
@@ -89,29 +81,24 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             targetPos++
             rightPos++
         }
-        updateProgress(target, position, position + targetPos, position + rightPos, progressHandler)
+        updateListAndDefineStep(target, position, position + targetPos, position + rightPos, defineStep)
         return target
     }
 
-    private suspend fun updateProgress(
+    private suspend fun updateListAndDefineStep(
         listPart: IntArray,
         partStart: Int,
         currentIndex: Int,
         secondaryIndex: Int? = null,
-        progressHandler: AlgorithmProgressHandler
+        defineStep: StepCallback
     ) {
         System.arraycopy(listPart, 0, list, partStart, listPart.size)
-        var highlights = arrayOf(
+        val highlights = mutableListOf(
             currentIndex highlighted HighlightOption.COLOURED_PRIMARY,
         )
         if (secondaryIndex != null) {
             highlights += secondaryIndex highlighted HighlightOption.COLOURED_SECONDARY
         }
-        progressHandler.onStep(*highlights)
-    }
-
-    private suspend fun finish(finalList: IntArray, progressHandler: AlgorithmProgressHandler) {
-        System.arraycopy(finalList, 0, list, 0, finalList.size)
-        progressHandler.onFinish()
+        defineStep(highlights)
     }
 }

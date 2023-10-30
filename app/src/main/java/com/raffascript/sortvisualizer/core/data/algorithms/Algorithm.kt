@@ -2,6 +2,9 @@ package com.raffascript.sortvisualizer.core.data.algorithms
 
 import com.raffascript.sortvisualizer.visualization.data.Highlight
 
+
+typealias StepCallback = suspend (List<Highlight>) -> Unit
+
 abstract class Algorithm(protected var list: IntArray) {
 
     private var arrayAccesses = 0L
@@ -26,7 +29,7 @@ abstract class Algorithm(protected var list: IntArray) {
         )
     }
 
-    protected abstract suspend fun sort(defineStep: suspend (List<Highlight>) -> Unit, defineEnd: suspend () -> Unit)
+    protected abstract suspend fun sort(defineStep: StepCallback, defineEnd: suspend () -> Unit)
 
     protected fun <T> T.alsoIncArrayAccess(number: Long = 1): T {
         arrayAccesses += number
