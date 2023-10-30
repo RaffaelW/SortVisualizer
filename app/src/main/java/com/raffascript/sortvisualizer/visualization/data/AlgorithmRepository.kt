@@ -31,7 +31,9 @@ class AlgorithmRepository(
                 delayMillis = preferences.delay.millis
                 if (listSize != preferences.listSize) {
                     listSize = preferences.listSize
-                    setAlgorithm(algorithm::class)
+                    if (::algorithm.isInitialized) {
+                        setAlgorithm(algorithm::class)
+                    }
                 }
             }
         }
