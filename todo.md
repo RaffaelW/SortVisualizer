@@ -26,7 +26,7 @@
 + sounds
 + bugs:
   + chart is black when the application is opened first
-  + restart the algorithm
+  + restart the algorithm when requested
 
 ## Done
 
