@@ -3,7 +3,6 @@
 ## To do
 
 + bugs: no known bugs
-+ Split dependency injection into different files
 + (show description of algorithm)
 + button in bottom bar to disable the sound
 + Implement Algorithms:
@@ -39,6 +38,7 @@
 + migrate Algorithms to new code structure
 + Improve code structure and implement use cases
 + choose better fitting delay values
++ Split dependency injection module into different files
 + Implemented Algorithms:
   + InsertionSort
   + SelectionSort

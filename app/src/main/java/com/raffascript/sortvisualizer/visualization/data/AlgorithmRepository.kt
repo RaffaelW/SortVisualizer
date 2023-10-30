@@ -1,7 +1,7 @@
 package com.raffascript.sortvisualizer.visualization.data
 
 import com.raffascript.sortvisualizer.core.data.algorithms.Algorithm
-import com.raffascript.sortvisualizer.visualization.domain.LoadUserPreferencesUseCase
+import com.raffascript.sortvisualizer.visualization.data.preferences.UserPreferencesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 class AlgorithmRepository(
-    private val loadUserPreferencesUseCase: LoadUserPreferencesUseCase
+    private val userPreferencesRepository: UserPreferencesRepository
 ) {
 
     private lateinit var algorithm: Algorithm
@@ -27,7 +27,7 @@ class AlgorithmRepository(
 
     init {
         CoroutineScope(Dispatchers.Default).launch {
-            loadUserPreferencesUseCase().collect { preferences ->
+            userPreferencesRepository.getUserPreferencesFlow().collect { preferences ->
                 delayMillis = preferences.delay.millis
                 if (listSize != preferences.listSize) {
                     listSize = preferences.listSize
