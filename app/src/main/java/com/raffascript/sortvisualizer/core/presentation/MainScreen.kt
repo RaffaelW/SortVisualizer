@@ -42,15 +42,15 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
                 VisualizerViewModel(
                     it,
                     MyApp.appModule.algorithmRegister,
-                    MyApp.appModule.loadUserPreferencesUseCase,
-                    MyApp.appModule.setAlgorithmUseCase,
-                    MyApp.appModule.startAlgorithmUseCase,
-                    MyApp.appModule.pauseAlgorithmUseCase,
-                    MyApp.appModule.resumeAlgorithmUseCase,
-                    MyApp.appModule.restartAlgorithmUseCase,
-                    MyApp.appModule.getAlgorithmProgressFlowUseCase,
-                    MyApp.appModule.changeListSizeUseCase,
-                    MyApp.appModule.changeDelayUseCase,
+                    MyApp.useCaseModule.loadUserPreferencesUseCase,
+                    MyApp.useCaseModule.setAlgorithmUseCase,
+                    MyApp.useCaseModule.startAlgorithmUseCase,
+                    MyApp.useCaseModule.pauseAlgorithmUseCase,
+                    MyApp.useCaseModule.resumeAlgorithmUseCase,
+                    MyApp.useCaseModule.restartAlgorithmUseCase,
+                    MyApp.useCaseModule.getAlgorithmProgressFlowUseCase,
+                    MyApp.useCaseModule.changeListSizeUseCase,
+                    MyApp.useCaseModule.changeDelayUseCase,
                 )
             })
             val state by viewModel.uiState.collectAsStateWithLifecycle()
