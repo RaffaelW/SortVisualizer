@@ -24,6 +24,9 @@
 
 + optimize SurfaceView for multiple CPUs (already wasted 4h here...)
 + sounds
++ bugs:
+  + chart is black when the application is opened first
+  + restart the algorithm
 
 ## Done
 
