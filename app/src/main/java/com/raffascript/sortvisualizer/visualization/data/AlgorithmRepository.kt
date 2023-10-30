@@ -113,6 +113,7 @@ class AlgorithmRepository(
                     getUpdatedProgress(
                         list = list,
                         state = state,
+                        highlights = emptyList(),
                         arrayAccesses = arrayAccesses,
                         comparisons = comparisons
                     )
