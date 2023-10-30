@@ -107,7 +107,7 @@ class MergeSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         if (secondaryIndex != null) {
             highlights += secondaryIndex highlighted HighlightOption.COLOURED_SECONDARY
         }
-        progressHandler.onProgressChanged(*highlights)
+        progressHandler.onStep(*highlights)
     }
 
     private suspend fun finish(finalList: IntArray, progressHandler: AlgorithmProgressHandler) {

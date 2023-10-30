@@ -15,7 +15,7 @@ class SelectionSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
             var minPos = i
             var min = list[minPos].alsoIncArrayAccess()
             for (j in i + 1..list.lastIndex) {
-                progressHandler.onProgressChanged(*getHighlights(j, minPos, i))
+                progressHandler.onStep(*getHighlights(j, minPos, i))
                 if (list[j] < min.alsoIncArrayAccess().alsoIncComparisons()) {
                     minPos = j
                     min = list[minPos].alsoIncArrayAccess()
@@ -26,7 +26,7 @@ class SelectionSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
                 list[minPos] = list[i].alsoIncArrayAccess(2L)
                 list[i] = min.alsoIncArrayAccess()
             }
-            progressHandler.onProgressChanged(*getHighlights(i, null, i))
+            progressHandler.onStep(*getHighlights(i, null, i))
         }
         progressHandler.onFinish()
     }

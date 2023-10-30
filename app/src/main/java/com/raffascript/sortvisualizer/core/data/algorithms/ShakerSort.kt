@@ -23,7 +23,7 @@ class ShakerSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
                 list[index] = right.alsoIncArrayAccess()
                 swapped = true
             }
-            progressHandler.onProgressChanged(*getHighlights(highlightedIndex, startIndex - 1, endIndex))
+            progressHandler.onStep(*getHighlights(highlightedIndex, startIndex - 1, endIndex))
         }
 
         while (swapped) {

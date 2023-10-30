@@ -3,6 +3,7 @@
 ## To do
 
 + bugs: no known bugs
++ Split dependency injection into different files
 + (show description of algorithm)
 + button in bottom bar to disable the sound
 + Implement Algorithms:

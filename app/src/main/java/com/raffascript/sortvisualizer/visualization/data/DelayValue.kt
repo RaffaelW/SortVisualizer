@@ -3,20 +3,20 @@ package com.raffascript.sortvisualizer.visualization.data
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-enum class DelayValue(val millis: Float) {
-    DELAY_0(0f),
-    DELAY_1(1f),
-    DELAY_2(2f),
-    DELAY_3(3f),
-    DELAY_4(4f),
-    DELAY_5(5f),
-    DELAY_10(10f),
-    DELAY_50(50f),
-    DELAY_100(100f),
-    DELAY_500(500f),
-    DELAY_1000(1000f),
-    DELAY_1500(1500f),
-    DELAY_2000(2000f);
+enum class DelayValue(val millis: Int) {
+    DELAY_0(0),
+    DELAY_1(1),
+    DELAY_2(2),
+    DELAY_3(3),
+    DELAY_4(4),
+    DELAY_5(5),
+    DELAY_10(10),
+    DELAY_50(50),
+    DELAY_100(100),
+    DELAY_500(500),
+    DELAY_1000(1000),
+    DELAY_1500(1500),
+    DELAY_2000(2000);
 
     fun asDuration(): Duration {
         return millis.toDouble().milliseconds

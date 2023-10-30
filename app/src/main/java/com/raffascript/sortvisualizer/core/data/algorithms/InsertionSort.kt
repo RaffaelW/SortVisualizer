@@ -14,12 +14,12 @@ class InsertionSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
         for (i in 1 until list.size) {
             val item = list[i].alsoIncArrayAccess()
             var j = i
-            progressHandler.onProgressChanged(*getHighlights(j, i))
+            progressHandler.onStep(*getHighlights(j, i))
             while (j > 0.alsoIncComparisons() && item < list[j - 1].alsoIncArrayAccess().alsoIncComparisons()) {
                 list[j] = list[j - 1].alsoIncArrayAccess(2L)
                 j--
                 list[j] = item.alsoIncArrayAccess()
-                progressHandler.onProgressChanged(*getHighlights(j, i))
+                progressHandler.onStep(*getHighlights(j, i))
             }
         }
         progressHandler.onFinish()

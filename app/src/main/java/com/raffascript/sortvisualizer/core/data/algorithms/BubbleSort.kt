@@ -1,20 +1,16 @@
 package com.raffascript.sortvisualizer.core.data.algorithms
 
-import com.raffascript.sortvisualizer.visualization.data.AlgorithmProgress
-import com.raffascript.sortvisualizer.visualization.data.AlgorithmProgressHandler
 import com.raffascript.sortvisualizer.visualization.data.Highlight
 import com.raffascript.sortvisualizer.visualization.data.HighlightOption
 import com.raffascript.sortvisualizer.visualization.data.highlighted
-import kotlinx.coroutines.flow.FlowCollector
-import kotlin.time.Duration
 
-class BubbleSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
+class BubbleSort(list: IntArray) : Algorithm(list) {
 
-    override suspend fun FlowCollector<AlgorithmProgress>.sort(progressHandler: AlgorithmProgressHandler) {
+    override suspend fun sort(defineStep: suspend (List<Highlight>) -> Unit, defineEnd: suspend () -> Unit) {
         for (max in list.lastIndex downTo 0) {
             var swapped = false
             for (i in 0 until max) {
-                progressHandler.onProgressChanged(*getHighlights(i, max))
+                defineStep(getHighlights(i, max))
                 val left = list[i].alsoIncArrayAccess()
                 val right = list[i + 1].alsoIncArrayAccess()
                 if (left > right.alsoIncComparisons()) {
@@ -23,14 +19,14 @@ class BubbleSort(list: IntArray, delay: Duration) : Algorithm(list, delay) {
                     swapped = true
                 }
             }
-            progressHandler.onProgressChanged(*getHighlights(max, max))
+            defineStep(getHighlights(max, max))
             if (!swapped) break
         }
-        progressHandler.onFinish()
+        defineEnd()
     }
 
-    private fun getHighlights(primary: Int, line: Int): Array<Highlight> {
-        return arrayOf(
+    private fun getHighlights(primary: Int, line: Int): List<Highlight> {
+        return listOf(
             primary highlighted HighlightOption.COLOURED_PRIMARY,
             line highlighted HighlightOption.LINE
         )

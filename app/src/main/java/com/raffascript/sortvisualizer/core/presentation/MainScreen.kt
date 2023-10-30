@@ -43,6 +43,12 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
                     it,
                     MyApp.appModule.algorithmRegister,
                     MyApp.appModule.loadUserPreferencesUseCase,
+                    MyApp.appModule.setAlgorithmUseCase,
+                    MyApp.appModule.startAlgorithmUseCase,
+                    MyApp.appModule.pauseAlgorithmUseCase,
+                    MyApp.appModule.resumeAlgorithmUseCase,
+                    MyApp.appModule.restartAlgorithmUseCase,
+                    MyApp.appModule.getAlgorithmProgressFlowUseCase,
                     MyApp.appModule.changeListSizeUseCase,
                     MyApp.appModule.changeDelayUseCase,
                 )

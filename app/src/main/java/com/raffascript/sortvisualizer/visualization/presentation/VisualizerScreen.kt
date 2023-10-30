@@ -196,8 +196,8 @@ fun BottomBar(
                 containerColor = MaterialTheme.colorScheme.primary,
                 onClick = {
                     when (algorithmState) {
-                        AlgorithmState.RUNNING, AlgorithmState.RESUMED -> VisualizerUiEvent.Pause
-                        AlgorithmState.READY -> VisualizerUiEvent.Play
+                        AlgorithmState.RUNNING -> VisualizerUiEvent.Pause
+                        AlgorithmState.READY, AlgorithmState.UNINITIALIZED -> VisualizerUiEvent.Play
                         AlgorithmState.PAUSED -> VisualizerUiEvent.Resume
                         AlgorithmState.FINISHED -> VisualizerUiEvent.Restart
                     }.run {
@@ -206,9 +206,9 @@ fun BottomBar(
                 }
             ) {
                 val (painter, descriptionId) = when (algorithmState) {
-                    AlgorithmState.READY, AlgorithmState.PAUSED -> rememberVectorPainter(Icons.Rounded.PlayArrow) to R.string.play
-                    AlgorithmState.RUNNING, AlgorithmState.RESUMED -> painterResource(id = R.drawable.ic_pause) to R.string.pause
+                    AlgorithmState.RUNNING -> painterResource(id = R.drawable.ic_pause) to R.string.pause
                     AlgorithmState.FINISHED -> painterResource(id = R.drawable.ic_replay) to R.string.replay
+                    else -> rememberVectorPainter(Icons.Rounded.PlayArrow) to R.string.play
                 }
                 Icon(painter = painter, contentDescription = stringResource(id = descriptionId))
             }
