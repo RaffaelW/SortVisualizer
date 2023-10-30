@@ -25,11 +25,9 @@
 
 + optimize SurfaceView for multiple CPUs (already wasted 4h here...)
 + sounds
-+ migrate Algorithms to new code structure
 
 ## Done
 
-+ Improve code structure and implement use cases
 + change orientation to portrait when leaving the visualizer screen in
   portrait mode
 + change color theming
@@ -38,6 +36,8 @@
 + save latest delay and list size value
 + button to restore default values for delay, listSize
 + full screen
++ migrate Algorithms to new code structure
++ Improve code structure and implement use cases
 + choose better fitting delay values
 + Implemented Algorithms:
   + InsertionSort
