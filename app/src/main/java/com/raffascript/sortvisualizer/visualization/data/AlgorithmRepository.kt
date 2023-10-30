@@ -122,9 +122,9 @@ class AlgorithmRepository(
         )
     }
 
-    private suspend fun FlowCollector<AlgorithmProgress>.waitForState(algorithmState: AlgorithmState) {
+    private suspend fun FlowCollector<AlgorithmProgress>.waitForState(requestedState: AlgorithmState) {
         val startProgress = progress.copy()
-        while (state != algorithmState) {
+        while (state != requestedState) {
             yield() // wait
             if (progress != startProgress) {
                 emit(progress)
