@@ -10,7 +10,7 @@ import kotlin.time.Duration
 
 class SoundGenerator(toneDuration: Duration) : SoundPlayer {
 
-    override val soundDuration: Duration  = toneDuration
+    override val soundDuration: Duration = toneDuration
 
     private val duration = toneDuration.inWholeMilliseconds
     private val sampleRate = 8000
@@ -23,6 +23,7 @@ class SoundGenerator(toneDuration: Duration) : SoundPlayer {
     private val audioTrack = buildAudioTrack()
 
     private var isRunning = false
+
     private val generator = Thread {
 //        Thread.currentThread().priority = Thread.MIN_PRIORITY
         Log.d("SoundGenerator", "SoundGenerator thread started, duration: $duration ms")
@@ -35,6 +36,8 @@ class SoundGenerator(toneDuration: Duration) : SoundPlayer {
                 audioTrack.write(generatedSound, 0, generatedSound.size)
             }
         }
+        audioTrack.stop()
+        audioTrack.release()
     }
 
     override fun start() {
@@ -45,8 +48,6 @@ class SoundGenerator(toneDuration: Duration) : SoundPlayer {
 
     override fun stop() {
         isRunning = false
-        audioTrack.stop()
-        audioTrack.release()
     }
 
     override fun play(frequency: Float) {
