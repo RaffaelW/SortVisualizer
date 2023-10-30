@@ -25,10 +25,11 @@
 
 + optimize SurfaceView for multiple CPUs (already wasted 4h here...)
 + sounds
-+ Improve code structure and implement use cases
++ migrate Algorithms to new code structure
 
 ## Done
 
++ Improve code structure and implement use cases
 + change orientation to portrait when leaving the visualizer screen in
   portrait mode
 + change color theming
