@@ -147,6 +147,7 @@ fun BottomBar(
     algorithmState: AlgorithmState,
     onEvent: (VisualizerUiEvent) -> Unit
 ) {
+    val activity = LocalContext.current as Activity
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.surface,
         tonalElevation = 10.dp,
@@ -163,7 +164,6 @@ fun BottomBar(
                     contentDescription = stringResource(R.string.replay)
                 )
             }
-            val activity = LocalContext.current as Activity
             IconButton(onClick = {
                 activity.requestedOrientation = if (MainActivity.isOrientationLandscape) {
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
