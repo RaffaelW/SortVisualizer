@@ -37,7 +37,7 @@ class UseCaseModuleImpl(private val appModule: AppModule) : UseCaseModule {
         ValidateListSizeUseCase()
     }
     override val changeDelayUseCase: ChangeDelayUseCase by lazy {
-        ChangeDelayUseCase(appModule.algorithmRepository, appModule.userPreferencesRepository)
+        ChangeDelayUseCase(appModule.userPreferencesRepository)
     }
     override val loadUserPreferencesUseCase: LoadUserPreferencesUseCase by lazy {
         LoadUserPreferencesUseCase(appModule.userPreferencesRepository)
