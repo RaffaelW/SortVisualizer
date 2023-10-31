@@ -81,6 +81,8 @@ class VisualizerViewModel(
             is VisualizerUiEvent.Pause -> pauseAlgorithmUseCase()
             is VisualizerUiEvent.Resume -> resumeAlgorithmUseCase()
             is VisualizerUiEvent.Restart -> restartAlgorithmUseCase()
+            is VisualizerUiEvent.TurnSoundOff -> _uiState.update { it.copy(isSoundOn = false) }
+            is VisualizerUiEvent.TurnSoundOn -> _uiState.update { it.copy(isSoundOn = true) }
         }
     }
 
@@ -96,17 +98,22 @@ class VisualizerViewModel(
                 )
             }
 
-            var index = progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index
-            if (index != null) {
-                index = if (index > progress.list.lastIndex) progress.list.lastIndex else if (index < 0) 0 else index
-                val frequency = progress.list.indices.convert(progress.list[index], 200..10000)
-                soundPlayer.play(frequency)
+            if (uiState.value.isSoundOn) {
+                progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index?.let { index ->
+                    playSound(progress.list, index)
+                }
             }
 
             if (progress.state == AlgorithmState.FINISHED) {
                 soundPlayer.stop()
             }
         }
+    }
+
+    private fun playSound(list: IntArray, index: Int) {
+        val adjustedIndex = if (index > list.lastIndex) list.lastIndex else if (index < 0) 0 else index
+        val frequency = list.indices.convert(list[adjustedIndex], 200..10000)
+        soundPlayer.play(frequency)
     }
 
     private fun changeDelay(delay: DelayValue) {

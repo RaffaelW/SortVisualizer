@@ -22,6 +22,9 @@ data class VisualizerState(
     val sliderDelay: DelayValue = DelayValue.default,
     val isInputListSizeValid: Boolean = true,
     val listSize: Int = UserPreferencesDataSource.DEFAULT_LIST_SIZE,
+
+    // other
+    val isSoundOn: Boolean = true
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
