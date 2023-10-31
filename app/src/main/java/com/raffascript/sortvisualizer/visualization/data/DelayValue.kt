@@ -19,7 +19,7 @@ enum class DelayValue(val millis: Int) {
     DELAY_2000(2000);
 
     fun asDuration(): Duration {
-        return millis.toDouble().milliseconds
+        return millis.milliseconds
     }
     companion object {
         val default = DELAY_10
