@@ -2,15 +2,10 @@ package com.raffascript.sortvisualizer.visualization.data
 
 import com.raffascript.sortvisualizer.core.data.algorithms.Algorithm
 import com.raffascript.sortvisualizer.visualization.data.preferences.UserPreferencesRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -31,11 +26,11 @@ class AlgorithmRepository(
         CoroutineScope(Dispatchers.Default).launch {
             userPreferencesRepository.getUserPreferencesFlow().collect { preferences ->
                 delayMillis = preferences.delay.millis
-                if (listSize != preferences.listSize) {
+                if (listSize != preferences.listSize && ::algorithm.isInitialized) {
                     listSize = preferences.listSize
-                    if (::algorithm.isInitialized) {
-                        isRestartRequested = true
-                    }
+                    isRestartRequested = true
+                } else {
+                    listSize = preferences.listSize
                 }
             }
         }
@@ -49,14 +44,23 @@ class AlgorithmRepository(
     }
 
     fun startAlgorithm() {
+        if (state != AlgorithmState.READY) {
+            throw IllegalStateException("Cannot start an algorithm that is not ready")
+        }
         state = AlgorithmState.RUNNING
     }
 
     fun pauseAlgorithm() {
+        if (state != AlgorithmState.RUNNING) {
+            throw IllegalStateException("Cannot pause an algorithm that is not running")
+        }
         state = AlgorithmState.PAUSED
     }
 
     fun resumeAlgorithm() {
+        if (state != AlgorithmState.PAUSED) {
+            throw IllegalStateException("Cannot resume an algorithm that is not paused")
+        }
         state = AlgorithmState.RUNNING
     }
 
@@ -82,6 +86,7 @@ class AlgorithmRepository(
     }
 
     suspend fun getProgressFlow(): Flow<AlgorithmProgress> = flow {
+        setAlgorithm(algorithm::class)
         while (true) {
             try {
                 handleStateCycle()
@@ -93,7 +98,7 @@ class AlgorithmRepository(
     }
 
     private suspend fun FlowCollector<AlgorithmProgress>.handleStateCycle() {
-        emit(getUpdatedProgress(algorithm.getListValue(), state, emptyList()))
+        emit(getUpdatedProgress(state = state))
 
         waitForState(AlgorithmState.RUNNING)
         emit(getUpdatedProgress(state = state))
