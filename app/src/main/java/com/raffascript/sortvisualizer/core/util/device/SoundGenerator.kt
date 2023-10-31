@@ -8,13 +8,21 @@ import android.util.Log
 import kotlin.math.sin
 import kotlin.time.Duration
 
-class SoundGenerator(toneDuration: Duration) : SoundPlayer {
+class SoundGenerator(override val soundDuration: Duration) : SoundPlayer {
 
-    override val soundDuration: Duration = toneDuration
+    init {
+        if (soundDuration.inWholeMilliseconds == 0L) {
+            throw IllegalArgumentException("Sound duration must not be 0")
+        }
+    }
 
-    private val duration = toneDuration.inWholeMilliseconds
+    private val duration = soundDuration.inWholeMilliseconds
     private val sampleRate = 8000
-    private val numSamples = ((duration / 1000.0) * sampleRate).toInt()
+    private val numSamples = ((duration / 1000F) * sampleRate).toInt()
+
+    init {
+        Log.d("SoundGenerator", "duration: $duration ms, numSamples: $numSamples")
+    }
 
     private val sample = DoubleArray(numSamples)
     private val generatedSound = ByteArray(2 * numSamples)
@@ -71,7 +79,7 @@ class SoundGenerator(toneDuration: Duration) : SoundPlayer {
                     .setLegacyStreamType(AudioManager.STREAM_MUSIC)
                     .build()
             )
-            setBufferSizeInBytes(generatedSound.size)
+//            setBufferSizeInBytes(generatedSound.size)
         }.build()
     }
 

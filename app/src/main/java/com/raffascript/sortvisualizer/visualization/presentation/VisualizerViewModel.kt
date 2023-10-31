@@ -3,10 +3,15 @@ package com.raffascript.sortvisualizer.visualization.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.raffascript.sortvisualizer.convert
 import com.raffascript.sortvisualizer.core.data.AlgorithmRegister
 import com.raffascript.sortvisualizer.core.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.core.util.Resource
+import com.raffascript.sortvisualizer.core.util.device.ServiceProvider
+import com.raffascript.sortvisualizer.core.util.device.SoundPlayer
+import com.raffascript.sortvisualizer.visualization.data.AlgorithmState
 import com.raffascript.sortvisualizer.visualization.data.DelayValue
+import com.raffascript.sortvisualizer.visualization.data.HighlightOption
 import com.raffascript.sortvisualizer.visualization.domain.*
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.GetAlgorithmProgressFlowUseCase
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.PauseAlgorithmUseCase
@@ -18,6 +23,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
+import kotlin.time.Duration.Companion.milliseconds
 
 class VisualizerViewModel(
     savedStateHandle: SavedStateHandle,
@@ -40,23 +46,20 @@ class VisualizerViewModel(
 
     private val _uiState = MutableStateFlow(VisualizerState(algorithmData))
     val uiState = combine(_uiState, userPreferences) { state, userPreferences ->
-/*
         if (soundPlayer.soundDuration != userPreferences.delay.asDuration()) {
-            soundPlayer = ServiceProvider.getSoundPlayer(userPreferences.delay.asDuration())
+            val soundDuration = if (userPreferences.delay.millis == 0) 1.milliseconds else userPreferences.delay.asDuration()
+            soundPlayer = ServiceProvider.getSoundPlayer(soundDuration)
             soundPlayer.start()
         }
-*/
         return@combine state.copy(
             sliderDelay = userPreferences.delay,
             listSize = userPreferences.listSize,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _uiState.asStateFlow().value)
 
-/*
     private var soundPlayer: SoundPlayer = ServiceProvider.getSoundPlayer(uiState.value.sliderDelay.asDuration()).also {
         it.start()
     }
-*/
 
     @OptIn(DelicateCoroutinesApi::class)
     private val algorithmThread = newSingleThreadContext("Algorithm")
@@ -93,7 +96,7 @@ class VisualizerViewModel(
                 )
             }
 
-            /*var index = progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index
+            var index = progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index
             if (index != null) {
                 index = if (index > progress.list.lastIndex) progress.list.lastIndex else if (index < 0) 0 else index
                 val frequency = progress.list.indices.convert(progress.list[index], 200..10000)
@@ -102,7 +105,7 @@ class VisualizerViewModel(
 
             if (progress.state == AlgorithmState.FINISHED) {
                 soundPlayer.stop()
-            }*/
+            }
         }
     }
 
