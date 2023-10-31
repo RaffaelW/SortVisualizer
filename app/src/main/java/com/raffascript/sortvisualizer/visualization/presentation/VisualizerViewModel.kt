@@ -117,8 +117,7 @@ class VisualizerViewModel(
 
     private fun changeListSizeInput(input: String) {
         viewModelScope.launch {
-            val result = changeListSizeUseCase(input)
-            val isSuccess = result is Resource.Success
+            val isSuccess = changeListSizeUseCase(input) is Resource.Success
             _uiState.update {
                 it.copy(isInputListSizeValid = isSuccess)
             }
