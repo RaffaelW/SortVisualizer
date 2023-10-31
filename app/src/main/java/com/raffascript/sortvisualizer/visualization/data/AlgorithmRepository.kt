@@ -23,6 +23,8 @@ class AlgorithmRepository(
     private var delayMillis = 0
     private var listSize = 0
 
+    private var isRestartRequested = false
+
     private lateinit var progress: AlgorithmProgress
 
     init {
@@ -32,7 +34,7 @@ class AlgorithmRepository(
                 if (listSize != preferences.listSize) {
                     listSize = preferences.listSize
                     if (::algorithm.isInitialized) {
-                        setAlgorithm(algorithm::class)
+                        isRestartRequested = true
                     }
                 }
             }
@@ -40,12 +42,7 @@ class AlgorithmRepository(
     }
 
     fun setAlgorithm(algorithmImpl: KClass<out Algorithm>) {
-        val array = IntArray(listSize).apply {
-            forEachIndexed { index, _ ->
-                this[index] = index + 1
-            }
-            shuffle()
-        }
+        val array = generateShuffledArray(listSize)
         algorithm = algorithmImpl.primaryConstructor!!.call(array)
         state = AlgorithmState.READY
         progress = AlgorithmProgress(array, state, emptyList(), 0, 0)
@@ -64,11 +61,7 @@ class AlgorithmRepository(
     }
 
     fun restartAlgorithm() {
-        setAlgorithm(algorithm::class)
-    }
-
-    fun changeDelay(delayMillis: Int) {
-        this.delayMillis = delayMillis
+        isRestartRequested = true
     }
 
     private fun getUpdatedProgress(
@@ -89,13 +82,24 @@ class AlgorithmRepository(
     }
 
     suspend fun getProgressFlow(): Flow<AlgorithmProgress> = flow {
+        while (true) {
+            try {
+                handleStateCycle()
+            } catch (e: AlgorithmCancellationException) {
+                isRestartRequested = false
+                setAlgorithm(algorithm::class)
+            }
+        }
+    }
+
+    private suspend fun FlowCollector<AlgorithmProgress>.handleStateCycle() {
         emit(getUpdatedProgress(algorithm.getListValue(), state, emptyList()))
 
         waitForState(AlgorithmState.RUNNING)
         emit(getUpdatedProgress(state = state))
 
-        algorithm.startSorting(
-            onStep = { list, highlights, arrayAccesses, comparisons ->
+        val onStep: suspend (IntArray, List<Highlight>, Long, Long) -> Unit =
+            { list, highlights, arrayAccesses, comparisons ->
                 currentCoroutineContext().ensureActive()
 
                 emit(getUpdatedProgress(list, state, highlights, arrayAccesses, comparisons))
@@ -104,22 +108,38 @@ class AlgorithmRepository(
                     waitForState(AlgorithmState.RUNNING)
                     emit(getUpdatedProgress(state = state))
                 }
+                if (isRestartRequested) {
+                    throw AlgorithmCancellationException()
+                }
 
                 wait(delayMillis)
-            },
-            onFinish = { list, arrayAccesses, comparisons ->
-                state = AlgorithmState.FINISHED
-                emit(
-                    getUpdatedProgress(
-                        list = list,
-                        state = state,
-                        highlights = emptyList(),
-                        arrayAccesses = arrayAccesses,
-                        comparisons = comparisons
-                    )
-                )
             }
-        )
+
+        val onFinish: suspend (IntArray, Long, Long) -> Unit = { list, arrayAccesses, comparisons ->
+            state = AlgorithmState.FINISHED
+            emit(
+                getUpdatedProgress(
+                    list = list,
+                    state = state,
+                    highlights = emptyList(),
+                    arrayAccesses = arrayAccesses,
+                    comparisons = comparisons
+                )
+            )
+        }
+
+        algorithm.startSorting(onStep, onFinish)
+
+        waitForState(AlgorithmState.READY)
+    }
+
+    private fun generateShuffledArray(size: Int): IntArray {
+        return IntArray(size).apply {
+            forEachIndexed { index, _ ->
+                this[index] = index + 1
+            }
+            shuffle()
+        }
     }
 
     private suspend fun FlowCollector<AlgorithmProgress>.waitForState(requestedState: AlgorithmState) {
@@ -128,6 +148,9 @@ class AlgorithmRepository(
             yield() // wait
             if (progress != startProgress) {
                 emit(progress)
+            }
+            if (isRestartRequested) {
+                throw AlgorithmCancellationException()
             }
         }
     }
