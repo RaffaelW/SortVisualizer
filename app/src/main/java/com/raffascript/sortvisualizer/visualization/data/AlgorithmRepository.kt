@@ -44,21 +44,21 @@ class AlgorithmRepository(
     }
 
     fun startAlgorithm() {
-        if (state != AlgorithmState.READY) {
+        if (state != AlgorithmState.READY && state != AlgorithmState.RUNNING) {
             throw IllegalStateException("Cannot start an algorithm that is not ready")
         }
         state = AlgorithmState.RUNNING
     }
 
     fun pauseAlgorithm() {
-        if (state != AlgorithmState.RUNNING) {
+        if (state != AlgorithmState.RUNNING && state != AlgorithmState.PAUSED) {
             throw IllegalStateException("Cannot pause an algorithm that is not running")
         }
         state = AlgorithmState.PAUSED
     }
 
     fun resumeAlgorithm() {
-        if (state != AlgorithmState.PAUSED) {
+        if (state != AlgorithmState.PAUSED && state != AlgorithmState.RUNNING) {
             throw IllegalStateException("Cannot resume an algorithm that is not paused")
         }
         state = AlgorithmState.RUNNING
