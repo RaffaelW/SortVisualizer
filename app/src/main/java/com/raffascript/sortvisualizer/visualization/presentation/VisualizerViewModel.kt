@@ -119,7 +119,7 @@ class VisualizerViewModel(
 
     private fun playSound(list: IntArray, index: Int) {
         val adjustedIndex = if (index > list.lastIndex) list.lastIndex else if (index < 0) 0 else index
-        val frequency = list.indices.convert(list[adjustedIndex], 200..10000)
+        val frequency = list.indices.convert(list[adjustedIndex], 200..2000)
         soundPlayer.play(frequency)
     }
 
