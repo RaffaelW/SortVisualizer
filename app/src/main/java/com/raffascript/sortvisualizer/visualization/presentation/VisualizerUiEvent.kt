@@ -10,12 +10,11 @@ sealed interface VisualizerUiEvent {
     object Restart : VisualizerUiEvent
 
     // sound control
-    object TurnSoundOn : VisualizerUiEvent
-    object TurnSoundOff : VisualizerUiEvent
+    object ToggleSound : VisualizerUiEvent
 
     // bottom sheet
-    object ShowBottomSheet: VisualizerUiEvent
-    object HideBottomSheet: VisualizerUiEvent
+    object ShowBottomSheet : VisualizerUiEvent
+    object HideBottomSheet : VisualizerUiEvent
     data class ChangeDelay(val delay: DelayValue) : VisualizerUiEvent
     data class ChangeListSizeInput(val input: String) : VisualizerUiEvent
 }

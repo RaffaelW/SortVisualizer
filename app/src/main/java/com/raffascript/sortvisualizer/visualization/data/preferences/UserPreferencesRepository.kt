@@ -12,8 +12,9 @@ class UserPreferencesRepository(
         return combine(
             preferencesDataSource.delayFlow,
             preferencesDataSource.listSizeFlow,
-        ) { delay, listSize ->
-            UserPreferences(delay, listSize)
+            preferencesDataSource.soundFlow
+        ) { delay, listSize, isSoundEnabled ->
+            UserPreferences(delay, listSize, isSoundEnabled)
         }
     }
 
@@ -23,5 +24,9 @@ class UserPreferencesRepository(
 
     suspend fun saveListSize(listSize: Int) {
         preferencesDataSource.setListSize(listSize)
+    }
+
+    suspend fun saveSoundEnabled(isSoundEnabled: Boolean) {
+        preferencesDataSource.setSound(isSoundEnabled)
     }
 }

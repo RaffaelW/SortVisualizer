@@ -51,6 +51,7 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
                     MyApp.useCaseModule.getAlgorithmProgressFlowUseCase,
                     MyApp.useCaseModule.changeListSizeUseCase,
                     MyApp.useCaseModule.changeDelayUseCase,
+                    MyApp.useCaseModule.changeSoundEnabledUseCase
                 )
             })
             val state by viewModel.uiState.collectAsStateWithLifecycle()

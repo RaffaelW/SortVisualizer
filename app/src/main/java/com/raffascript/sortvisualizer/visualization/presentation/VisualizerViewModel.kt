@@ -1,5 +1,6 @@
 package com.raffascript.sortvisualizer.visualization.presentation
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,7 +37,8 @@ class VisualizerViewModel(
     private val restartAlgorithmUseCase: RestartAlgorithmUseCase,
     private val getAlgorithmProgressFlowUseCase: GetAlgorithmProgressFlowUseCase,
     private val changeListSizeUseCase: ChangeListSizeUseCase,
-    private val changeDelayUseCase: ChangeDelayUseCase
+    private val changeDelayUseCase: ChangeDelayUseCase,
+    private val changeSoundEnabledUseCase: ChangeSoundEnabledUseCase
 ) : ViewModel() {
 
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
@@ -54,6 +56,7 @@ class VisualizerViewModel(
         return@combine state.copy(
             sliderDelay = userPreferences.delay,
             listSize = userPreferences.listSize,
+            isSoundEnabled = userPreferences.isSoundEnabled
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _uiState.asStateFlow().value)
 
@@ -81,8 +84,11 @@ class VisualizerViewModel(
             is VisualizerUiEvent.Pause -> pauseAlgorithmUseCase()
             is VisualizerUiEvent.Resume -> resumeAlgorithmUseCase()
             is VisualizerUiEvent.Restart -> restartAlgorithmUseCase()
-            is VisualizerUiEvent.TurnSoundOff -> _uiState.update { it.copy(isSoundOn = false) }
-            is VisualizerUiEvent.TurnSoundOn -> _uiState.update { it.copy(isSoundOn = true) }
+            is VisualizerUiEvent.ToggleSound -> {
+                viewModelScope.launch {
+                    changeSoundEnabledUseCase(!uiState.value.isSoundEnabled)
+                }
+            }
         }
     }
 
@@ -98,7 +104,8 @@ class VisualizerViewModel(
                 )
             }
 
-            if (uiState.value.isSoundOn) {
+            if (uiState.value.isSoundEnabled) {
+                Log.d("VisualizerViewModel", "Trying to play sound")
                 progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index?.let { index ->
                     playSound(progress.list, index)
                 }
