@@ -7,7 +7,6 @@ enum class DelayValue(val millis: Int) {
     DELAY_0(0),
     DELAY_1(1),
     DELAY_2(2),
-    DELAY_3(3),
     DELAY_4(4),
     DELAY_5(5),
     DELAY_10(10),
