@@ -10,7 +10,6 @@ import com.raffascript.sortvisualizer.core.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.core.util.Resource
 import com.raffascript.sortvisualizer.core.util.device.ServiceProvider
 import com.raffascript.sortvisualizer.core.util.device.SoundPlayer
-import com.raffascript.sortvisualizer.visualization.data.AlgorithmState
 import com.raffascript.sortvisualizer.visualization.data.DelayValue
 import com.raffascript.sortvisualizer.visualization.data.HighlightOption
 import com.raffascript.sortvisualizer.visualization.domain.*
@@ -74,6 +73,11 @@ class VisualizerViewModel(
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        soundPlayer.stop()
+    }
+
     fun onEvent(event: VisualizerUiEvent) {
         when (event) {
             is VisualizerUiEvent.ShowBottomSheet -> _uiState.update { it.copy(showBottomSheet = true) }
@@ -109,10 +113,6 @@ class VisualizerViewModel(
                 progress.highlights.find { it.highlightOption == HighlightOption.COLOURED_PRIMARY }?.index?.let { index ->
                     playSound(progress.list, index)
                 }
-            }
-
-            if (progress.state == AlgorithmState.FINISHED) {
-                soundPlayer.stop()
             }
         }
     }
