@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:drawable="@drawable/logo">
+
+    <target
+            android:animation="@animator/logo_main_animator"
+            android:name="chartGroup"/>
+
+    <target
+            android:animation="@animator/logo_bar1_animator"
+            android:name="bar1"/>
+    <target
+            android:animation="@animator/logo_bar2_animator"
+            android:name="bar2"/>
+    <target
+            android:animation="@animator/logo_bar3_animator"
+            android:name="bar3"/>
+    <target
+            android:animation="@animator/logo_bar4_animator"
+            android:name="bar4"/>
+
+</animated-vector>

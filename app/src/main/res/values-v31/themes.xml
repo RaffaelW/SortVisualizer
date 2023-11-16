@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.SortingAlgorithmsVisualizer" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@android:color/black</item>
+        <item name="windowSplashScreenBackground">@color/metallic_blue</item>
         <item name="postSplashScreenTheme">@style/Theme.SortingAlgorithmsVisualizer</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/animated_logo</item>
     </style>
 </resources>

@@ -1,13 +1,18 @@
 package com.raffascript.sortvisualizer.core.presentation
 
+import android.animation.ObjectAnimator
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.View
+import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -16,6 +21,22 @@ import com.raffascript.sortvisualizer.core.presentation.theme.AlgorithmsVisualiz
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setOnExitAnimationListener { screen ->
+                val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, .5f, 0f).apply {
+                    interpolator = OvershootInterpolator()
+                    duration = 500L
+                    doOnEnd { screen.remove() }
+                }
+                val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, .5f, 0f).apply {
+                    interpolator = OvershootInterpolator()
+                    duration = 500L
+                    doOnEnd { screen.remove() }
+                }
+                zoomX.start()
+                zoomY.start()
+            }
+        }
         setContent {
             AlgorithmsVisualizerTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
