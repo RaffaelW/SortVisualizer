@@ -9,9 +9,6 @@ sealed interface VisualizerUiEvent {
     object Resume : VisualizerUiEvent
     object Restart : VisualizerUiEvent
 
-    // sound control
-    object ToggleSound : VisualizerUiEvent
-
     // bottom sheet
     object ShowBottomSheet : VisualizerUiEvent
     object HideBottomSheet : VisualizerUiEvent

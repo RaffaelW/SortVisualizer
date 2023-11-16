@@ -22,9 +22,6 @@ data class VisualizerState(
     val sliderDelay: DelayValue = DelayValue.default,
     val isInputListSizeValid: Boolean = true,
     val listSize: Int = UserPreferencesDataSource.DEFAULT_LIST_SIZE,
-
-    // other
-    val isSoundEnabled: Boolean = true
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -42,7 +39,6 @@ data class VisualizerState(
         if (sliderDelay != other.sliderDelay) return false
         if (isInputListSizeValid != other.isInputListSizeValid) return false
         if (listSize != other.listSize) return false
-        if (isSoundEnabled != other.isSoundEnabled) return false
 
         return true
     }
@@ -58,7 +54,6 @@ data class VisualizerState(
         result = 31 * result + sliderDelay.hashCode()
         result = 31 * result + isInputListSizeValid.hashCode()
         result = 31 * result + listSize
-        result = 31 * result + isSoundEnabled.hashCode()
         return result
     }
 }

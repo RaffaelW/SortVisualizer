@@ -2,7 +2,6 @@ package com.raffascript.sortvisualizer.di
 
 import com.raffascript.sortvisualizer.visualization.domain.ChangeDelayUseCase
 import com.raffascript.sortvisualizer.visualization.domain.ChangeListSizeUseCase
-import com.raffascript.sortvisualizer.visualization.domain.ChangeSoundEnabledUseCase
 import com.raffascript.sortvisualizer.visualization.domain.FormatListSizeInputUseCase
 import com.raffascript.sortvisualizer.visualization.domain.LoadUserPreferencesUseCase
 import com.raffascript.sortvisualizer.visualization.domain.ValidateListSizeUseCase
@@ -20,7 +19,6 @@ interface UseCaseModule {
     val loadUserPreferencesUseCase: LoadUserPreferencesUseCase
     val changeListSizeUseCase: ChangeListSizeUseCase
     val changeDelayUseCase: ChangeDelayUseCase
-    val changeSoundEnabledUseCase: ChangeSoundEnabledUseCase
 
     val getAlgorithmProgressFlowUseCase: GetAlgorithmProgressFlowUseCase
     val setAlgorithmUseCase: SetAlgorithmUseCase
@@ -46,9 +44,6 @@ class UseCaseModuleImpl(private val appModule: AppModule) : UseCaseModule {
     }
     override val changeDelayUseCase: ChangeDelayUseCase by lazy {
         ChangeDelayUseCase(appModule.userPreferencesRepository)
-    }
-    override val changeSoundEnabledUseCase: ChangeSoundEnabledUseCase by lazy {
-        ChangeSoundEnabledUseCase(appModule.userPreferencesRepository)
     }
 
     override val getAlgorithmProgressFlowUseCase: GetAlgorithmProgressFlowUseCase by lazy {

@@ -76,7 +76,7 @@ fun ColumnScope.ContentPortrait(state: VisualizerState, onEvent: (VisualizerUiEv
         )
     }
 
-    BottomBar(state.algorithmData.name, false, state.algorithmState, state.isSoundEnabled, onEvent = onEvent)
+    BottomBar(state.algorithmData.name, false, state.algorithmState, onEvent = onEvent)
 }
 
 @Composable
@@ -100,7 +100,7 @@ fun ColumnScope.ContentLandscape(state: VisualizerState, onEvent: (VisualizerUiE
         }
     }
 
-    BottomBar(state.algorithmData.name, true, state.algorithmState, state.isSoundEnabled, onEvent = onEvent)
+    BottomBar(state.algorithmData.name, true, state.algorithmState, onEvent = onEvent)
 }
 
 @Composable
@@ -145,7 +145,6 @@ fun BottomBar(
     algorithmName: String,
     showName: Boolean,
     algorithmState: AlgorithmState,
-    isSoundEnabled: Boolean,
     onEvent: (VisualizerUiEvent) -> Unit
 ) {
     val activity = LocalContext.current as Activity
@@ -180,19 +179,6 @@ fun BottomBar(
                 Icon(
                     painter = painterResource(id = drawableRes),
                     contentDescription = stringResource(descriptionRes)
-                )
-            }
-            IconButton(onClick = {
-                onEvent(VisualizerUiEvent.ToggleSound)
-            }) {
-                val (drawableRes, contentDescriptionRes) = if (isSoundEnabled) {
-                    R.drawable.ic_volume_off to R.string.turn_sound_off
-                } else {
-                    R.drawable.ic_volume_up to R.string.turn_sound_on
-                }
-                Icon(
-                    painter = painterResource(drawableRes),
-                    contentDescription = stringResource(contentDescriptionRes)
                 )
             }
 

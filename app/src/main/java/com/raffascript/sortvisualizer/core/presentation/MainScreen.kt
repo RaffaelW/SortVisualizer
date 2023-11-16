@@ -50,8 +50,7 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
                     MyApp.useCaseModule.restartAlgorithmUseCase,
                     MyApp.useCaseModule.getAlgorithmProgressFlowUseCase,
                     MyApp.useCaseModule.changeListSizeUseCase,
-                    MyApp.useCaseModule.changeDelayUseCase,
-                    MyApp.useCaseModule.changeSoundEnabledUseCase
+                    MyApp.useCaseModule.changeDelayUseCase
                 )
             })
             val state by viewModel.uiState.collectAsStateWithLifecycle()
