@@ -1,8 +1,5 @@
 package com.raffascript.sortvisualizer.visualization.data
 
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
-
 enum class DelayValue(val millis: Int) {
     DELAY_0(0),
     DELAY_1(1),
@@ -17,9 +14,6 @@ enum class DelayValue(val millis: Int) {
     DELAY_1500(1500),
     DELAY_2000(2000);
 
-    fun asDuration(): Duration {
-        return millis.milliseconds
-    }
     companion object {
         val default = DELAY_10
     }

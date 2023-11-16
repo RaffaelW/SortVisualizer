@@ -13,8 +13,6 @@ abstract class Algorithm(protected var list: IntArray) {
     val listSize: Int
         get() = list.size
 
-    fun getListValue() = list.clone()
-
     suspend fun startSorting(
         onStep: suspend (IntArray, List<Highlight>, Long, Long) -> Unit,
         onFinish: suspend (IntArray, Long, Long) -> Unit

@@ -19,6 +19,4 @@
 
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
-    <string name="turn_sound_off">Ton ausschalten</string>
-    <string name="turn_sound_on">Ton einschalten</string>
 </resources>
