@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.raffascript.sortvisualizer.core.data.AlgorithmData
 import com.raffascript.sortvisualizer.core.data.TimeComplexity
@@ -35,7 +36,7 @@ fun SelectionScreen(state: SelectionState, navigateToVisualizer: (Int) -> Unit) 
         itemsIndexed(items = state.algorithmData, key = { _, item -> item.id }) { index, item ->
             Row(item, onClick = { navigateToVisualizer(item.id) })
             if (index < state.algorithmData.lastIndex) {
-                Divider(color = MaterialTheme.colorScheme.onBackground)
+                Divider(color = MaterialTheme.colorScheme.onBackground, thickness = Dp.Hairline)
             }
         }
     }
@@ -48,8 +49,8 @@ fun Row(algorithm: AlgorithmData, onClick: () -> Unit) {
         style = MaterialTheme.typography.titleMedium,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 8.dp)
             .clickable { onClick() }
+            .padding(horizontal = 24.dp, vertical = 8.dp)
     )
 }
 
