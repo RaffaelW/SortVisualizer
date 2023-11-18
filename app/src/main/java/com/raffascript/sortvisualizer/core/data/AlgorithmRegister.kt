@@ -1,11 +1,6 @@
 package com.raffascript.sortvisualizer.core.data
 
-import com.raffascript.sortvisualizer.core.data.algorithms.BubbleSort
-import com.raffascript.sortvisualizer.core.data.algorithms.HeapSort
-import com.raffascript.sortvisualizer.core.data.algorithms.InsertionSort
-import com.raffascript.sortvisualizer.core.data.algorithms.MergeSort
-import com.raffascript.sortvisualizer.core.data.algorithms.SelectionSort
-import com.raffascript.sortvisualizer.core.data.algorithms.ShakerSort
+import com.raffascript.sortvisualizer.core.data.algorithms.*
 
 class AlgorithmRegister {
 
@@ -39,6 +34,24 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             3,
+            "ShakerSort",
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.LINEAR,
+            true,
+            ::ShakerSort
+        ),
+        AlgorithmData(
+            4,
+            "CombSort",
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUASILINEAR,
+            false,
+            ::CombSort
+        ),
+        AlgorithmData(
+            5,
             "HeapSort",
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -47,7 +60,7 @@ class AlgorithmRegister {
             ::HeapSort
         ),
         AlgorithmData(
-            4,
+            6,
             "MergeSort",
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -55,15 +68,6 @@ class AlgorithmRegister {
             true,
             ::MergeSort
         ),
-        AlgorithmData(
-            5,
-            "ShakerSort",
-            TimeComplexity.QUADRATIC,
-            TimeComplexity.QUADRATIC,
-            TimeComplexity.LINEAR,
-            true,
-            ::ShakerSort
-        )
     )
 
     fun getAllAlgorithms(): List<AlgorithmData> {
