@@ -11,7 +11,6 @@ class AlgorithmRepository(
     private val userPreferencesRepository: UserPreferencesRepository
 ) {
 
-    private lateinit var algorithmConstructor: (IntArray) -> Algorithm
     private lateinit var algorithm: Algorithm
     private var state = AlgorithmState.UNINITIALIZED
     private var delayMillis = 0
@@ -33,14 +32,6 @@ class AlgorithmRepository(
                 }
             }
         }
-    }
-
-    fun setAlgorithm(algorithmConstructor: (IntArray) -> Algorithm) {
-        this.algorithmConstructor = algorithmConstructor
-        val array = generateShuffledArray(listSize)
-        algorithm = algorithmConstructor(array)
-        state = AlgorithmState.READY
-        progress = AlgorithmProgress(array, state, emptyList(), 0, 0)
     }
 
     fun startAlgorithm() {
@@ -85,14 +76,22 @@ class AlgorithmRepository(
         return progress
     }
 
-    suspend fun getProgressFlow(): Flow<AlgorithmProgress> = flow {
-        setAlgorithm(algorithmConstructor)
+    suspend fun getProgressFlow(algorithmConstructor: (IntArray) -> Algorithm): Flow<AlgorithmProgress> = flow {
+
+        fun setAlgorithm() {
+            val array = generateShuffledArray(listSize)
+            algorithm = algorithmConstructor(array)
+            state = AlgorithmState.READY
+            progress = AlgorithmProgress(array, state, emptyList(), 0, 0)
+        }
+
+        setAlgorithm()
         while (true) {
             try {
                 handleStateCycle()
             } catch (e: AlgorithmCancellationException) {
                 isRestartRequested = false
-                setAlgorithm(algorithmConstructor)
+                setAlgorithm()
             }
         }
     }

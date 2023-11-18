@@ -12,7 +12,6 @@ import com.raffascript.sortvisualizer.visualization.domain.algorithm.GetAlgorith
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.PauseAlgorithmUseCase
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.RestartAlgorithmUseCase
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.ResumeAlgorithmUseCase
-import com.raffascript.sortvisualizer.visualization.domain.algorithm.SetAlgorithmUseCase
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.StartAlgorithmUseCase
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -23,7 +22,6 @@ class VisualizerViewModel(
     savedStateHandle: SavedStateHandle,
     algorithmRegister: AlgorithmRegister,
     loadUserPreferencesUseCase: LoadUserPreferencesUseCase,
-    setAlgorithmUseCase: SetAlgorithmUseCase,
     private val startAlgorithmUseCase: StartAlgorithmUseCase,
     private val pauseAlgorithmUseCase: PauseAlgorithmUseCase,
     private val resumeAlgorithmUseCase: ResumeAlgorithmUseCase,
@@ -50,7 +48,6 @@ class VisualizerViewModel(
     private val algorithmThread = newSingleThreadContext("Algorithm")
 
     init {
-        setAlgorithmUseCase(algorithmData.constructor)
         viewModelScope.launch(algorithmThread) {
             collectAlgorithmProgressFlow()
         }
@@ -70,7 +67,7 @@ class VisualizerViewModel(
     }
 
     private suspend fun collectAlgorithmProgressFlow() {
-        getAlgorithmProgressFlowUseCase().collect { progress ->
+        getAlgorithmProgressFlowUseCase(algorithmData.constructor).collect { progress ->
             _uiState.update {
                 it.copy(
                     sortingList = progress.list,

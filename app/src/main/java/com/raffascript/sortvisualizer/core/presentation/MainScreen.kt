@@ -43,7 +43,6 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
                     it,
                     MyApp.appModule.algorithmRegister,
                     MyApp.useCaseModule.loadUserPreferencesUseCase,
-                    MyApp.useCaseModule.setAlgorithmUseCase,
                     MyApp.useCaseModule.startAlgorithmUseCase,
                     MyApp.useCaseModule.pauseAlgorithmUseCase,
                     MyApp.useCaseModule.resumeAlgorithmUseCase,
