@@ -67,7 +67,7 @@ fun SelectionScreenPreview() {
                     TimeComplexity.QUADRATIC,
                     TimeComplexity.LINEAR,
                     true,
-                    InsertionSort::class
+                    ::InsertionSort
                 )
             )
         )

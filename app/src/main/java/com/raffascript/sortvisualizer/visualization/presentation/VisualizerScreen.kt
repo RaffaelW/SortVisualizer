@@ -229,7 +229,7 @@ fun VisualizerPreview() {
                 TimeComplexity.QUADRATIC,
                 TimeComplexity.INFINITE,
                 true,
-                BubbleSort::class
+                ::BubbleSort
             ),
             sortingList = (1..5).toList().shuffled().toIntArray(),
             algorithmState = AlgorithmState.FINISHED

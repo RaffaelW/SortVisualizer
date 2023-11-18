@@ -50,7 +50,7 @@ class VisualizerViewModel(
     private val algorithmThread = newSingleThreadContext("Algorithm")
 
     init {
-        setAlgorithmUseCase(algorithmData.impl)
+        setAlgorithmUseCase(algorithmData.constructor)
         viewModelScope.launch(algorithmThread) {
             collectAlgorithmProgressFlow()
         }

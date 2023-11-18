@@ -6,13 +6,12 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
 
 class AlgorithmRepository(
     private val userPreferencesRepository: UserPreferencesRepository
 ) {
 
+    private lateinit var algorithmConstructor: (IntArray) -> Algorithm
     private lateinit var algorithm: Algorithm
     private var state = AlgorithmState.UNINITIALIZED
     private var delayMillis = 0
@@ -36,9 +35,10 @@ class AlgorithmRepository(
         }
     }
 
-    fun setAlgorithm(algorithmImpl: KClass<out Algorithm>) {
+    fun setAlgorithm(algorithmConstructor: (IntArray) -> Algorithm) {
+        this.algorithmConstructor = algorithmConstructor
         val array = generateShuffledArray(listSize)
-        algorithm = algorithmImpl.primaryConstructor!!.call(array)
+        algorithm = algorithmConstructor(array)
         state = AlgorithmState.READY
         progress = AlgorithmProgress(array, state, emptyList(), 0, 0)
     }
@@ -86,13 +86,13 @@ class AlgorithmRepository(
     }
 
     suspend fun getProgressFlow(): Flow<AlgorithmProgress> = flow {
-        setAlgorithm(algorithm::class)
+        setAlgorithm(algorithmConstructor)
         while (true) {
             try {
                 handleStateCycle()
             } catch (e: AlgorithmCancellationException) {
                 isRestartRequested = false
-                setAlgorithm(algorithm::class)
+                setAlgorithm(algorithmConstructor)
             }
         }
     }

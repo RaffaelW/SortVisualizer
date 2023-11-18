@@ -17,7 +17,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
             true,
-            InsertionSort::class
+            ::InsertionSort
         ),
         AlgorithmData(
             1,
@@ -26,7 +26,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             false,
-            SelectionSort::class
+            ::SelectionSort
         ),
         AlgorithmData(
             2,
@@ -35,7 +35,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
             true,
-            BubbleSort::class
+            ::BubbleSort
         ),
         AlgorithmData(
             3,
@@ -44,7 +44,7 @@ class AlgorithmRegister {
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             false,
-            HeapSort::class
+            ::HeapSort
         ),
         AlgorithmData(
             4,
@@ -53,7 +53,7 @@ class AlgorithmRegister {
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             true,
-            MergeSort::class
+            ::MergeSort
         ),
         AlgorithmData(
             5,
@@ -62,7 +62,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
             true,
-            ShakerSort::class
+            ::ShakerSort
         )
     )
 
