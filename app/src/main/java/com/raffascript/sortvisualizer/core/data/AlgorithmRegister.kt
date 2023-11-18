@@ -16,15 +16,6 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             1,
-            "ShellSort",
-            TimeComplexity.QUADRATIC,
-            TimeComplexity.QUASILINEAR,
-            TimeComplexity.QUASILINEAR,
-            false,
-            ::ShellSort
-        ),
-        AlgorithmData(
-            2,
             "SelectionSort",
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -33,7 +24,7 @@ class AlgorithmRegister {
             ::SelectionSort
         ),
         AlgorithmData(
-            3,
+            2,
             "BubbleSort",
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -42,7 +33,7 @@ class AlgorithmRegister {
             ::BubbleSort
         ),
         AlgorithmData(
-            4,
+            3,
             "ShakerSort",
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -51,7 +42,7 @@ class AlgorithmRegister {
             ::ShakerSort
         ),
         AlgorithmData(
-            5,
+            4,
             "CombSort",
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -60,7 +51,7 @@ class AlgorithmRegister {
             ::CombSort
         ),
         AlgorithmData(
-            6,
+            5,
             "HeapSort",
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -69,14 +60,14 @@ class AlgorithmRegister {
             ::HeapSort
         ),
         AlgorithmData(
-            7,
+            6,
             "MergeSort",
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             true,
             ::MergeSort
-        )
+        ),
     )
 
     fun getAllAlgorithms(): List<AlgorithmData> {
