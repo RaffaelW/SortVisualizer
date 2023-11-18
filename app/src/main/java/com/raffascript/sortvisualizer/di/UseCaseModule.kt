@@ -9,7 +9,6 @@ import com.raffascript.sortvisualizer.visualization.domain.algorithm.GetAlgorith
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.PauseAlgorithmUseCase
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.RestartAlgorithmUseCase
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.ResumeAlgorithmUseCase
-import com.raffascript.sortvisualizer.visualization.domain.algorithm.SetAlgorithmUseCase
 import com.raffascript.sortvisualizer.visualization.domain.algorithm.StartAlgorithmUseCase
 
 interface UseCaseModule {
@@ -21,7 +20,6 @@ interface UseCaseModule {
     val changeDelayUseCase: ChangeDelayUseCase
 
     val getAlgorithmProgressFlowUseCase: GetAlgorithmProgressFlowUseCase
-    val setAlgorithmUseCase: SetAlgorithmUseCase
     val startAlgorithmUseCase: StartAlgorithmUseCase
     val pauseAlgorithmUseCase: PauseAlgorithmUseCase
     val resumeAlgorithmUseCase: ResumeAlgorithmUseCase
@@ -48,9 +46,6 @@ class UseCaseModuleImpl(private val appModule: AppModule) : UseCaseModule {
 
     override val getAlgorithmProgressFlowUseCase: GetAlgorithmProgressFlowUseCase by lazy {
         GetAlgorithmProgressFlowUseCase(appModule.algorithmRepository)
-    }
-    override val setAlgorithmUseCase: SetAlgorithmUseCase by lazy {
-        SetAlgorithmUseCase(appModule.algorithmRepository)
     }
     override val startAlgorithmUseCase: StartAlgorithmUseCase by lazy {
         StartAlgorithmUseCase(appModule.algorithmRepository)
