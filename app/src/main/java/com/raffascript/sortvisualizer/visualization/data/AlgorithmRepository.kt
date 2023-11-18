@@ -109,15 +109,17 @@ class AlgorithmRepository(
 
                 emit(getUpdatedProgress(list, state, highlights, arrayAccesses, comparisons))
 
+                wait(delayMillis)
+
                 if (state == AlgorithmState.PAUSED) {
+                    emit(getUpdatedProgress(state = state))
                     waitForState(AlgorithmState.RUNNING)
                     emit(getUpdatedProgress(state = state))
                 }
+
                 if (isRestartRequested) {
                     throw AlgorithmCancellationException()
                 }
-
-                wait(delayMillis)
             }
 
         val onFinish: suspend (IntArray, Long, Long) -> Unit = { list, arrayAccesses, comparisons ->
@@ -165,6 +167,7 @@ class AlgorithmRepository(
         val startTime = System.currentTimeMillis()
         while (System.currentTimeMillis() - startTime < millis) {
             // wait exactly
+            if (state != AlgorithmState.RUNNING) break
         }
     }
 }
