@@ -2,12 +2,13 @@
 ## Description
 SortVisualizer is an Android application that visualizes how sorting algorithms work.
 
-## Currently implemented algorithms:
+## Implemented algorithms:
 + InsertionSort
 + ShellSort
 + SelectionSort
 + BubbleSort
 + ShakerSort
 + CombSort
++ GnomeSort
 + HeapSort
 + MergeSort
