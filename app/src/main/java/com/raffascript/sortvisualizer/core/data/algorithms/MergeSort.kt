@@ -51,7 +51,7 @@ class MergeSort(list: IntArray) : Algorithm(list) {
         }
 
         // While both arrays contain elements
-        while (leftPos < leftSize && rightPos < rightSize.alsoIncComparisons(2L)) {
+        while (leftPos < leftSize && rightPos < rightSize.alsoIncComparisons(2)) {
             val leftValue = leftArray[leftPos].alsoIncArrayAccess()
             val rightValue = rightArray[rightPos].alsoIncArrayAccess()
             if (leftValue <= rightValue.alsoIncComparisons()) {
@@ -69,14 +69,14 @@ class MergeSort(list: IntArray) : Algorithm(list) {
 
         // copy the rest of the left array
         while (leftPos < leftSize.alsoIncComparisons()) {
-            target[targetPos] = leftArray[leftPos].alsoIncArrayAccess(2L)
+            target[targetPos] = leftArray[leftPos].alsoIncArrayAccess(2)
             callUpdateProgress(position + leftPos)
             targetPos++
             leftPos++
         }
         // copy the rest of the right array
         while (rightPos < rightSize.alsoIncComparisons()) {
-            target[targetPos] = rightArray[rightPos].alsoIncArrayAccess(2L)
+            target[targetPos] = rightArray[rightPos].alsoIncArrayAccess(2)
             callUpdateProgress(position + rightPos)
             targetPos++
             rightPos++

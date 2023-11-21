@@ -2,7 +2,6 @@ package com.raffascript.sortvisualizer.core.data.algorithms
 
 import com.raffascript.sortvisualizer.visualization.data.Highlight
 
-
 typealias StepCallback = suspend (List<Highlight>) -> Unit
 
 abstract class Algorithm(protected var list: IntArray) {
@@ -36,6 +35,17 @@ abstract class Algorithm(protected var list: IntArray) {
 
     protected fun <T> T.alsoIncComparisons(number: Long = 1): T {
         comparisons += number
+        return this
+    }
+
+    protected fun <T> T.alsoIncBoth(): T {
+        alsoIncBoth(1, 1)
+        return this
+    }
+
+    protected fun <T> T.alsoIncBoth(arrayAccesses: Long = 1, comparisons: Long = 1): T {
+        this@Algorithm.arrayAccesses += arrayAccesses
+        this@Algorithm.comparisons += comparisons
         return this
     }
 }

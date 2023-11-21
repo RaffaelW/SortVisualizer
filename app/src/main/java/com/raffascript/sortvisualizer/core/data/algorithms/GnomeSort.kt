@@ -16,7 +16,7 @@ class GnomeSort(list: IntArray) : Algorithm(list) {
                 defineStep(getHighlights(index))
             }
 
-            if (list[index] >= list[index - 1].alsoIncArrayAccess(2).alsoIncComparisons()) {
+            if (list[index] >= list[index - 1].alsoIncBoth(2, 1)) {
                 index++
             } else {
                 val temp = list[index].alsoIncArrayAccess()

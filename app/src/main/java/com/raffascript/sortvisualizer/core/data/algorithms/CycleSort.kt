@@ -15,7 +15,7 @@ class CycleSort(list: IntArray) : Algorithm(list) {
             // count all smaller elements on right side of item.
             var pos = cycleStart
             for (i in cycleStart + 1 until n) {
-                if (list[i] < item.alsoIncArrayAccess().alsoIncComparisons()) {
+                if (list[i] < item.alsoIncBoth()) {
                     pos++
                 }
                 defineStep(getHighlights(i, cycleStart, pos))
@@ -25,7 +25,7 @@ class CycleSort(list: IntArray) : Algorithm(list) {
             if (pos == cycleStart.alsoIncComparisons()) continue
 
             // ignore all duplicate elements
-            while (item == list[pos].alsoIncArrayAccess().alsoIncComparisons()) {
+            while (item == list[pos].alsoIncBoth()) {
                 pos++
                 defineStep(getHighlights(pos, cycleStart))
             }
@@ -43,20 +43,20 @@ class CycleSort(list: IntArray) : Algorithm(list) {
 
                 // Find position where we put the element
                 for (i in cycleStart + 1 until n) {
-                    if (list[i] < item.alsoIncArrayAccess().alsoIncComparisons()) {
+                    if (list[i] < item.alsoIncBoth()) {
                         pos++
                         defineStep(getHighlights(i, cycleStart, pos))
                     }
                 }
 
                 // ignore all duplicate elements
-                while (item == list[pos].alsoIncComparisons().alsoIncArrayAccess()) {
+                while (item == list[pos].alsoIncBoth()) {
                     pos++
                     defineStep(getHighlights(pos, cycleStart))
                 }
 
                 // put the item to it's right position
-                if (item != list[pos].alsoIncComparisons().alsoIncArrayAccess()) {
+                if (item != list[pos].alsoIncBoth()) {
                     val temp = item
                     item = list[pos].alsoIncArrayAccess()
                     list[pos] = temp.alsoIncArrayAccess()

@@ -37,12 +37,12 @@ class HeapSort(list: IntArray) : Algorithm(list) {
             // find the largest element
             var largestPos = parentPos
             if (leftChildPos < length.alsoIncComparisons()
-                && list[leftChildPos] > list[largestPos].alsoIncComparisons().alsoIncArrayAccess(2L)
+                && list[leftChildPos] > list[largestPos].alsoIncBoth(2, 1)
             ) {
                 largestPos = leftChildPos
             }
             if (rightChildPos < length.alsoIncComparisons()
-                && list[rightChildPos] > list[largestPos].alsoIncComparisons().alsoIncArrayAccess(2L)
+                && list[rightChildPos] > list[largestPos].alsoIncBoth(2, 1)
             ) {
                 largestPos = rightChildPos
             }
@@ -63,7 +63,7 @@ class HeapSort(list: IntArray) : Algorithm(list) {
         val t = list[i]
         list[i] = list[j]
         list[j] = t
-        alsoIncArrayAccess(4L)
+        alsoIncArrayAccess(4)
     }
 
     private fun getHighlights(primary: Int, line: Int): List<Highlight> {

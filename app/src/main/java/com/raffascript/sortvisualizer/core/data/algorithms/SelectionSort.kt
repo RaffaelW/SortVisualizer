@@ -12,14 +12,14 @@ class SelectionSort(list: IntArray) : Algorithm(list) {
             var min = list[minPos].alsoIncArrayAccess()
             for (j in i + 1..list.lastIndex) {
                 defineStep(getHighlights(j, minPos, i))
-                if (list[j] < min.alsoIncArrayAccess().alsoIncComparisons()) {
+                if (list[j] < min.alsoIncBoth()) {
                     minPos = j
                     min = list[minPos].alsoIncArrayAccess()
                 }
             }
 
             if (minPos != i) {
-                list[minPos] = list[i].alsoIncArrayAccess(2L)
+                list[minPos] = list[i].alsoIncArrayAccess(2)
                 list[i] = min.alsoIncArrayAccess()
             }
             defineStep(getHighlights(i, null, i))

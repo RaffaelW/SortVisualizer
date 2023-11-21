@@ -18,7 +18,7 @@ class CombSort(list: IntArray) : Algorithm(list) {
             defineStep(getHighlights(0))
 
             for (i in 0 until n - gap) {
-                if (list[i] > list[i + gap].alsoIncArrayAccess(2).alsoIncComparisons()) {
+                if (list[i] > list[i + gap].alsoIncBoth(2, 1)) {
                     // swap
                     val temp = list[i].alsoIncArrayAccess()
                     list[i] = list[i + gap].alsoIncArrayAccess(2)

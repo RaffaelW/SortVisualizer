@@ -17,7 +17,7 @@ class ShellSort(list: IntArray) : Algorithm(list) {
                 val temp = list[i].alsoIncArrayAccess()
 
                 var j = i
-                while (j >= gap && list[j - gap] > temp.alsoIncArrayAccess().alsoIncComparisons(2)) {
+                while (j >= gap && list[j - gap] > temp.alsoIncBoth(1, 2)) {
                     defineStep(getHighlights(j, i))
                     list[j] = list[j - gap].alsoIncArrayAccess(2)
                     j -= gap
