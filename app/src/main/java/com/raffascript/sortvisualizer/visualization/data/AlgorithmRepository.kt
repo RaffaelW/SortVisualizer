@@ -152,13 +152,21 @@ class AlgorithmRepository(
         val startProgress = progress.copy()
         while (state != requestedState) {
             yield() // wait
-            if (progress != startProgress) {
+            if (startProgress.shouldEmitNext(progress)) {
                 emit(progress)
             }
             if (isRestartRequested) {
                 throw AlgorithmCancellationException()
             }
         }
+    }
+
+    private fun AlgorithmProgress.shouldEmitNext(next: AlgorithmProgress): Boolean {
+        if (!this.list.contentEquals(next.list)) return true
+        if (this.state != next.state) return true
+        if (this.highlights != next.highlights) return true
+        // array accesses should not trigger a new emit due to performance reasons
+        return false
     }
 
     @JvmName("algorithm_wait")
