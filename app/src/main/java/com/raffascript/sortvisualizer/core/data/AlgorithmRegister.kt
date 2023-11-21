@@ -70,6 +70,15 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             7,
+            "CycleSort",
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUADRATIC,
+            false,
+            ::CycleSort
+        ),
+        AlgorithmData(
+            8,
             "HeapSort",
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -78,7 +87,7 @@ class AlgorithmRegister {
             ::HeapSort
         ),
         AlgorithmData(
-            8,
+            9,
             "MergeSort",
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
