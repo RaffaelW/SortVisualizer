@@ -8,8 +8,6 @@ import kotlin.math.pow
 
 class RadixSortLsd(list: IntArray) : Algorithm(list) {
 
-//    private val list = list.copyOf()
-
     override suspend fun sort(defineStep: StepCallback, defineEnd: suspend () -> Unit) {
         val max = getMaximum()
         val numberOfDigits = getNumberOfDigits(max)
