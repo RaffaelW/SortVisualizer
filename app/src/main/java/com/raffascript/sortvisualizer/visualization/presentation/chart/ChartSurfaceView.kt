@@ -169,7 +169,7 @@ class ChartSurfaceView @JvmOverloads constructor(
         val canvas: Canvas
         if (!threadRunning || !surfaceHolder.surface.isValid) return null
         try {
-            canvas = surfaceHolder.lockCanvas()
+            canvas = surfaceHolder.lockHardwareCanvas()
         } catch (e: IllegalStateException) {
             return null
         }
