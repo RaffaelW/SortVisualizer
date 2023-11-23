@@ -3,6 +3,7 @@ package com.raffascript.sortvisualizer.core.data.algorithms
 import com.raffascript.sortvisualizer.visualization.data.Highlight
 import com.raffascript.sortvisualizer.visualization.data.HighlightOption
 import com.raffascript.sortvisualizer.visualization.data.highlighted
+import kotlin.math.abs
 import kotlin.math.pow
 
 class RadixSortLsd(list: IntArray) : Algorithm(list) {
@@ -23,7 +24,7 @@ class RadixSortLsd(list: IntArray) : Algorithm(list) {
     private fun getMaximum(): Int {
         var max = 0
         for (item in list) {
-            if (item > max) {
+            if (item > max.alsoIncComparisons()) {
                 max = item
             }
         }
@@ -31,10 +32,7 @@ class RadixSortLsd(list: IntArray) : Algorithm(list) {
     }
 
     private fun getNumberOfDigits(number: Int): Int {
-        val positiveNumber = if (number < 0) {
-            number * -1
-        } else number
-        return positiveNumber.toString().length
+        return abs(number).toString().length
     }
 
     private suspend fun partition(digitIndex: Int, defineStep: StepCallback): List<Bucket> {
@@ -49,14 +47,14 @@ class RadixSortLsd(list: IntArray) : Algorithm(list) {
         val divisor = calculateDivisor(digitIndex)
         for (item in list) {
             val digit = item / divisor % 10
-            counts[digit]++
+            counts[digit]++.alsoIncArrayAccess()
         }
         return counts
     }
 
     private fun createBuckets(counts: IntArray): List<Bucket> {
         return List(10) {
-            Bucket(counts[it])
+            Bucket(counts[it]).alsoIncArrayAccess()
         }
     }
 
@@ -65,7 +63,7 @@ class RadixSortLsd(list: IntArray) : Algorithm(list) {
 
         for ((index, item) in list.withIndex()) {
             val digit = item / divisor % 10
-            val bucket = buckets[digit]
+            val bucket = buckets[digit].alsoIncArrayAccess()
             bucket.add(item)
             defineStep(getHighlights(index))
         }
@@ -79,19 +77,19 @@ class RadixSortLsd(list: IntArray) : Algorithm(list) {
         var targetIndex = 0
         for (bucket in buckets) {
             for (element in bucket.getElements()) {
-                list[targetIndex] = element
+                list[targetIndex] = element.alsoIncArrayAccess()
                 defineStep(getHighlights(targetIndex))
                 targetIndex++
             }
         }
     }
 
-    private class Bucket(size: Int) {
+    private inner class Bucket(size: Int) {
         private val elements = IntArray(size) { -1 }
         private var addIndex = 0
 
         fun add(element: Int) {
-            elements[addIndex] = element
+            elements[addIndex] = element.alsoIncArrayAccess()
             addIndex++
         }
 
