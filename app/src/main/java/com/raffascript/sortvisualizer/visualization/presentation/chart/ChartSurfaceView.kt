@@ -50,7 +50,8 @@ class ChartSurfaceView @JvmOverloads constructor(
 
     init {
         surfaceHolder.addCallback(this)
-        setZOrderOnTop(false)
+//        setZOrderOnTop(false)
+        keepScreenOn = true
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
