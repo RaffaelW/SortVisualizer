@@ -11,7 +11,7 @@ class ShakerSort(list: IntArray) : Algorithm(list) {
         var startIndex = 0
         var endIndex = list.size - 1
 
-        suspend fun swapIfUnordered(index: Int, highlightedIndex: Int) {
+        suspend fun swapIfUnordered(index: Int) {
             val left = list[index].alsoIncArrayAccess()
             val right = list[index + 1].alsoIncArrayAccess()
             if (left > right.alsoIncComparisons()) {
@@ -19,7 +19,7 @@ class ShakerSort(list: IntArray) : Algorithm(list) {
                 list[index] = right.alsoIncArrayAccess()
                 swapped = true
             }
-            defineStep(getHighlights(highlightedIndex, startIndex - 1, endIndex))
+            defineStep(getHighlights(index, index + 1, startIndex - 1, endIndex))
         }
 
         while (swapped) {
@@ -27,7 +27,7 @@ class ShakerSort(list: IntArray) : Algorithm(list) {
 
             // loop from left to right
             for (i in startIndex until endIndex) {
-                swapIfUnordered(i, i + 1)
+                swapIfUnordered(i)
             }
 
             if (!swapped) {
@@ -40,16 +40,17 @@ class ShakerSort(list: IntArray) : Algorithm(list) {
 
             // loop from right to left
             for (i in (endIndex - 1) downTo startIndex) {
-                swapIfUnordered(i, i)
+                swapIfUnordered(i)
             }
             startIndex++ // first element is sorted
         }
         defineEnd()
     }
 
-    private fun getHighlights(primary: Int, leftLine: Int, rightLine: Int): List<Highlight> {
+    private fun getHighlights(firstIndex: Int, secondIndex: Int, leftLine: Int, rightLine: Int): List<Highlight> {
         return listOf(
-            primary highlighted HighlightOption.COLOURED_PRIMARY,
+            firstIndex highlighted HighlightOption.COLOURED_PRIMARY,
+            secondIndex highlighted HighlightOption.COLOURED_PRIMARY,
             leftLine highlighted HighlightOption.LINE,
             rightLine highlighted HighlightOption.LINE
         )

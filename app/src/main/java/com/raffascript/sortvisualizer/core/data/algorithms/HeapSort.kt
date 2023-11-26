@@ -12,7 +12,7 @@ class HeapSort(list: IntArray) : Algorithm(list) {
         for (swapToPos in list.lastIndex downTo 1) {
             // move root to end
             swap(0, swapToPos)
-            defineStep(getHighlights(swapToPos, swapToPos - 1))
+            defineStep(getHighlights(0, swapToPos, swapToPos - 1))
 
             heapify(swapToPos, 0, defineStep)
         }
@@ -24,7 +24,6 @@ class HeapSort(list: IntArray) : Algorithm(list) {
         val lastParentNode = list.size / 2 - 1
         for (i in lastParentNode downTo 0) {
             heapify(list.size, i, defineStep)
-            defineStep(getHighlights(i, list.size))
         }
     }
 
@@ -36,41 +35,33 @@ class HeapSort(list: IntArray) : Algorithm(list) {
 
             // find the largest element
             var largestPos = parentPos
-            if (leftChildPos < length.alsoIncComparisons()
-                && list[leftChildPos] > list[largestPos].alsoIncBoth(2, 1)
-            ) {
+            if (leftChildPos < length && list[leftChildPos] > list[largestPos].alsoIncBoth(2, 2)) {
                 largestPos = leftChildPos
             }
-            if (rightChildPos < length.alsoIncComparisons()
-                && list[rightChildPos] > list[largestPos].alsoIncBoth(2, 1)
-            ) {
+            if (rightChildPos < length && list[rightChildPos] > list[largestPos].alsoIncBoth(2, 2)) {
                 largestPos = rightChildPos
             }
 
             if (largestPos == parentPos.alsoIncComparisons()) {
-                defineStep(getHighlights(parentPos, length - 1))
+                defineStep(getHighlights(parentPos, null, length - 1))
                 break
             }
 
             swap(parentPos, largestPos)
-            defineStep(getHighlights(parentPos, length - 1))
+            defineStep(getHighlights(parentPos, largestPos, length - 1))
 
             parentPos = largestPos
         }
     }
 
-    private fun swap(i: Int, j: Int) {
-        val t = list[i]
-        list[i] = list[j]
-        list[j] = t
-        alsoIncArrayAccess(4)
-    }
-
-    private fun getHighlights(primary: Int, line: Int): List<Highlight> {
-        return listOf(
-            primary highlighted HighlightOption.COLOURED_PRIMARY,
+    private fun getHighlights(firstIndex: Int, secondIndex: Int?, line: Int): List<Highlight> {
+        val highlights = listOf(
+            firstIndex highlighted HighlightOption.COLOURED_PRIMARY,
             line highlighted HighlightOption.LINE
         )
+        if (secondIndex != null) {
+            return highlights + (secondIndex highlighted HighlightOption.COLOURED_PRIMARY)
+        }
+        return highlights
     }
-
 }

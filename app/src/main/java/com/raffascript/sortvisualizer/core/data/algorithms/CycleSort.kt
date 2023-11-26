@@ -18,7 +18,7 @@ class CycleSort(list: IntArray) : Algorithm(list) {
                 if (list[i] < item.alsoIncBoth()) {
                     pos++
                 }
-                defineStep(getHighlights(i, cycleStart, pos))
+                defineStep(getHighlights(i, pos, cycleStart))
             }
 
             // If item is already in correct position
@@ -27,14 +27,14 @@ class CycleSort(list: IntArray) : Algorithm(list) {
             // ignore all duplicate elements
             while (item == list[pos].alsoIncBoth()) {
                 pos++
-                defineStep(getHighlights(pos, cycleStart))
+                defineStep(getHighlights(pos, null, cycleStart))
             }
 
             if (pos != cycleStart.alsoIncComparisons()) {
                 val temp = item
                 item = list[pos].alsoIncArrayAccess()
                 list[pos] = temp.alsoIncArrayAccess()
-                defineStep(getHighlights(pos, cycleStart))
+                defineStep(getHighlights(pos, null, cycleStart))
             }
 
             // Rotate rest of the cycle
@@ -45,14 +45,14 @@ class CycleSort(list: IntArray) : Algorithm(list) {
                 for (i in cycleStart + 1 until n) {
                     if (list[i] < item.alsoIncBoth()) {
                         pos++
-                        defineStep(getHighlights(i, cycleStart, pos))
+                        defineStep(getHighlights(i, pos, cycleStart))
                     }
                 }
 
                 // ignore all duplicate elements
                 while (item == list[pos].alsoIncBoth()) {
                     pos++
-                    defineStep(getHighlights(pos, cycleStart))
+                    defineStep(getHighlights(pos, null, cycleStart))
                 }
 
                 // put the item to it's right position
@@ -60,16 +60,16 @@ class CycleSort(list: IntArray) : Algorithm(list) {
                     val temp = item
                     item = list[pos].alsoIncArrayAccess()
                     list[pos] = temp.alsoIncArrayAccess()
-                    defineStep(getHighlights(pos, cycleStart))
+                    defineStep(getHighlights(pos, null, cycleStart))
                 }
 
-                defineStep(getHighlights(pos, cycleStart))
+                defineStep(getHighlights(pos, null, cycleStart))
             }
         }
         defineEnd()
     }
 
-    private fun getHighlights(primary: Int, line: Int, secondary: Int? = null): List<Highlight> {
+    private fun getHighlights(primary: Int, secondary: Int?, line: Int): List<Highlight> {
         val highlights = listOf(
             primary highlighted HighlightOption.COLOURED_PRIMARY,
             line highlighted HighlightOption.LINE

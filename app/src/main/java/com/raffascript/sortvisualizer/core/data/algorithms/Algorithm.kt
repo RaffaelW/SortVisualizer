@@ -28,6 +28,13 @@ abstract class Algorithm(protected var list: IntArray) {
 
     protected abstract suspend fun sort(defineStep: StepCallback, defineEnd: suspend () -> Unit)
 
+    protected fun swap(left: Int, right: Int) {
+        val temp = list[left]
+        list[left] = list[right]
+        list[right] = temp
+        alsoIncArrayAccess(4)
+    }
+
     protected fun <T> T.alsoIncArrayAccess(number: Long = 1): T {
         arrayAccesses += number
         return this

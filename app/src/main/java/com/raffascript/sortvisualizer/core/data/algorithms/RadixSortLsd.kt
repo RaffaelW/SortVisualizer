@@ -97,9 +97,7 @@ class RadixSortLsd(list: IntArray) : Algorithm(list) {
     }
 
     private fun getHighlights(primary: Int): List<Highlight> {
-        return listOf(
-            primary highlighted HighlightOption.COLOURED_PRIMARY,
-        )
+        return listOf(primary highlighted HighlightOption.COLOURED_PRIMARY)
     }
 
 }

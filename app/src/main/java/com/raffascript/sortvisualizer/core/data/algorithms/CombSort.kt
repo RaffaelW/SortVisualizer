@@ -15,18 +15,12 @@ class CombSort(list: IntArray) : Algorithm(list) {
             gap = nextGap(gap)
             isSwapped = false
 
-            defineStep(getHighlights(0))
-
             for (i in 0 until n - gap) {
                 if (list[i] > list[i + gap].alsoIncBoth(2, 1)) {
-                    // swap
-                    val temp = list[i].alsoIncArrayAccess()
-                    list[i] = list[i + gap].alsoIncArrayAccess(2)
-                    list[i + gap] = temp.alsoIncArrayAccess()
-
+                    swap(i, i + gap)
                     isSwapped = true
                 }
-                defineStep(getHighlights(i))
+                defineStep(getHighlights(i, i + gap))
             }
         }
         defineEnd()
@@ -37,8 +31,11 @@ class CombSort(list: IntArray) : Algorithm(list) {
         return if (nextGap < 1.alsoIncComparisons()) 1 else nextGap
     }
 
-    private fun getHighlights(primary: Int): List<Highlight> {
-        return listOf(primary highlighted HighlightOption.COLOURED_PRIMARY)
+    private fun getHighlights(firstIndex: Int, secondIndex: Int): List<Highlight> {
+        return listOf(
+            firstIndex highlighted HighlightOption.COLOURED_PRIMARY,
+            secondIndex highlighted HighlightOption.COLOURED_PRIMARY
+        )
     }
 
 }

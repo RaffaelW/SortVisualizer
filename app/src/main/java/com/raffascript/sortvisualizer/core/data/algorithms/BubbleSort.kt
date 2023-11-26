@@ -10,24 +10,26 @@ class BubbleSort(list: IntArray) : Algorithm(list) {
         for (max in list.lastIndex downTo 0) {
             var swapped = false
             for (i in 0 until max) {
-                defineStep(getHighlights(i, max))
-                val left = list[i].alsoIncArrayAccess()
-                val right = list[i + 1].alsoIncArrayAccess()
+                val left = list[i]
+                val right = list[i + 1]
+                alsoIncArrayAccess(2)
                 if (left > right.alsoIncComparisons()) {
-                    list[i + 1] = left.alsoIncArrayAccess()
-                    list[i] = right.alsoIncArrayAccess()
+                    list[i + 1] = left
+                    list[i] = right
+                    alsoIncArrayAccess(2)
                     swapped = true
                 }
+                defineStep(getHighlights(i, i + 1, max))
             }
-            defineStep(getHighlights(max, max))
             if (!swapped) break
         }
         defineEnd()
     }
 
-    private fun getHighlights(primary: Int, line: Int): List<Highlight> {
+    private fun getHighlights(firstIndex: Int, secondIndex: Int, line: Int): List<Highlight> {
         return listOf(
-            primary highlighted HighlightOption.COLOURED_PRIMARY,
+            firstIndex highlighted HighlightOption.COLOURED_PRIMARY,
+            secondIndex highlighted HighlightOption.COLOURED_PRIMARY,
             line highlighted HighlightOption.LINE
         )
     }

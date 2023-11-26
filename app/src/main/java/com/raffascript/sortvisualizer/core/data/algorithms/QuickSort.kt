@@ -28,17 +28,17 @@ class QuickSort(list: IntArray) : Algorithm(list) {
 
             while (list[i] < pivot.alsoIncBoth()) {
                 i++
-                defineStep(getHighlights(i, left, right))
+                defineStep(getHighlights(i, null, right, pivot, left))
             }
 
             while (j > left && list[j] >= pivot.alsoIncBoth(1, 2)) {
                 j--
-                defineStep(getHighlights(j, left, right))
+                defineStep(getHighlights(j, null, right, pivot, left))
             }
 
             if (i < j.alsoIncComparisons()) {
                 swap(i, j)
-                defineStep(getHighlights(i, left, right))
+                defineStep(getHighlights(i, j, right, pivot, left))
                 i++
                 j--
             }
@@ -46,28 +46,32 @@ class QuickSort(list: IntArray) : Algorithm(list) {
 
         if (i == j && list[i] < pivot.alsoIncBoth(1, 2)) {
             i++
-            defineStep(getHighlights(i, left, right))
+            defineStep(getHighlights(i, null, right, pivot, left))
         }
 
         if (list[i] != pivot.alsoIncBoth()) {
             swap(i, right)
-            defineStep(getHighlights(i, left,right))
+            defineStep(getHighlights(i, j, right, pivot, left))
         }
         return i
     }
 
-    private fun swap(left: Int, right: Int) {
-        val temp = list[left]
-        list[left] = list[right]
-        list[right] = temp
-        alsoIncArrayAccess(4)
-    }
-
-    private fun getHighlights(primary: Int, line1: Int, line2: Int): List<Highlight> {
-        return listOf(
-            primary highlighted HighlightOption.COLOURED_PRIMARY,
+    private fun getHighlights(
+        firstIndex: Int,
+        secondIndex: Int?,
+        line1: Int,
+        line2: Int,
+        pivot: Int
+    ): List<Highlight> {
+        val highlights = listOf(
+            firstIndex highlighted HighlightOption.COLOURED_PRIMARY,
+            pivot highlighted HighlightOption.COLOURED_SECONDARY,
             line1 highlighted HighlightOption.LINE,
             line2 highlighted HighlightOption.LINE
         )
+        if (secondIndex != null) {
+            return highlights + (secondIndex highlighted HighlightOption.COLOURED_PRIMARY)
+        }
+        return highlights
     }
 }

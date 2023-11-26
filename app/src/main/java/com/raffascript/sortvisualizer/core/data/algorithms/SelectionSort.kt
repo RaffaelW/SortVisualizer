@@ -11,29 +11,32 @@ class SelectionSort(list: IntArray) : Algorithm(list) {
             var minPos = i
             var min = list[minPos].alsoIncArrayAccess()
             for (j in i + 1..list.lastIndex) {
-                defineStep(getHighlights(j, minPos, i))
                 if (list[j] < min.alsoIncBoth()) {
                     minPos = j
                     min = list[minPos].alsoIncArrayAccess()
                 }
+                defineStep(getHighlights(j, null, minPos, i))
             }
 
-            if (minPos != i) {
+            if (minPos != i.alsoIncComparisons()) {
                 list[minPos] = list[i].alsoIncArrayAccess(2)
                 list[i] = min.alsoIncArrayAccess()
             }
-            defineStep(getHighlights(i, null, i))
+            defineStep(getHighlights(i, minPos,null, i))
         }
         defineEnd()
     }
 
-    private fun getHighlights(primary: Int, secondary: Int?, line: Int): List<Highlight> {
+    private fun getHighlights(firstIndex: Int, secondIndex: Int?, min: Int?, line: Int): List<Highlight> {
         val highlights = mutableListOf(
-            primary highlighted HighlightOption.COLOURED_PRIMARY,
+            firstIndex highlighted HighlightOption.COLOURED_PRIMARY,
             line highlighted HighlightOption.LINE
         )
-        if (secondary != null) {
-            highlights += secondary highlighted HighlightOption.COLOURED_SECONDARY
+        if (secondIndex != null) {
+            highlights += secondIndex highlighted HighlightOption.COLOURED_SECONDARY
+        }
+        if (min != null) {
+            highlights += min highlighted HighlightOption.COLOURED_SECONDARY
         }
         return highlights
     }

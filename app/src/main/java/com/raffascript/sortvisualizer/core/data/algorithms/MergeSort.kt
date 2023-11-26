@@ -37,11 +37,11 @@ class MergeSort(list: IntArray) : Algorithm(list) {
         var leftPos = 0
         var rightPos = 0
 
-        // wrapper method to avoid that the algorithm gets unclear and the same code is repeated multiple times
-        suspend fun callUpdateProgress(secondaryIndex: Int) {
+        // wrapper function to avoid that the algorithm gets messy and unclear and the same code is repeated multiple times
+        suspend fun combineAndDefineStep(secondaryIndex: Int) {
             val replacingArray = leftArray + rightArray
             val array = target.mapIndexed { index, value ->
-                // don't count array access here because this is only for updating the ui and not for sorting
+                // don't count array access here because this is only for updating the UI and not for sorting
                 if (value == -1) replacingArray[index]
                 else value
             }.toIntArray()
@@ -56,12 +56,12 @@ class MergeSort(list: IntArray) : Algorithm(list) {
             val rightValue = rightArray[rightPos].alsoIncArrayAccess()
             if (leftValue <= rightValue.alsoIncComparisons()) {
                 target[targetPos] = leftValue.alsoIncArrayAccess()
-                callUpdateProgress(position + leftPos)
+                combineAndDefineStep(position + leftPos)
                 targetPos++
                 leftPos++
             } else {
                 target[targetPos] = rightValue.alsoIncArrayAccess()
-                callUpdateProgress(position + rightPos)
+                combineAndDefineStep(position + rightPos)
                 targetPos++
                 rightPos++
             }
@@ -70,14 +70,14 @@ class MergeSort(list: IntArray) : Algorithm(list) {
         // copy the rest of the left array
         while (leftPos < leftSize.alsoIncComparisons()) {
             target[targetPos] = leftArray[leftPos].alsoIncArrayAccess(2)
-            callUpdateProgress(position + leftPos)
+            combineAndDefineStep(position + leftPos)
             targetPos++
             leftPos++
         }
         // copy the rest of the right array
         while (rightPos < rightSize.alsoIncComparisons()) {
             target[targetPos] = rightArray[rightPos].alsoIncArrayAccess(2)
-            callUpdateProgress(position + rightPos)
+            combineAndDefineStep(position + rightPos)
             targetPos++
             rightPos++
         }
@@ -89,16 +89,14 @@ class MergeSort(list: IntArray) : Algorithm(list) {
         listPart: IntArray,
         partStart: Int,
         currentIndex: Int,
-        secondaryIndex: Int? = null,
+        secondIndex: Int,
         defineStep: StepCallback
     ) {
         System.arraycopy(listPart, 0, list, partStart, listPart.size)
         val highlights = mutableListOf(
             currentIndex highlighted HighlightOption.COLOURED_PRIMARY,
+            secondIndex highlighted HighlightOption.COLOURED_PRIMARY
         )
-        if (secondaryIndex != null) {
-            highlights += secondaryIndex highlighted HighlightOption.COLOURED_SECONDARY
-        }
         defineStep(highlights)
     }
 }

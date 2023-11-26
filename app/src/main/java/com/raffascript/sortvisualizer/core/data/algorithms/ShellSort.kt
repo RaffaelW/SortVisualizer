@@ -18,27 +18,31 @@ class ShellSort(list: IntArray) : Algorithm(list) {
 
                 var j = i
                 while (j >= gap && list[j - gap] > temp.alsoIncBoth(1, 2)) {
-                    defineStep(getHighlights(j, i))
                     list[j] = list[j - gap].alsoIncArrayAccess(2)
+                    defineStep(getHighlights(j, j - gap, i))
                     j -= gap
                 }
 
-                defineStep(getHighlights(j, i))
                 list[j] = temp.alsoIncArrayAccess()
+                defineStep(getHighlights(j, i, i))
                 i+= 1
             }
-            defineStep(getHighlights(i, i))
+            defineStep(getHighlights(i, null, i))
             gap /= 2
         }
 
         defineEnd()
     }
 
-    private fun getHighlights(primary: Int, firstLine: Int): List<Highlight> {
-        return listOf(
-            primary highlighted HighlightOption.COLOURED_PRIMARY,
-            firstLine highlighted HighlightOption.LINE
+    private fun getHighlights(firstIndex: Int, secondIndex: Int?, line: Int): List<Highlight> {
+        val highlights = listOf(
+            firstIndex highlighted HighlightOption.COLOURED_PRIMARY,
+            line highlighted HighlightOption.LINE
         )
+        if (secondIndex != null) {
+            return highlights + (secondIndex highlighted HighlightOption.COLOURED_PRIMARY)
+        }
+        return highlights
     }
 
 }

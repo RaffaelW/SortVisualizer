@@ -19,17 +19,20 @@ class GnomeSort(list: IntArray) : Algorithm(list) {
             if (list[index] >= list[index - 1].alsoIncBoth(2, 1)) {
                 index++
             } else {
-                val temp = list[index].alsoIncArrayAccess()
-                list[index] = list[index - 1].alsoIncArrayAccess(2)
-                list[index - 1] = temp.alsoIncArrayAccess()
+                swap(index, index - 1)
                 index--
             }
-            defineStep(getHighlights(index))
+            defineStep(getHighlights(index, index - 1))
         }
         defineEnd()
     }
 
-    private fun getHighlights(primary: Int): List<Highlight> {
-        return listOf(primary highlighted HighlightOption.COLOURED_PRIMARY)
+    private fun getHighlights(firstIndex: Int, secondIndex: Int? = null): List<Highlight> {
+        val highlights = listOf(
+            firstIndex highlighted HighlightOption.COLOURED_PRIMARY,
+        )
+        return if (secondIndex != null) {
+            highlights + (secondIndex highlighted HighlightOption.COLOURED_PRIMARY)
+        } else highlights
     }
 }
