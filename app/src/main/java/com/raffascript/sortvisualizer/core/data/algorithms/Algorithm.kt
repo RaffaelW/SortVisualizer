@@ -43,7 +43,7 @@ abstract class Algorithm(protected var list: IntArray) {
         return this
     }
 
-    protected fun <T> T.alsoIncBoth(arrayAccesses: Long = 1, comparisons: Long = 1): T {
+    protected fun <T> T.alsoIncBoth(arrayAccesses: Long, comparisons: Long): T {
         this@Algorithm.arrayAccesses += arrayAccesses
         this@Algorithm.comparisons += comparisons
         return this
