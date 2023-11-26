@@ -133,7 +133,8 @@ class ChartSurfaceView @JvmOverloads constructor(
             it.drawBackground()
 
             sortingList.forEachIndexed { index, value ->
-                it.drawBar(index, barWidth, unitHeight * value, highlights.getHighlightWithHighestPriority(index))
+                val highlight = highlights.getHighlightWithHighestPriority(index)
+                it.drawBar(index, barWidth, unitHeight * value, highlight)
             }
 
             highlights.getHighlightsWithOption(HighlightOption.LINE).forEach { highlight ->
