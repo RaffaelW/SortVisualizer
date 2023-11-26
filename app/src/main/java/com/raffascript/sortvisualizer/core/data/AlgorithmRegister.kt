@@ -103,6 +103,15 @@ class AlgorithmRegister {
             TimeComplexity.LINEAR,
             true,
             ::RadixSortLsd
+        ),
+        AlgorithmData(
+            11,
+            "QuickSort",
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUASILINEAR,
+            TimeComplexity.QUASILINEAR,
+            false,
+            ::QuickSort
         )
     )
     fun getAllAlgorithms(): List<AlgorithmData> {
