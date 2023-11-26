@@ -3,6 +3,7 @@ package com.raffascript.sortvisualizer.visualization.presentation
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -11,6 +12,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
@@ -32,8 +37,14 @@ import com.raffascript.sortvisualizer.visualization.data.AlgorithmState
 import com.raffascript.sortvisualizer.visualization.presentation.chart.Chart
 
 @Composable
-fun VisualizerScreen(state: VisualizerState, onEvent: (VisualizerUiEvent) -> Unit) {
-    val configuration = LocalConfiguration.current
+fun VisualizerScreen(state: VisualizerState, onEvent: (VisualizerUiEvent) -> Unit, navigateUp: () -> Unit) {
+
+    var hideChart by remember { mutableStateOf(false) }
+
+    BackHandler {
+        navigateUp()
+        hideChart = true
+    }
 
     if (state.showBottomSheet) {
         BottomSheet(
@@ -45,23 +56,25 @@ fun VisualizerScreen(state: VisualizerState, onEvent: (VisualizerUiEvent) -> Uni
         )
     }
 
+    val configuration = LocalConfiguration.current
     Column(modifier = Modifier.fillMaxSize()) {
         when (configuration.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
-                ContentLandscape(state = state, onEvent = onEvent)
+                ContentLandscape(state = state, hideChart = hideChart, onEvent = onEvent)
             }
             else -> {
-                ContentPortrait(state = state, onEvent = onEvent)
+                ContentPortrait(state = state, hideChart = hideChart, onEvent = onEvent)
             }
         }
     }
 }
 
 @Composable
-fun ColumnScope.ContentPortrait(state: VisualizerState, onEvent: (VisualizerUiEvent) -> Unit) {
+fun ColumnScope.ContentPortrait(state: VisualizerState, hideChart: Boolean, onEvent: (VisualizerUiEvent) -> Unit) {
     Chart(
         list = state.sortingList,
         highlights = state.highlights,
+        hideChart = hideChart,
         modifier = Modifier.fillMaxWidth().height(300.dp)
     )
 
@@ -80,13 +93,14 @@ fun ColumnScope.ContentPortrait(state: VisualizerState, onEvent: (VisualizerUiEv
 }
 
 @Composable
-fun ColumnScope.ContentLandscape(state: VisualizerState, onEvent: (VisualizerUiEvent) -> Unit) {
+fun ColumnScope.ContentLandscape(state: VisualizerState, hideChart: Boolean, onEvent: (VisualizerUiEvent) -> Unit) {
     // use LazyColumn to get access to Modifier.fillParentMaxHeight()
     LazyColumn(modifier = Modifier.weight(1f)) {
         item {
             Chart(
                 list = state.sortingList,
                 highlights = state.highlights,
+                hideChart = hideChart,
                 modifier = Modifier.fillMaxWidth().fillParentMaxHeight()
             )
 
@@ -234,6 +248,6 @@ fun VisualizerPreview() {
             sortingList = (1..5).toList().shuffled().toIntArray(),
             algorithmState = AlgorithmState.FINISHED
         )
-        VisualizerScreen(state = state, onEvent = {})
+        VisualizerScreen(state = state, onEvent = {}, navigateUp = {})
     }
 }
