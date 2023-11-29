@@ -53,7 +53,7 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
                 )
             })
             val state by viewModel.uiState.collectAsStateWithLifecycle()
-            VisualizerScreen(state = state, viewModel::onEvent, navController::navigateUp)
+            VisualizerScreen(state = state, viewModel::onEvent)
         }
     }
 }
