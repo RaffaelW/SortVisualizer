@@ -13,6 +13,5 @@ SortVisualizer is an Android application that visualizes how sorting algorithms 
 + CycleSort
 + HeapSort
 + MergeSort
-+ LSD RadixSort
-+ MSD RadixSort
++ RadixSort (LSD)
 + QuickSort
