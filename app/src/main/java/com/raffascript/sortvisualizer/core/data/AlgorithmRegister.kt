@@ -97,7 +97,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             10,
-            "LSD Radix Sort",
+            "RadixSort (LSD)",
             TimeComplexity.LINEAR,
             TimeComplexity.LINEAR,
             TimeComplexity.LINEAR,
@@ -106,15 +106,6 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             11,
-            "Msd Radix Sort",
-            TimeComplexity.LINEAR,
-            TimeComplexity.LINEAR,
-            TimeComplexity.LINEAR,
-            true,
-            ::RadixSortMsd
-        ),
-        AlgorithmData(
-            12,
             "QuickSort",
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUASILINEAR,
