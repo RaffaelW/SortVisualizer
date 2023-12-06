@@ -241,7 +241,7 @@ fun VisualizerPreview() {
                 "BubbleSort",
                 TimeComplexity.QUASILINEAR,
                 TimeComplexity.QUADRATIC,
-                TimeComplexity.INFINITE,
+                TimeComplexity.LINEAR,
                 true,
                 ::BubbleSort
             ),
