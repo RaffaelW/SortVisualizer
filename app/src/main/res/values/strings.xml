@@ -19,4 +19,7 @@
 
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="linear">Linear</string>
+    <string name="quasilinear">Quasilinear</string>
+    <string name="quadratic">Quadratisch</string>
 </resources>
