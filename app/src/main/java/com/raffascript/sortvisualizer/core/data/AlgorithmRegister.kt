@@ -114,6 +114,7 @@ class AlgorithmRegister {
             ::QuickSort
         )
     )
+
     fun getAllAlgorithms(): List<AlgorithmData> {
         return algorithms
     }
