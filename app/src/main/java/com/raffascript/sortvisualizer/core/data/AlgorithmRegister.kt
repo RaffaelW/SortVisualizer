@@ -115,8 +115,8 @@ class AlgorithmRegister {
         )
     )
 
-    fun getAllAlgorithms(): List<AlgorithmData> {
-        return algorithms
+    fun getAllAlgorithms(): Map<TimeComplexity, List<AlgorithmData>> {
+        return algorithms.groupBy { it.averageCaseTimeComplexity }
     }
 
     fun getAlgorithmById(id: Int): AlgorithmData? {
