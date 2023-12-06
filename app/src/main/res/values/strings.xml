@@ -22,4 +22,6 @@
     <string name="linear">Linear</string>
     <string name="quasilinear">Quasilinear</string>
     <string name="quadratic">Quadratisch</string>
+    <string name="fold">Einklappen</string>
+    <string name="expand">Ausklappen</string>
 </resources>
