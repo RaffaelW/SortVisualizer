@@ -95,7 +95,7 @@ fun SelectionScreen(state: SelectionState, navigateToVisualizer: (Int) -> Unit) 
 @Composable
 fun Header(text: String, isExpanded: Boolean, onClick: () -> Unit) {
     val degrees by remember(isExpanded) {
-        val value = if (isExpanded) 0f else 180f
+        val value = if (isExpanded) 180f else 0f
         mutableFloatStateOf(value)
     }
     val animatedDegrees by animateFloatAsState(
