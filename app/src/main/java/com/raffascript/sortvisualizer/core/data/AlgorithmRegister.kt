@@ -7,7 +7,7 @@ class AlgorithmRegister {
     private val algorithms = listOf(
         AlgorithmData(
             0,
-            "InsertionSort",
+            "Insertion Sort",
             AlgorithmGroup.INSERTION,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -18,7 +18,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             1,
-            "ShellSort",
+            "Shellsort",
             AlgorithmGroup.INSERTION,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUASILINEAR,
@@ -29,7 +29,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             2,
-            "SelectionSort",
+            "Selection Sort",
             AlgorithmGroup.SELECTION,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -40,7 +40,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             3,
-            "BubbleSort",
+            "Bubble Sort",
             AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -51,7 +51,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             4,
-            "ShakerSort",
+            "Cocktail Shaker Sort",
             AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -62,7 +62,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             5,
-            "CombSort",
+            "Comb Sort",
             AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -73,7 +73,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             6,
-            "GnomeSort",
+            "Gnome Sort",
             AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -84,7 +84,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             7,
-            "CycleSort",
+            "Cycle Sort",
             AlgorithmGroup.SELECTION,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -95,7 +95,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             8,
-            "HeapSort",
+            "Heapsort",
             AlgorithmGroup.SELECTION,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -106,7 +106,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             9,
-            "MergeSort",
+            "Merge Sort",
             AlgorithmGroup.MERGING,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -117,7 +117,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             10,
-            "RadixSort (LSD)",
+            "Radix Sort (LSD)",
             AlgorithmGroup.SELECTION,
             TimeComplexity.LINEAR,
             TimeComplexity.LINEAR,
@@ -128,7 +128,7 @@ class AlgorithmRegister {
         ),
         AlgorithmData(
             11,
-            "QuickSort",
+            "Quicksort",
             AlgorithmGroup.PARTITIONING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUASILINEAR,
