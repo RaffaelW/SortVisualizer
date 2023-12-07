@@ -1,28 +1,36 @@
 <resources>
     <string name="app_name">Algorithms Visualizer</string>
+
+    <string name="select_algorithm">Wähle einen Sortieralgorithmus</string>
     <string name="settings">Einstellungen</string>
     <string name="replay">Neustart</string>
     <string name="pause">Pause</string>
     <string name="play">Abspielen</string>
-    <string name="num_comparisons">Vergleiche:</string>
-    <string name="array_accesses">Array-Zugriffe:</string>
-    <string name="size_of_list">Größe der Liste (3 – 5000)</string>
-    <string name="delay">Delay</string>
     <string name="fullscreen">Vollbild</string>
     <string name="fullscreen_exit">Vollbild verlassen</string>
+
+
+    <string name="size_of_list">Größe der Liste (3 – 5000)</string>
+    <string name="delay">Delay</string>
     <string name="finish">Fertig</string>
     <string name="reset">Zurücksetzen</string>
+
+    <string name="num_comparisons">Vergleiche:</string>
+    <string name="array_accesses">Array-Zugriffe:</string>
     <string name="worst_case_time_complexity">Schlechteste Zeitkomplexität:</string>
     <string name="average_time_complexity">Durchshnittliche Zeitkomplexität:</string>
     <string name="best_case_time_complexity">Beste Zeitkomplexität:</string>
-    <string name="is_stable">Stabil:</string>
 
+    <string name="is_stable">Stabil:</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
-    <string name="linear">Linear</string>
-    <string name="quasilinear">Quasilinear</string>
-    <string name="quadratic">Quadratisch</string>
+
     <string name="fold">Einklappen</string>
     <string name="expand">Ausklappen</string>
-    <string name="select_algorithm">Wähle einen Sortieralgorithmus</string>
+
+    <string name="insertion">Insertion</string>
+    <string name="selection">Selection</string>
+    <string name="exchanging">Exchanging</string>
+    <string name="partitioning">Partitioning</string>
+    <string name="merging">Merging</string>
 </resources>

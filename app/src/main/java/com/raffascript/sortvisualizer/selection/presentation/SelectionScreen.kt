@@ -37,8 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.raffascript.sortvisualizer.R
 import com.raffascript.sortvisualizer.core.data.AlgorithmData
-import com.raffascript.sortvisualizer.core.data.TimeComplexity
-import com.raffascript.sortvisualizer.core.data.algorithms.InsertionSort
+import com.raffascript.sortvisualizer.core.data.AlgorithmRegister
 import com.raffascript.sortvisualizer.core.presentation.rememberStateMapSaveable
 import com.raffascript.sortvisualizer.core.presentation.theme.AlgorithmsVisualizerTheme
 
@@ -73,7 +72,7 @@ fun SelectionScreen(state: SelectionState, navigateToVisualizer: (Int) -> Unit) 
 
                 stickyHeader {
                     Header(
-                        text = stringResource(id = key.fullName),
+                        text = stringResource(id = key.nameRes),
                         isExpanded = isExpandedMap[index] ?: true,
                         onClick = {
                             isExpandedMap[index] = !(isExpandedMap[index] ?: true)
@@ -144,19 +143,7 @@ fun ListRow(algorithm: AlgorithmData, onClick: () -> Unit) {
 @Composable
 fun SelectionScreenPreview() {
     AlgorithmsVisualizerTheme(darkTheme = false) {
-        val state = SelectionState(
-            listOf(
-                AlgorithmData(
-                    0,
-                    "InsertionSort",
-                    TimeComplexity.QUADRATIC,
-                    TimeComplexity.QUADRATIC,
-                    TimeComplexity.LINEAR,
-                    true,
-                    ::InsertionSort
-                )
-            ).groupBy { it.averageCaseTimeComplexity }
-        )
+        val state = SelectionState(AlgorithmRegister().getAllAlgorithms())
         SelectionScreen(state = state, navigateToVisualizer = {})
     }
 }

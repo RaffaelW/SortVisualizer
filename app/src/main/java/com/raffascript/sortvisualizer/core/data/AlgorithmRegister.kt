@@ -8,6 +8,7 @@ class AlgorithmRegister {
         AlgorithmData(
             0,
             "InsertionSort",
+            AlgorithmGroup.INSERTION,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
@@ -17,6 +18,7 @@ class AlgorithmRegister {
         AlgorithmData(
             1,
             "ShellSort",
+            AlgorithmGroup.INSERTION,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -26,6 +28,7 @@ class AlgorithmRegister {
         AlgorithmData(
             2,
             "SelectionSort",
+            AlgorithmGroup.SELECTION,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -35,6 +38,7 @@ class AlgorithmRegister {
         AlgorithmData(
             3,
             "BubbleSort",
+            AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
@@ -44,6 +48,7 @@ class AlgorithmRegister {
         AlgorithmData(
             4,
             "ShakerSort",
+            AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
@@ -53,6 +58,7 @@ class AlgorithmRegister {
         AlgorithmData(
             5,
             "CombSort",
+            AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUASILINEAR,
@@ -62,6 +68,7 @@ class AlgorithmRegister {
         AlgorithmData(
             6,
             "GnomeSort",
+            AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
@@ -71,6 +78,7 @@ class AlgorithmRegister {
         AlgorithmData(
             7,
             "CycleSort",
+            AlgorithmGroup.SELECTION,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
@@ -80,6 +88,7 @@ class AlgorithmRegister {
         AlgorithmData(
             8,
             "HeapSort",
+            AlgorithmGroup.SELECTION,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -89,6 +98,7 @@ class AlgorithmRegister {
         AlgorithmData(
             9,
             "MergeSort",
+            AlgorithmGroup.MERGING,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -98,6 +108,7 @@ class AlgorithmRegister {
         AlgorithmData(
             10,
             "RadixSort (LSD)",
+            AlgorithmGroup.SELECTION,
             TimeComplexity.LINEAR,
             TimeComplexity.LINEAR,
             TimeComplexity.LINEAR,
@@ -107,6 +118,7 @@ class AlgorithmRegister {
         AlgorithmData(
             11,
             "QuickSort",
+            AlgorithmGroup.PARTITIONING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
@@ -115,8 +127,8 @@ class AlgorithmRegister {
         )
     )
 
-    fun getAllAlgorithms(): Map<TimeComplexity, List<AlgorithmData>> {
-        return algorithms.groupBy { it.averageCaseTimeComplexity }
+    fun getAllAlgorithms(): Map<AlgorithmGroup, List<AlgorithmData>> {
+        return algorithms.groupBy { it.group }
     }
 
     fun getAlgorithmById(id: Int): AlgorithmData? {

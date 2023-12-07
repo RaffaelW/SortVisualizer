@@ -29,8 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.raffascript.sortvisualizer.R
 import com.raffascript.sortvisualizer.core.data.AlgorithmData
-import com.raffascript.sortvisualizer.core.data.TimeComplexity
-import com.raffascript.sortvisualizer.core.data.algorithms.BubbleSort
+import com.raffascript.sortvisualizer.core.data.AlgorithmRegister
 import com.raffascript.sortvisualizer.core.presentation.MainActivity
 import com.raffascript.sortvisualizer.core.presentation.theme.AlgorithmsVisualizerTheme
 import com.raffascript.sortvisualizer.visualization.data.AlgorithmState
@@ -236,15 +235,7 @@ fun BottomBar(
 fun VisualizerPreview() {
     AlgorithmsVisualizerTheme(darkTheme = true) {
         val state = VisualizerState(
-            algorithmData = AlgorithmData(
-                0,
-                "BubbleSort",
-                TimeComplexity.QUASILINEAR,
-                TimeComplexity.QUADRATIC,
-                TimeComplexity.LINEAR,
-                true,
-                ::BubbleSort
-            ),
+            algorithmData = AlgorithmRegister().getAllAlgorithms().values.first().first(),
             sortingList = (1..5).toList().shuffled().toIntArray(),
             algorithmState = AlgorithmState.FINISHED
         )
