@@ -17,6 +17,8 @@
 
     <string name="num_comparisons">Vergleiche:</string>
     <string name="array_accesses">Array-Zugriffe:</string>
+
+    <string name="algorithm_method">Methode:</string>
     <string name="worst_case_time_complexity">Schlechteste Zeitkomplexität:</string>
     <string name="average_time_complexity">Durchshnittliche Zeitkomplexität:</string>
     <string name="best_case_time_complexity">Beste Zeitkomplexität:</string>

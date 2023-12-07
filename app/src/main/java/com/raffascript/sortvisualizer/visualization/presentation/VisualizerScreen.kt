@@ -134,6 +134,7 @@ fun AlgorithmDataSurface(modifier: Modifier = Modifier, algorithmData: Algorithm
 
         val isStableStringRes = if (algorithmData.isStable) R.string.yes else R.string.no
         val strings = listOf(
+            R.string.algorithm_method to stringResource(id = algorithmData.group.nameRes),
             R.string.worst_case_time_complexity to algorithmData.worstCaseTimeComplexity.abbreviation,
             R.string.average_time_complexity to algorithmData.averageCaseTimeComplexity.abbreviation,
             R.string.best_case_time_complexity to algorithmData.bestCaseTimeComplexity.abbreviation,
