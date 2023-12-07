@@ -80,16 +80,12 @@ fun ColumnScope.ContentPortrait(state: VisualizerState, hideChart: Boolean, onEv
         modifier = Modifier.fillMaxWidth().height(300.dp)
     )
 
-    Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.secondary) {
-        ProgressSurface(state.comparisonCount, state.arrayAccessCount)
-    }
+    ProgressSurface(state.comparisonCount, state.arrayAccessCount)
 
-    Surface(modifier = Modifier.fillMaxWidth().weight(1f), color = MaterialTheme.colorScheme.surface) {
-        AlgorithmDataSurface(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
-            algorithmData = state.algorithmData
-        )
-    }
+    AlgorithmDataSurface(
+        modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
+        algorithmData = state.algorithmData
+    )
 
     BottomBar(state.algorithmData.name, false, state.algorithmState, onEvent = onEvent)
 }
@@ -106,13 +102,9 @@ fun ColumnScope.ContentLandscape(state: VisualizerState, hideChart: Boolean, onE
                 modifier = Modifier.fillMaxWidth().fillParentMaxHeight()
             )
 
-            Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.secondary) {
-                ProgressSurface(state.comparisonCount, state.arrayAccessCount)
-            }
+            ProgressSurface(state.comparisonCount, state.arrayAccessCount)
 
-            Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.surface) {
-                AlgorithmDataSurface(algorithmData = state.algorithmData)
-            }
+            AlgorithmDataSurface(algorithmData = state.algorithmData)
         }
     }
 
@@ -121,12 +113,14 @@ fun ColumnScope.ContentLandscape(state: VisualizerState, hideChart: Boolean, onE
 
 @Composable
 fun ProgressSurface(comparisonCount: Long, arrayAccessCount: Long) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Text(text = "${stringResource(R.string.num_comparisons)} $comparisonCount")
-        Text(text = "${stringResource(R.string.array_accesses)} $arrayAccessCount")
+    Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.secondaryContainer) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Text(text = "${stringResource(R.string.num_comparisons)} $comparisonCount")
+            Text(text = "${stringResource(R.string.array_accesses)} $arrayAccessCount")
+        }
     }
 }
 
@@ -134,7 +128,11 @@ fun ProgressSurface(comparisonCount: Long, arrayAccessCount: Long) {
 fun AlgorithmDataSurface(modifier: Modifier = Modifier, algorithmData: AlgorithmData) {
     Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = algorithmData.name, style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = algorithmData.name,
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.titleLarge
+            )
 
             val uriHandler = LocalUriHandler.current
             IconButton(onClick = {
@@ -178,8 +176,6 @@ fun BottomBar(
 ) {
     val activity = LocalContext.current as Activity
     BottomAppBar(
-        containerColor = MaterialTheme.colorScheme.surface,
-        tonalElevation = 10.dp,
         actions = {
             IconButton(onClick = { onEvent(VisualizerUiEvent.ShowBottomSheet) }) {
                 Icon(
