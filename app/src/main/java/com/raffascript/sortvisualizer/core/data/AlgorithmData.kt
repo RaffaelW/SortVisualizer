@@ -10,5 +10,6 @@ data class AlgorithmData(
     val averageCaseTimeComplexity: TimeComplexity,
     val bestCaseTimeComplexity: TimeComplexity,
     val isStable: Boolean,
-    val constructor: (IntArray) -> Algorithm,
+    val uri: String,
+    val constructor: (IntArray) -> Algorithm
 )

@@ -13,6 +13,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
             true,
+            "https://en.wikipedia.org/wiki/Insertion_sort",
             ::InsertionSort
         ),
         AlgorithmData(
@@ -23,6 +24,7 @@ class AlgorithmRegister {
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             false,
+            "https://en.wikipedia.org/wiki/Shellsort",
             ::ShellSort
         ),
         AlgorithmData(
@@ -33,6 +35,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             false,
+            "https://en.wikipedia.org/wiki/Selection_sort",
             ::SelectionSort
         ),
         AlgorithmData(
@@ -43,6 +46,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
             true,
+            "https://en.wikipedia.org/wiki/Bubble_sort",
             ::BubbleSort
         ),
         AlgorithmData(
@@ -53,6 +57,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
             true,
+            "https://en.wikipedia.org/wiki/Cocktail_shaker_sort",
             ::ShakerSort
         ),
         AlgorithmData(
@@ -63,6 +68,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUASILINEAR,
             false,
+            "https://en.wikipedia.org/wiki/Comb_sort",
             ::CombSort
         ),
         AlgorithmData(
@@ -73,6 +79,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.LINEAR,
             true,
+            "https://en.wikipedia.org/wiki/Gnome_sort",
             ::GnomeSort
         ),
         AlgorithmData(
@@ -83,6 +90,7 @@ class AlgorithmRegister {
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
             false,
+            "https://en.wikipedia.org/wiki/Cycle_sort",
             ::CycleSort
         ),
         AlgorithmData(
@@ -93,6 +101,7 @@ class AlgorithmRegister {
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             false,
+            "https://en.wikipedia.org/wiki/Heapsort",
             ::HeapSort
         ),
         AlgorithmData(
@@ -103,6 +112,7 @@ class AlgorithmRegister {
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             true,
+            "https://en.wikipedia.org/wiki/Merge_sort",
             ::MergeSort
         ),
         AlgorithmData(
@@ -113,6 +123,7 @@ class AlgorithmRegister {
             TimeComplexity.LINEAR,
             TimeComplexity.LINEAR,
             true,
+            "https://en.wikipedia.org/wiki/Radix_sort",
             ::RadixSortLsd
         ),
         AlgorithmData(
@@ -123,6 +134,7 @@ class AlgorithmRegister {
             TimeComplexity.QUASILINEAR,
             TimeComplexity.QUASILINEAR,
             false,
+            "https://en.wikipedia.org/wiki/Quicksort",
             ::QuickSort
         )
     )

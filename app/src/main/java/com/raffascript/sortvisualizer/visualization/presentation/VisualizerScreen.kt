@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -16,10 +17,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -130,7 +133,19 @@ fun ProgressSurface(comparisonCount: Long, arrayAccessCount: Long) {
 @Composable
 fun AlgorithmDataSurface(modifier: Modifier = Modifier, algorithmData: AlgorithmData) {
     Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
-        Text(text = algorithmData.name, style = MaterialTheme.typography.titleLarge)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = algorithmData.name, style = MaterialTheme.typography.titleLarge)
+
+            val uriHandler = LocalUriHandler.current
+            IconButton(onClick = {
+                uriHandler.openUri(algorithmData.uri)
+            }) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = stringResource(R.string.information)
+                )
+            }
+        }
 
         val isStableStringRes = if (algorithmData.isStable) R.string.yes else R.string.no
         val strings = listOf(
