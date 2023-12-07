@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,18 +19,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
-import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateMap
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +39,7 @@ import com.raffascript.sortvisualizer.R
 import com.raffascript.sortvisualizer.core.data.AlgorithmData
 import com.raffascript.sortvisualizer.core.data.TimeComplexity
 import com.raffascript.sortvisualizer.core.data.algorithms.InsertionSort
+import com.raffascript.sortvisualizer.core.presentation.rememberStateMapSaveable
 import com.raffascript.sortvisualizer.core.presentation.theme.AlgorithmsVisualizerTheme
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,7 +54,7 @@ fun SelectionScreen(state: SelectionState, navigateToVisualizer: (Int) -> Unit) 
     Column {
 
         Text(
-            text = "Wähle einen Sortieralgorithmus",
+            text = stringResource(R.string.select_algorithm),
             style = MaterialTheme.typography.titleLarge,
             fontSize = 22.sp,
             modifier = Modifier.fillMaxWidth()
@@ -61,7 +62,7 @@ fun SelectionScreen(state: SelectionState, navigateToVisualizer: (Int) -> Unit) 
                 .padding(horizontal = 8.dp, vertical = 12.dp)
         )
 
-        val isExpandedMap = remember {
+        val isExpandedMap = rememberStateMapSaveable {
             List(state.algorithmData.size) { index ->
                 index to true
             }.toMutableStateMap()
@@ -94,6 +95,16 @@ fun SelectionScreen(state: SelectionState, navigateToVisualizer: (Int) -> Unit) 
 
 @Composable
 fun Header(text: String, isExpanded: Boolean, onClick: () -> Unit) {
+    val degrees by remember(isExpanded) {
+        val value = if (isExpanded) 0f else 180f
+        mutableFloatStateOf(value)
+    }
+    val animatedDegrees by animateFloatAsState(
+        targetValue = degrees,
+        label = "arrow rotation",
+        animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
+    )
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         onClick = onClick
@@ -107,16 +118,11 @@ fun Header(text: String, isExpanded: Boolean, onClick: () -> Unit) {
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp).weight(1f)
             )
 
-            val (icon, descriptionRes) = if (isExpanded) {
-                Pair(Icons.Rounded.KeyboardArrowDown, R.string.fold)
-            } else {
-                Pair(Icons.Rounded.KeyboardArrowUp, R.string.expand)
-            }
             Icon(
-                imageVector = icon,
-                contentDescription = stringResource(id = descriptionRes),
+                imageVector = Icons.Rounded.KeyboardArrowDown,
+                contentDescription = stringResource(id = if (isExpanded) R.string.fold else R.string.expand),
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.align(Alignment.CenterVertically).padding(end = 8.dp)
+                modifier = Modifier.align(Alignment.CenterVertically).padding(end = 8.dp).rotate(animatedDegrees)
             )
         }
     }

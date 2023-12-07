@@ -24,4 +24,5 @@
     <string name="quadratic">Quadratisch</string>
     <string name="fold">Einklappen</string>
     <string name="expand">Ausklappen</string>
+    <string name="select_algorithm">Wähle einen Sortieralgorithmus</string>
 </resources>
