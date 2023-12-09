@@ -19,7 +19,7 @@ class AlgorithmRepository(
 
     private lateinit var algorithm: Algorithm
     private var state = AlgorithmState.UNINITIALIZED
-    private var delayNanos = 0
+    private var delayNanos = 0L
     private var listSize = 0
 
     private var isRestartRequested = false
@@ -29,7 +29,8 @@ class AlgorithmRepository(
     init {
         CoroutineScope(Dispatchers.Default).launch {
             userPreferencesRepository.getUserPreferencesFlow().collect { preferences ->
-                delayNanos = preferences.delay.millis * 1000
+                delayNanos = preferences.delay.millis * 1000L * 1000L
+                Log.d("SortVisualizer", "delay in nanos: $delayNanos")
                 if (listSize != preferences.listSize && ::algorithm.isInitialized) {
                     listSize = preferences.listSize
                     isRestartRequested = true
@@ -184,7 +185,7 @@ class AlgorithmRepository(
     }
 
     @JvmName("algorithm_wait")
-    private fun wait(nanos: Int) {
+    private fun wait(nanos: Long) {
         val startTime = System.nanoTime()
         while (System.nanoTime() - startTime < nanos) {
             // wait exactly
