@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Algorithms Visualizer</string>
+    <string name="app_name">Sort Visualizer</string>
 
     <string name="select_algorithm">Wähle einen Sortieralgorithmus</string>
     <string name="settings">Einstellungen</string>
