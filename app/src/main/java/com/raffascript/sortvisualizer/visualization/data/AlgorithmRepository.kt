@@ -185,8 +185,8 @@ class AlgorithmRepository(
 
     @JvmName("algorithm_wait")
     private fun wait(millis: Int) {
-        val startTime = System.currentTimeMillis()
-        while (System.currentTimeMillis() - startTime < millis) {
+        val startTime = System.nanoTime()
+        while (System.nanoTime() - startTime < millis) {
             // wait exactly
             if (state != AlgorithmState.RUNNING) break
         }
