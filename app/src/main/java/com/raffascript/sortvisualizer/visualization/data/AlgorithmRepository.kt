@@ -19,7 +19,7 @@ class AlgorithmRepository(
 
     private lateinit var algorithm: Algorithm
     private var state = AlgorithmState.UNINITIALIZED
-    private var delayNanos = 0
+    private var delayMillis = 0
     private var listSize = 0
 
     private var isRestartRequested = false
@@ -29,7 +29,7 @@ class AlgorithmRepository(
     init {
         CoroutineScope(Dispatchers.Default).launch {
             userPreferencesRepository.getUserPreferencesFlow().collect { preferences ->
-                delayNanos = preferences.delay.millis * 1000
+                delayMillis = preferences.delay.millis
                 if (listSize != preferences.listSize && ::algorithm.isInitialized) {
                     listSize = preferences.listSize
                     isRestartRequested = true
@@ -121,7 +121,7 @@ class AlgorithmRepository(
 
                 emit(getUpdatedProgress(list, state, highlights, arrayAccesses, comparisons))
 
-                wait(delayNanos)
+                wait(delayMillis)
 
                 if (state == AlgorithmState.PAUSED) {
                     Log.d("SortVisualizer", "handleStateCycle: PAUSING ###########################")
