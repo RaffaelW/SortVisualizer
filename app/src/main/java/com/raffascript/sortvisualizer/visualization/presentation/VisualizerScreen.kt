@@ -220,14 +220,7 @@ fun BottomBar(
             FloatingActionButton(
                 containerColor = MaterialTheme.colorScheme.primary,
                 onClick = {
-                    when (algorithmState) {
-                        AlgorithmState.RUNNING -> VisualizerUiEvent.Pause
-                        AlgorithmState.READY, AlgorithmState.UNINITIALIZED -> VisualizerUiEvent.Play
-                        AlgorithmState.PAUSED -> VisualizerUiEvent.Resume
-                        AlgorithmState.FINISHED -> VisualizerUiEvent.Restart
-                    }.run {
-                        onEvent(this)
-                    }
+                    onEvent(VisualizerUiEvent.ToggleAlgorithmState)
                 }
             ) {
                 val (painter, descriptionId) = when (algorithmState) {

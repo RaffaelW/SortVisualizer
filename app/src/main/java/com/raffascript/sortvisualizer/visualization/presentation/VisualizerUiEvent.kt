@@ -4,9 +4,7 @@ import com.raffascript.sortvisualizer.visualization.data.DelayValue
 
 sealed interface VisualizerUiEvent {
     // algorithm control
-    object Play : VisualizerUiEvent
-    object Pause : VisualizerUiEvent
-    object Resume : VisualizerUiEvent
+    object ToggleAlgorithmState : VisualizerUiEvent
     object Restart : VisualizerUiEvent
 
     // bottom sheet

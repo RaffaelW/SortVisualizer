@@ -1,11 +1,17 @@
 package com.raffascript.sortvisualizer.visualization.data
 
+import android.util.Log
 import com.raffascript.sortvisualizer.core.data.algorithms.Algorithm
 import com.raffascript.sortvisualizer.visualization.data.preferences.UserPreferencesRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 
 class AlgorithmRepository(
     private val userPreferencesRepository: UserPreferencesRepository
@@ -34,25 +40,31 @@ class AlgorithmRepository(
         }
     }
 
-    fun startAlgorithm() {
-        if (state != AlgorithmState.READY && state != AlgorithmState.RUNNING) {
-            throw IllegalStateException("Cannot start an algorithm that is not ready")
+    fun startAlgorithm(): Boolean {
+        return if (state == AlgorithmState.READY) {
+            state = AlgorithmState.RUNNING
+            true
+        } else {
+            false
         }
-        state = AlgorithmState.RUNNING
     }
 
-    fun pauseAlgorithm() {
-        if (state != AlgorithmState.RUNNING && state != AlgorithmState.PAUSED) {
-            throw IllegalStateException("Cannot pause an algorithm that is not running")
+    fun pauseAlgorithm(): Boolean {
+        return if (state == AlgorithmState.RUNNING) {
+            state = AlgorithmState.PAUSED
+            return true
+        } else {
+            false
         }
-        state = AlgorithmState.PAUSED
     }
 
-    fun resumeAlgorithm() {
-        if (state != AlgorithmState.PAUSED && state != AlgorithmState.RUNNING) {
-            throw IllegalStateException("Cannot resume an algorithm that is not paused")
+    fun resumeAlgorithm(): Boolean {
+        return if (state == AlgorithmState.PAUSED) {
+            state = AlgorithmState.RUNNING
+            true
+        } else {
+            false
         }
-        state = AlgorithmState.RUNNING
     }
 
     fun restartAlgorithm() {
@@ -82,6 +94,7 @@ class AlgorithmRepository(
             val array = generateShuffledArray(listSize)
             algorithm = algorithmConstructor(array)
             state = AlgorithmState.READY
+            isRestartRequested = false
             progress = AlgorithmProgress(array, state, emptyList(), 0, 0)
         }
 
@@ -111,8 +124,10 @@ class AlgorithmRepository(
                 wait(delayMillis)
 
                 if (state == AlgorithmState.PAUSED) {
+                    Log.d("SortVisualizer", "handleStateCycle: PAUSING ###########################")
                     emit(getUpdatedProgress(state = state))
                     waitForState(AlgorithmState.RUNNING)
+                    Log.d("SortVisualizer", "handleStateCycle: RUNNING AGAIN ###########################")
                     emit(getUpdatedProgress(state = state))
                 }
 
@@ -164,9 +179,8 @@ class AlgorithmRepository(
     private fun AlgorithmProgress.shouldEmitNext(next: AlgorithmProgress): Boolean {
         if (!this.list.contentEquals(next.list)) return true
         if (this.state != next.state) return true
-        if (this.highlights != next.highlights) return true
         // array accesses should not trigger a new emit due to performance reasons
-        return false
+        return this.highlights != next.highlights
     }
 
     @JvmName("algorithm_wait")

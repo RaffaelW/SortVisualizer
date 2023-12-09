@@ -1,35 +1,38 @@
 package com.raffascript.sortvisualizer.visualization.presentation
 
+import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raffascript.sortvisualizer.core.data.AlgorithmRegister
 import com.raffascript.sortvisualizer.core.presentation.navigation.Screen
 import com.raffascript.sortvisualizer.core.util.Resource
+import com.raffascript.sortvisualizer.visualization.data.AlgorithmRepository
+import com.raffascript.sortvisualizer.visualization.data.AlgorithmState
 import com.raffascript.sortvisualizer.visualization.data.DelayValue
-import com.raffascript.sortvisualizer.visualization.domain.*
-import com.raffascript.sortvisualizer.visualization.domain.algorithm.GetAlgorithmProgressFlowUseCase
-import com.raffascript.sortvisualizer.visualization.domain.algorithm.PauseAlgorithmUseCase
-import com.raffascript.sortvisualizer.visualization.domain.algorithm.RestartAlgorithmUseCase
-import com.raffascript.sortvisualizer.visualization.domain.algorithm.ResumeAlgorithmUseCase
-import com.raffascript.sortvisualizer.visualization.domain.algorithm.StartAlgorithmUseCase
+import com.raffascript.sortvisualizer.visualization.domain.ChangeDelayUseCase
+import com.raffascript.sortvisualizer.visualization.domain.ChangeListSizeUseCase
+import com.raffascript.sortvisualizer.visualization.domain.LoadUserPreferencesUseCase
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 
 class VisualizerViewModel(
     savedStateHandle: SavedStateHandle,
     algorithmRegister: AlgorithmRegister,
+    private val algorithmRepository: AlgorithmRepository,
     loadUserPreferencesUseCase: LoadUserPreferencesUseCase,
-    private val startAlgorithmUseCase: StartAlgorithmUseCase,
-    private val pauseAlgorithmUseCase: PauseAlgorithmUseCase,
-    private val resumeAlgorithmUseCase: ResumeAlgorithmUseCase,
-    private val restartAlgorithmUseCase: RestartAlgorithmUseCase,
-    private val getAlgorithmProgressFlowUseCase: GetAlgorithmProgressFlowUseCase,
     private val changeListSizeUseCase: ChangeListSizeUseCase,
-    private val changeDelayUseCase: ChangeDelayUseCase,
-) : ViewModel() {
+    private val changeDelayUseCase: ChangeDelayUseCase
+) : ViewModel(), DefaultLifecycleObserver {
 
     private val algorithmId = savedStateHandle.get<Int>(Screen.Visualizer.argAlgorithmId)!! // get arguments from navigation
     private val algorithmData = algorithmRegister.getAlgorithmById(algorithmId)!!
@@ -53,21 +56,38 @@ class VisualizerViewModel(
         }
     }
 
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+        algorithmRepository.pauseAlgorithm()
+        Log.d("VisualizerViewModel", "onPause: running")
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+        algorithmRepository.pauseAlgorithm()
+        Log.d("VisualizerViewModel", "onStop: running")
+    }
+
     fun onEvent(event: VisualizerUiEvent) {
         when (event) {
             is VisualizerUiEvent.ShowBottomSheet -> _uiState.update { it.copy(showBottomSheet = true) }
             is VisualizerUiEvent.HideBottomSheet -> _uiState.update { it.copy(showBottomSheet = false) }
             is VisualizerUiEvent.ChangeDelay -> changeDelay(event.delay)
             is VisualizerUiEvent.ChangeListSizeInput -> changeListSizeInput(event.input)
-            is VisualizerUiEvent.Play -> startAlgorithmUseCase()
-            is VisualizerUiEvent.Pause -> pauseAlgorithmUseCase()
-            is VisualizerUiEvent.Resume -> resumeAlgorithmUseCase()
-            is VisualizerUiEvent.Restart -> restartAlgorithmUseCase()
+            is VisualizerUiEvent.Restart -> algorithmRepository.restartAlgorithm()
+            is VisualizerUiEvent.ToggleAlgorithmState -> {
+                when (_uiState.value.algorithmState) {
+                    AlgorithmState.RUNNING -> algorithmRepository.pauseAlgorithm()
+                    AlgorithmState.READY, AlgorithmState.UNINITIALIZED -> algorithmRepository.startAlgorithm()
+                    AlgorithmState.PAUSED -> algorithmRepository.resumeAlgorithm()
+                    AlgorithmState.FINISHED -> algorithmRepository.restartAlgorithm()
+                }
+            }
         }
     }
 
     private suspend fun collectAlgorithmProgressFlow() {
-        getAlgorithmProgressFlowUseCase(algorithmData.constructor).collect { progress ->
+        algorithmRepository.getProgressFlow(algorithmData.constructor).collect { progress ->
             _uiState.update {
                 it.copy(
                     sortingList = progress.list,

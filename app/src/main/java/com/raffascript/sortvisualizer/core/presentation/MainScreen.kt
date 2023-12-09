@@ -2,6 +2,7 @@ package com.raffascript.sortvisualizer.core.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -27,6 +28,7 @@ fun MainScreen() {
 @Composable
 fun MainNavHost(navController: NavHostController, startDestination: String) {
     NavHost(navController = navController, startDestination = startDestination) {
+
         composable(route = Screen.Selection.route) {
             val viewModel = viewModel<SelectionViewModel>(factory = viewModelFactory {
                 SelectionViewModel(MyApp.appModule.algorithmRegister)
@@ -37,23 +39,24 @@ fun MainNavHost(navController: NavHostController, startDestination: String) {
                 navigateToVisualizer = { navController.navigate(Screen.Visualizer.createRoute(it)) }
             )
         }
+
         composable(route = Screen.Visualizer.route, arguments = Screen.Visualizer.arguments) {
             val viewModel = viewModel<VisualizerViewModel>(factory = viewModelFactory {
                 VisualizerViewModel(
                     it,
                     MyApp.appModule.algorithmRegister,
+                    MyApp.appModule.algorithmRepository,
                     MyApp.useCaseModule.loadUserPreferencesUseCase,
-                    MyApp.useCaseModule.startAlgorithmUseCase,
-                    MyApp.useCaseModule.pauseAlgorithmUseCase,
-                    MyApp.useCaseModule.resumeAlgorithmUseCase,
-                    MyApp.useCaseModule.restartAlgorithmUseCase,
-                    MyApp.useCaseModule.getAlgorithmProgressFlowUseCase,
                     MyApp.useCaseModule.changeListSizeUseCase,
                     MyApp.useCaseModule.changeDelayUseCase
                 )
             })
+
+            viewModel.observeLifecycleEvents(LocalLifecycleOwner.current.lifecycle)
+
             val state by viewModel.uiState.collectAsStateWithLifecycle()
             VisualizerScreen(state = state, viewModel::onEvent, navController::navigateUp)
         }
+
     }
 }
