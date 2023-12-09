@@ -19,7 +19,7 @@ class AlgorithmRepository(
 
     private lateinit var algorithm: Algorithm
     private var state = AlgorithmState.UNINITIALIZED
-    private var delayMillis = 0
+    private var delayNanos = 0
     private var listSize = 0
 
     private var isRestartRequested = false
@@ -29,7 +29,7 @@ class AlgorithmRepository(
     init {
         CoroutineScope(Dispatchers.Default).launch {
             userPreferencesRepository.getUserPreferencesFlow().collect { preferences ->
-                delayMillis = preferences.delay.millis
+                delayNanos = preferences.delay.millis * 1000
                 if (listSize != preferences.listSize && ::algorithm.isInitialized) {
                     listSize = preferences.listSize
                     isRestartRequested = true
@@ -121,7 +121,7 @@ class AlgorithmRepository(
 
                 emit(getUpdatedProgress(list, state, highlights, arrayAccesses, comparisons))
 
-                wait(delayMillis)
+                wait(delayNanos)
 
                 if (state == AlgorithmState.PAUSED) {
                     Log.d("SortVisualizer", "handleStateCycle: PAUSING ###########################")
@@ -184,9 +184,9 @@ class AlgorithmRepository(
     }
 
     @JvmName("algorithm_wait")
-    private fun wait(millis: Int) {
-        val startTime = System.currentTimeMillis()
-        while (System.currentTimeMillis() - startTime < millis) {
+    private fun wait(nanos: Int) {
+        val startTime = System.nanoTime()
+        while (System.nanoTime() - startTime < nanos) {
             // wait exactly
             if (state != AlgorithmState.RUNNING) break
         }
