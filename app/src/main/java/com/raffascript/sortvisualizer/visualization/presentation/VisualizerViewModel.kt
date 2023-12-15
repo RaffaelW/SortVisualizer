@@ -68,6 +68,11 @@ class VisualizerViewModel(
         Log.d("VisualizerViewModel", "onStop: running")
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        algorithmThread.close()
+    }
+
     fun onEvent(event: VisualizerUiEvent) {
         when (event) {
             is VisualizerUiEvent.ShowBottomSheet -> _uiState.update { it.copy(showBottomSheet = true) }
