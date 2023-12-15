@@ -143,10 +143,21 @@ class AlgorithmRegister {
             AlgorithmGroup.EXCHANGING,
             TimeComplexity.QUADRATIC,
             TimeComplexity.QUADRATIC,
-            TimeComplexity.QUADRATIC,
+            TimeComplexity.LINEAR,
             false,
             "https://en.wikipedia.org/wiki/Pancake_sorting",
             ::PancakeSort
+        ),
+        AlgorithmData(
+            13,
+            "Odd-Even Sort",
+            AlgorithmGroup.EXCHANGING,
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.LINEAR,
+            true,
+            "https://en.wikipedia.org/wiki/Odd-even_sort",
+            ::OddEvenSort
         )
     )
 
