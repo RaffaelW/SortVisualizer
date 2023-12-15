@@ -136,6 +136,17 @@ class AlgorithmRegister {
             false,
             "https://en.wikipedia.org/wiki/Quicksort",
             ::QuickSort
+        ),
+        AlgorithmData(
+            12,
+            "Pancake Sort",
+            AlgorithmGroup.EXCHANGING,
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUADRATIC,
+            TimeComplexity.QUADRATIC,
+            false,
+            "https://en.wikipedia.org/wiki/Pancake_sorting",
+            ::PancakeSort
         )
     )
 
