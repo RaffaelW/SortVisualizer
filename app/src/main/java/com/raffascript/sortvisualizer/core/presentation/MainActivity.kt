@@ -20,7 +20,6 @@ import com.raffascript.sortvisualizer.core.presentation.theme.AlgorithmsVisualiz
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         installSplashScreen().apply {
             setOnExitAnimationListener { screen ->
                 val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, .5f, 0f).apply {
@@ -37,6 +36,7 @@ class MainActivity : ComponentActivity() {
                 zoomY.start()
             }
         }
+        super.onCreate(savedInstanceState)
         setContent {
             AlgorithmsVisualizerTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
