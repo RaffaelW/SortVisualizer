@@ -22,18 +22,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().apply {
             setOnExitAnimationListener { screen ->
-                val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, .5f, 0f).apply {
-                    interpolator = OvershootInterpolator()
-                    duration = 500L
-                    doOnEnd { screen.remove() }
+                try {
+                    val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, .5f, 0f).apply {
+                        interpolator = OvershootInterpolator()
+                        duration = 500L
+                        doOnEnd { screen.remove() }
+                    }
+                    val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, .5f, 0f).apply {
+                        interpolator = OvershootInterpolator()
+                        duration = 500L
+                        doOnEnd { screen.remove() }
+                    }
+                    zoomX.start()
+                    zoomY.start()
+                } catch (e: NullPointerException) {
+                    screen.remove()
                 }
-                val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, .5f, 0f).apply {
-                    interpolator = OvershootInterpolator()
-                    duration = 500L
-                    doOnEnd { screen.remove() }
-                }
-                zoomX.start()
-                zoomY.start()
             }
         }
         super.onCreate(savedInstanceState)
