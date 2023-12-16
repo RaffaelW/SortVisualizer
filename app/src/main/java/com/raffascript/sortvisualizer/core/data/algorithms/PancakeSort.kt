@@ -35,10 +35,7 @@ class PancakeSort(list: IntArray) : Algorithm(list) {
         var start = 0
         var end = endIndex
         while (start < endIndex.alsoIncComparisons()) {
-            val temp = list[start]
-            list[start] = list[end]
-            list[end] = temp
-            alsoIncArrayAccess(4)
+            swap(start, end)
 
             defineStep(getHighlights(start, end, endIndex))
 

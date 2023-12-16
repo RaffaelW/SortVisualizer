@@ -17,9 +17,7 @@ data class AlgorithmProgress(
         if (state != other.state) return false
         if (highlights != other.highlights) return false
         if (arrayAccesses != other.arrayAccesses) return false
-        if (comparisons != other.comparisons) return false
-
-        return true
+        return comparisons == other.comparisons
     }
 
     override fun hashCode(): Int {

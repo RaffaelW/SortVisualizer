@@ -24,10 +24,7 @@ class OddEvenSort(list: IntArray) : Algorithm(list) {
 
         for (i in startIndex until (size - 1) step 2) {
             if (list[i] > list[i + 1].alsoIncBoth(2, 1)) {
-                val temp = list[i]
-                list[i] = list[i + 1]
-                list[i + 1] = temp
-                alsoIncArrayAccess(4)
+                swap(i, i + 1)
                 swapped = true
             }
             defineStep(getHighlights(i, i + 1))
